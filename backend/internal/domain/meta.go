@@ -36,4 +36,5 @@ type ProjectMeta struct {
 	PaymentModeLabel      string `json:"paymentModeLabel"`
 	OrderLookupEnabled    bool   `json:"orderLookupEnabled"`
 	ManualFulfillmentMode bool   `json:"manualFulfillmentMode"`
+	AdminLocalBypass      bool   `json:"adminLocalBypass"`
 }

@@ -413,6 +413,7 @@
 
     document.title = getTitleForPage(normalized);
     document.body.dataset.page = normalized;
+    document.body.classList.toggle("admin-active", normalized === "admin");
   }
 
   function isVisible(element) {
@@ -833,6 +834,13 @@
     }
 
     if (!state.supabase) {
+      if (state.meta && state.meta.adminLocalBypass) {
+        state.session = { access_token: "local-bypass", user: { email: "local@admin.dev" } };
+        syncAuthButtons();
+        renderAdminIdentity();
+        await openAdminIfNeeded();
+        return;
+      }
       openAuthModal("Supabase Auth еще не настроен. Проверьте ключи и URL проекта.", "error");
       return;
     }

@@ -75,5 +75,6 @@ func (s *MetaService) Get() domain.ProjectMeta {
 		PaymentModeLabel:      "Заказы сохраняются и попадают в очередь на ручную выдачу администратором.",
 		OrderLookupEnabled:    true,
 		ManualFulfillmentMode: true,
+		AdminLocalBypass:      s.cfg.Admin.LocalBypass && s.cfg.IsLocalDevelopment(),
 	}
 }

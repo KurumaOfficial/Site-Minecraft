@@ -13345,3 +13345,92 @@ textarea:focus {
   border-color: rgba(255, 210, 92, 0.5) !important;
   box-shadow: 0 0 0 3px rgba(255, 210, 92, 0.18) !important;
 }
+
+/* ===== 2026-04-27 RED→GOLD final override ===== */
+body[data-page="admin"] {
+  --color-ruby: #ffd25c !important;
+  --border: rgba(255, 210, 92, 0.18) !important;
+  --border-hi: rgba(255, 210, 92, 0.45) !important;
+}
+
+body[data-page="admin"] .dash-btn,
+body[data-page="admin"] .dash-btn.secondary,
+body[data-page="admin"] .dash-actions .dash-btn,
+body[data-page="admin"] .dash-actions a.dash-btn {
+  background: linear-gradient(180deg, #ffd25c 0%, #f3a93a 100%) !important;
+  color: #1a1610 !important;
+  border-color: rgba(255, 181, 71, 0.45) !important;
+}
+
+body[data-page="admin"] .dash-btn.secondary {
+  background: #1f1a14 !important;
+  color: #ffe09c !important;
+  border-color: rgba(255, 210, 92, 0.32) !important;
+}
+
+body[data-page="admin"] .dash-btn:hover,
+body[data-page="admin"] .dash-actions a.dash-btn:hover {
+  background: linear-gradient(180deg, #ffe09c 0%, #ffb547 100%) !important;
+  border-color: rgba(255, 210, 92, 0.6) !important;
+  color: #1a1610 !important;
+}
+body[data-page="admin"] .dash-btn.secondary:hover {
+  background: #2a221a !important;
+}
+
+body[data-page="admin"] .admin_status_chip {
+  background: rgba(255, 210, 92, 0.12) !important;
+  color: #ffe09c !important;
+  border-color: rgba(255, 210, 92, 0.3) !important;
+}
+
+body[data-page="admin"] .admin_form button {
+  background: linear-gradient(180deg, #ffd25c 0%, #f3a93a 100%) !important;
+  color: #1a1610 !important;
+  border: 1px solid rgba(255, 181, 71, 0.5) !important;
+}
+body[data-page="admin"] .admin_form button:hover {
+  background: linear-gradient(180deg, #ffe09c 0%, #ffb547 100%) !important;
+}
+
+body[data-page="admin"] .admin_filters select:focus,
+body[data-page="admin"] .admin_entity_card.active {
+  border-color: rgba(255, 210, 92, 0.6) !important;
+}
+
+body[data-page="admin"] .dash-nav-icon,
+body[data-page="admin"] .dash-nav-link::before {
+  color: #ffd25c !important;
+  background: #ffd25c !important;
+}
+
+body[data-page="admin"] .dash-nav-link:hover,
+body[data-page="admin"] .dash-nav-link.active {
+  background: rgba(255, 210, 92, 0.1) !important;
+  border-color: rgba(255, 210, 92, 0.32) !important;
+  color: #ffe09c !important;
+}
+
+body[data-page="admin"] h1,
+body[data-page="admin"] h2,
+body[data-page="admin"] h3,
+body[data-page="admin"] .dash-header-title {
+  color: #fff7e3 !important;
+  text-shadow: none !important;
+}
+
+/* Chart bars and other pink leftovers */
+body[data-page="admin"] .admin_trend_track span,
+body[data-page="admin"] .admin_page_stat_row .bar span {
+  background: linear-gradient(180deg, #ffd25c 0%, #f3a93a 100%) !important;
+  border-top: 1px solid rgba(255, 224, 156, 0.4) !important;
+}
+
+body[data-page="admin"] .admin_page_stat_row {
+  border-color: rgba(255, 210, 92, 0.18) !important;
+  background: #1c1916 !important;
+}
+
+body[data-page="admin"] .admin_trend_track {
+  background: #14110d !important;
+}
