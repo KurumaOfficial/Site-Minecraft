@@ -1,0 +1,278 @@
+{
+  "days": {
+    "2026-04-18": {
+      "date": "2026-04-18",
+      "views": 3,
+      "pageViews": {
+        "home": 3
+      },
+      "pageVisitors": {
+        "home": {
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true
+        }
+      },
+      "visitors": {
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true
+      }
+    },
+    "2026-04-20": {
+      "date": "2026-04-20",
+      "views": 2,
+      "pageViews": {
+        "home": 2
+      },
+      "pageVisitors": {
+        "home": {
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true
+        }
+      },
+      "visitors": {
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true
+      }
+    },
+    "2026-04-22": {
+      "date": "2026-04-22",
+      "views": 20,
+      "pageViews": {
+        "home": 20
+      },
+      "pageVisitors": {
+        "home": {
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true
+        }
+      },
+      "visitors": {
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true
+      }
+    },
+    "2026-04-23": {
+      "date": "2026-04-23",
+      "views": 86,
+      "pageViews": {
+        "contacts": 23,
+        "home": 36,
+        "rules": 27
+      },
+      "pageVisitors": {
+        "contacts": {
+          "039b8590-ea90-49ae-b9cd-d0261ad571cc": true,
+          "152c73dd-fc75-4be6-b7bd-9e10a07ccd07": true,
+          "17695331-0a9b-447d-9fcd-09f929a34f4c": true,
+          "1a3ea02b-0af0-4431-89c0-a716db372d7b": true,
+          "3d63645b-85a5-49bb-9b67-628afb5c9005": true,
+          "44526d26-074d-4e06-960a-c9e77a6c6658": true,
+          "4b6189b8-d86c-4c02-89b7-e4660c064431": true,
+          "55558014-b891-4dcd-ae3a-6af82758432c": true,
+          "80d4454e-6110-419b-8e0b-db1b5c84233e": true,
+          "8c413912-0fcd-421a-9a4c-c3412db2a537": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "cf2d630f-d82f-4918-b51c-2e6fce0e1deb": true,
+          "e7c1e03f-2e61-495e-8b6c-6096718190a4": true,
+          "f5bb39ab-6edb-4d90-9274-3fe9a2799d68": true
+        },
+        "home": {
+          "07e3ee87-eacf-44ff-8a3b-bd82e9dfcf52": true,
+          "0852b544-ab30-4471-a2a0-c90ccd48fecf": true,
+          "3ece8009-0e9e-4dac-8982-4d1e360c85c5": true,
+          "66627b19-2988-4d7a-a04c-0e0b5b51b570": true,
+          "74881c3c-65c0-4a98-ac86-bb0b89224d6e": true,
+          "8b01ccc6-d91a-4439-a835-4fbb7c12f919": true,
+          "988b4933-f894-43da-8a1b-d4a68950c022": true,
+          "a4bf24cb-3ee6-4e38-94d7-be5a42cf4656": true,
+          "b51f2e44-0985-4b0f-81b5-c40d8dd3d209": true,
+          "c6dc7027-ff86-4949-a08f-aa0a097171a9": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "e5302806-7e22-431d-90b5-b4af30472e77": true,
+          "ef15acfa-57ad-403b-848b-71ac1962d15c": true,
+          "f63eb2ce-7ed8-4763-b0a0-1dea60a7bcfe": true
+        },
+        "rules": {
+          "30a78794-21ba-43d0-b17b-c79b54449b3c": true,
+          "33bb248b-4f62-4cf9-ab93-5c57ed1143f0": true,
+          "3d239dfe-9f9a-4013-9ecc-5027548f3246": true,
+          "4594a864-837a-4845-91b4-3d68651c4503": true,
+          "5c43e0e0-b4b9-403f-8cc6-ec31ad7f81b3": true,
+          "6b1f29dd-3c47-4e0e-b8cf-937d76a55e5b": true,
+          "71650ead-e98b-4729-9d08-b996e50562d7": true,
+          "79d06b45-5f72-4daa-8a12-43af4ce1bcb2": true,
+          "7fb08d89-937a-4878-8661-78488396096d": true,
+          "95e74c33-fe71-44ac-b187-9c0499f24894": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "d6979a22-7d39-425a-a286-6b4035ee2019": true,
+          "f63273d9-23bf-4074-95b4-a4eb3b9aa05f": true,
+          "fc92ebe4-d020-4d19-9c4a-ae9fee9d1a6d": true,
+          "ff19a913-8bf6-4896-a26a-4e023a7d2fa3": true
+        }
+      },
+      "visitors": {
+        "039b8590-ea90-49ae-b9cd-d0261ad571cc": true,
+        "07e3ee87-eacf-44ff-8a3b-bd82e9dfcf52": true,
+        "0852b544-ab30-4471-a2a0-c90ccd48fecf": true,
+        "152c73dd-fc75-4be6-b7bd-9e10a07ccd07": true,
+        "17695331-0a9b-447d-9fcd-09f929a34f4c": true,
+        "1a3ea02b-0af0-4431-89c0-a716db372d7b": true,
+        "30a78794-21ba-43d0-b17b-c79b54449b3c": true,
+        "33bb248b-4f62-4cf9-ab93-5c57ed1143f0": true,
+        "3d239dfe-9f9a-4013-9ecc-5027548f3246": true,
+        "3d63645b-85a5-49bb-9b67-628afb5c9005": true,
+        "3ece8009-0e9e-4dac-8982-4d1e360c85c5": true,
+        "44526d26-074d-4e06-960a-c9e77a6c6658": true,
+        "4594a864-837a-4845-91b4-3d68651c4503": true,
+        "4b6189b8-d86c-4c02-89b7-e4660c064431": true,
+        "55558014-b891-4dcd-ae3a-6af82758432c": true,
+        "5c43e0e0-b4b9-403f-8cc6-ec31ad7f81b3": true,
+        "66627b19-2988-4d7a-a04c-0e0b5b51b570": true,
+        "6b1f29dd-3c47-4e0e-b8cf-937d76a55e5b": true,
+        "71650ead-e98b-4729-9d08-b996e50562d7": true,
+        "74881c3c-65c0-4a98-ac86-bb0b89224d6e": true,
+        "79d06b45-5f72-4daa-8a12-43af4ce1bcb2": true,
+        "7fb08d89-937a-4878-8661-78488396096d": true,
+        "80d4454e-6110-419b-8e0b-db1b5c84233e": true,
+        "8b01ccc6-d91a-4439-a835-4fbb7c12f919": true,
+        "8c413912-0fcd-421a-9a4c-c3412db2a537": true,
+        "95e74c33-fe71-44ac-b187-9c0499f24894": true,
+        "988b4933-f894-43da-8a1b-d4a68950c022": true,
+        "a4bf24cb-3ee6-4e38-94d7-be5a42cf4656": true,
+        "b51f2e44-0985-4b0f-81b5-c40d8dd3d209": true,
+        "c6dc7027-ff86-4949-a08f-aa0a097171a9": true,
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+        "cf2d630f-d82f-4918-b51c-2e6fce0e1deb": true,
+        "d6979a22-7d39-425a-a286-6b4035ee2019": true,
+        "e5302806-7e22-431d-90b5-b4af30472e77": true,
+        "e7c1e03f-2e61-495e-8b6c-6096718190a4": true,
+        "ef15acfa-57ad-403b-848b-71ac1962d15c": true,
+        "f5bb39ab-6edb-4d90-9274-3fe9a2799d68": true,
+        "f63273d9-23bf-4074-95b4-a4eb3b9aa05f": true,
+        "f63eb2ce-7ed8-4763-b0a0-1dea60a7bcfe": true,
+        "fc92ebe4-d020-4d19-9c4a-ae9fee9d1a6d": true,
+        "ff19a913-8bf6-4896-a26a-4e023a7d2fa3": true
+      }
+    },
+    "2026-04-24": {
+      "date": "2026-04-24",
+      "views": 51,
+      "pageViews": {
+        "contacts": 14,
+        "home": 20,
+        "rules": 17
+      },
+      "pageVisitors": {
+        "contacts": {
+          "1c844c66-9279-4e8c-b2c9-82d88546ac8e": true,
+          "3e6aa5a5-1898-46f4-a162-e3941b300158": true,
+          "41634865-afa7-4af3-99da-1dfb76d2e5ec": true,
+          "a7e3c1f2-d659-4672-9bbf-8238b5e96495": true,
+          "aeb54b49-de4e-4c27-be79-822713368227": true,
+          "b755498c-01f2-446c-bc7d-bb07b72b844a": true,
+          "ba0ee59f-19ad-4680-9fcb-6cf6559658ff": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "e4ac71e2-eb6b-478f-a4fb-98884da81377": true
+        },
+        "home": {
+          "5e32dc62-a418-4513-ab7f-90795eee96ef": true,
+          "9d0bbbef-710e-4804-bbeb-f0858f7ed722": true,
+          "abe05f33-9f88-41e4-b594-a48375491888": true,
+          "b59a735f-0201-4875-bf2e-6e937ddcba1b": true,
+          "c5933893-5115-46d6-ba2b-c1799f77d2b8": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "d9423bf7-419c-4ba0-ae30-be58289cfc7e": true,
+          "e47f173b-7377-4ea7-aaae-51e695c3d487": true
+        },
+        "rules": {
+          "02fa3224-99e3-414f-ae6b-f6f56e461f07": true,
+          "3ae8cbdd-6b72-4212-b9d4-8e05f0b3e025": true,
+          "5260eab5-7bb8-474f-882e-34200770cac2": true,
+          "540faf51-09a6-4b3b-88d9-2f5c0ba4ceb4": true,
+          "6d417bb3-d45b-4ddc-b4d2-272f6ea65069": true,
+          "b4fbf2f9-1144-461c-a0df-7c20cb1b96f0": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "da83d5df-d48a-4d51-8dbf-82fb06ebdba2": true,
+          "e5ba0b4d-3a84-4260-ad7a-6eecf514f729": true,
+          "f5183055-36f6-4bbf-a0f1-4b0437eb955e": true
+        }
+      },
+      "visitors": {
+        "02fa3224-99e3-414f-ae6b-f6f56e461f07": true,
+        "1c844c66-9279-4e8c-b2c9-82d88546ac8e": true,
+        "3ae8cbdd-6b72-4212-b9d4-8e05f0b3e025": true,
+        "3e6aa5a5-1898-46f4-a162-e3941b300158": true,
+        "41634865-afa7-4af3-99da-1dfb76d2e5ec": true,
+        "5260eab5-7bb8-474f-882e-34200770cac2": true,
+        "540faf51-09a6-4b3b-88d9-2f5c0ba4ceb4": true,
+        "5e32dc62-a418-4513-ab7f-90795eee96ef": true,
+        "6d417bb3-d45b-4ddc-b4d2-272f6ea65069": true,
+        "9d0bbbef-710e-4804-bbeb-f0858f7ed722": true,
+        "a7e3c1f2-d659-4672-9bbf-8238b5e96495": true,
+        "abe05f33-9f88-41e4-b594-a48375491888": true,
+        "aeb54b49-de4e-4c27-be79-822713368227": true,
+        "b4fbf2f9-1144-461c-a0df-7c20cb1b96f0": true,
+        "b59a735f-0201-4875-bf2e-6e937ddcba1b": true,
+        "b755498c-01f2-446c-bc7d-bb07b72b844a": true,
+        "ba0ee59f-19ad-4680-9fcb-6cf6559658ff": true,
+        "c5933893-5115-46d6-ba2b-c1799f77d2b8": true,
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+        "d9423bf7-419c-4ba0-ae30-be58289cfc7e": true,
+        "da83d5df-d48a-4d51-8dbf-82fb06ebdba2": true,
+        "e47f173b-7377-4ea7-aaae-51e695c3d487": true,
+        "e4ac71e2-eb6b-478f-a4fb-98884da81377": true,
+        "e5ba0b4d-3a84-4260-ad7a-6eecf514f729": true,
+        "f5183055-36f6-4bbf-a0f1-4b0437eb955e": true
+      }
+    },
+    "2026-04-25": {
+      "date": "2026-04-25",
+      "views": 27,
+      "pageViews": {
+        "contacts": 10,
+        "home": 11,
+        "rules": 6
+      },
+      "pageVisitors": {
+        "contacts": {
+          "20c52d33-549c-4b75-b99f-c148ec71b4e6": true,
+          "89c19bca-a0d0-4e6f-b38c-2a7308f58d73": true,
+          "a192ec3c-f6a6-47f7-ac92-c408d091b025": true,
+          "ad4522d0-da52-4673-8e2c-dabbbc7a30c5": true,
+          "c3fff974-9dc0-4032-a46c-7ab587d9a265": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "dc964bac-66c5-4dc8-99f7-7d89640875fa": true
+        },
+        "home": {
+          "0fb71409-0496-4865-974d-88de37396a42": true,
+          "28f01c3b-202b-433b-a521-63b6849eb112": true,
+          "57082d32-bd3e-4dbe-ad32-598fa16de3bd": true,
+          "712e5824-0e27-40e0-9a62-5e308d231ac7": true,
+          "9256b395-f6b8-46e9-a54b-830b8e57a844": true,
+          "be3cdd9c-2d13-46f7-bcee-cbf5f02935bf": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+          "c9b8b136-30a1-44bb-88e5-15990718be52": true,
+          "d3f57ca1-3454-40c3-9550-27ab738509d1": true
+        },
+        "rules": {
+          "3d1173b8-989a-4483-8a74-feefb3b088dd": true,
+          "c89ca2c2-fc95-4612-a7f6-64a30a40f21c": true,
+          "c904cd12-745f-46de-968a-3e86afee6ac5": true
+        }
+      },
+      "visitors": {
+        "0fb71409-0496-4865-974d-88de37396a42": true,
+        "20c52d33-549c-4b75-b99f-c148ec71b4e6": true,
+        "28f01c3b-202b-433b-a521-63b6849eb112": true,
+        "3d1173b8-989a-4483-8a74-feefb3b088dd": true,
+        "57082d32-bd3e-4dbe-ad32-598fa16de3bd": true,
+        "712e5824-0e27-40e0-9a62-5e308d231ac7": true,
+        "89c19bca-a0d0-4e6f-b38c-2a7308f58d73": true,
+        "9256b395-f6b8-46e9-a54b-830b8e57a844": true,
+        "a192ec3c-f6a6-47f7-ac92-c408d091b025": true,
+        "ad4522d0-da52-4673-8e2c-dabbbc7a30c5": true,
+        "be3cdd9c-2d13-46f7-bcee-cbf5f02935bf": true,
+        "c3fff974-9dc0-4032-a46c-7ab587d9a265": true,
+        "c89ca2c2-fc95-4612-a7f6-64a30a40f21c": true,
+        "c904cd12-745f-46de-968a-3e86afee6ac5": true,
+        "c9b8b136-30a1-44bb-88e5-15990718be52": true,
+        "d3f57ca1-3454-40c3-9550-27ab738509d1": true,
+        "dc964bac-66c5-4dc8-99f7-7d89640875fa": true
+      }
+    }
+  }
+}

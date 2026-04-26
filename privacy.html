@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Политика обработки данных | ESTELAR</title>
+    <style>
+      :root {
+        --bg: #0f0912;
+        --panel: rgba(15, 10, 20, 0.86);
+        --border: rgba(243, 90, 18, 0.28);
+        --accent: #f35a12;
+        --accent-soft: #ff9a2f;
+        --gold: #ffd200;
+        --text: #fff7ef;
+        --text-secondary: #d8c9be;
+        --text-muted: #9f8f9d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Montserrat, Arial, sans-serif;
+        background:
+          linear-gradient(180deg, rgba(8, 6, 10, 0.2), rgba(8, 6, 10, 0.65)),
+          url(assets/images/image-01-9002091625.png) fixed no-repeat top center;
+        background-size: cover;
+        color: var(--text);
+      }
+
+      .wrap {
+        width: min(980px, calc(100% - 32px));
+        margin: 48px auto;
+      }
+
+      .topbar,
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 24px;
+      }
+
+      .brand {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 22px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .brand span {
+        color: var(--accent);
+      }
+
+      .back {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        border: 2px solid rgba(243, 90, 18, 0.48);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .back:hover {
+        box-shadow: 0 0 24px rgba(243, 90, 18, 0.32);
+      }
+
+      .panel {
+        margin-top: 18px;
+        padding: 30px 28px;
+      }
+
+      .panel::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 4px;
+        margin: -30px 0 26px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-soft), var(--gold));
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 18px;
+        font-weight: 700;
+      }
+
+      h1 {
+        font-size: clamp(28px, 5vw, 40px);
+      }
+
+      h2 {
+        font-size: 20px;
+        color: var(--accent-soft);
+      }
+
+      p,
+      li {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        font-size: 15px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 22px;
+      }
+
+      .muted {
+        color: var(--text-muted);
+      }
+
+      .section + .section {
+        margin-top: 26px;
+        padding-top: 26px;
+        border-top: 1px solid rgba(255, 154, 47, 0.14);
+      }
+
+      @media (max-width: 640px) {
+        .wrap {
+          width: min(100%, calc(100% - 20px));
+          margin: 18px auto 28px;
+        }
+
+        .topbar,
+        .panel {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .back {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="brand" href="/#home">ESTE<span>LAR</span></a>
+        <a class="back" href="/#home">Вернуться на сайт</a>
+      </div>
+
+      <div class="panel">
+        <h1>Политика обработки персональных данных</h1>
+        <p class="muted">Документ применяется к сайту ESTELAR и связанным формам оформления заказов.</p>
+
+        <div class="section">
+          <h2>1. Какие данные обрабатываются</h2>
+          <ul>
+            <li>Игровой ник, указанный при оформлении заказа.</li>
+            <li>Технические данные заказа, включая номер заявки, выбранный товар и статус.</li>
+            <li>Информация о сессии администратора при входе в защищенную панель через Discord и Supabase.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>2. Цель обработки</h2>
+          <p>
+            Данные используются исключительно для оформления, обработки, ручной выдачи цифровых товаров,
+            поддержки пользователей и ведения внутренней статистики магазина.
+          </p>
+        </div>
+
+        <div class="section">
+          <h2>3. Хранение данных</h2>
+          <p>
+            Информация о заказах хранится в инфраструктуре проекта и используется только для исполнения
+            обязательств по заказу, диагностики проблем и защиты магазина от злоупотреблений.
+          </p>
+        </div>
+
+        <div class="section">
+          <h2>4. Передача третьим лицам</h2>
+          <p>
+            Данные не передаются третьим лицам, за исключением случаев, когда это требуется для работы
+            инфраструктуры сайта, соблюдения закона или защиты проекта от мошенничества и атак.
+          </p>
+        </div>
+
+        <div class="section">
+          <h2>5. Обратная связь</h2>
+          <p>
+            Если нужно уточнить порядок обработки данных или запросить удаление информации, связанной
+            с заказом, можно обратиться по адресу <strong>support@estelar.shop</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

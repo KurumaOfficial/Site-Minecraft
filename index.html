@@ -1,0 +1,686 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Главная | ESTELAR.SU</title>
+  <link href="assets/css/styles.css?v=20260425b" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="mobile_menu sf-hidden">
+      <a data-page-link="home" href="/">Главная</a>
+      <a data-page-link="rules" href="/rules">Правила</a>
+      <a data-page-link="contacts" href="/contacts">Контакты</a>
+    </div>
+
+    <div class="header">
+      <div class="container">
+        <div class="topline">
+          <a class="logo" data-page-link="home" href="/">
+            <p>
+              ESTELAR.
+              <span id="logo_mark">SU</span>
+            </p>
+          </a>
+
+          <div class="main_menu">
+            <a class="active" data-page-link="home" href="/">Главная</a>
+            <a data-page-link="rules" href="/rules">Правила</a>
+            <a data-page-link="contacts" href="/contacts">Контакты</a>
+          </div>
+
+          <div class="open_menu sf-hidden">Меню</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item_modal" hidden id="item_modal">
+      <form class="buy_item box_light" id="buy_form" method="post">
+        <div id="donate-info">
+          <button aria-label="Закрыть" class="close_bModal modal_close" type="button">×</button>
+
+          <p class="name modal_title">
+            Покупка
+            <span>"Товар"</span>
+          </p>
+
+          <input class="input" id="input_nick" name="nick" placeholder="Ник получателя" type="text" value="" />
+
+          <div class="modal_dual_row" id="modal_dual_row">
+            <div class="modal_field" id="enter_promo">
+              <input class="input" name="promo" placeholder="Промокод" type="text" value="" />
+            </div>
+
+            <div class="quantity_group sf-hidden modal_field" id="quantity_wrap">
+              <input class="input" id="input_quantity" min="1" name="quantity" placeholder="Количество" step="1" type="number" value="1" />
+              <p class="quantity_hint" id="quantity_hint"></p>
+            </div>
+          </div>
+
+          <div hidden id="g_inputs"></div>
+          <input class="sf-hidden" hidden id="a_buy" name="anon" type="checkbox" value="on" />
+          <input class="sf-hidden" hidden id="g_buy" name="gift" type="checkbox" value="on" />
+          <input class="input" hidden id="sender_input" name="sender_name" placeholder="Ник отправителя" type="text" value="" />
+
+          <div class="check_info check-info" hidden>
+            <p>
+              Скидка по промокоду:
+              <span>-0 руб.</span>
+            </p>
+          </div>
+
+          <div class="form_status" hidden id="form_status"></div>
+
+          <div class="action modal_action">
+            <p class="modal_price" id="modal_price">
+              Стоимость:
+              <br />
+              <span>0 руб.</span>
+            </p>
+            <button data-ind="method_button" type="submit">Перейти к оплате</button>
+          </div>
+
+          <p class="privacy_policy">
+            Нажимая кнопку
+            <span>"Перейти к оплате"</span>
+            Вы автоматически соглашаетесь с
+            <a href="/oferta" id="offer_link_modal">пользовательским соглашением.</a>
+          </p>
+        </div>
+
+        <div hidden id="payment-method"></div>
+        <div hidden id="additional_info"></div>
+      </form>
+    </div>
+
+    <div class="item_modal admin_auth_modal" hidden id="admin_auth_modal">
+      <div class="buy_item box_light">
+        <button aria-label="Закрыть" class="close_bModal modal_close" id="admin_auth_close" type="button">&times;</button>
+
+        <p class="name modal_title">
+          Вход
+          <span>"ESTELAR.SU ADMIN"</span>
+        </p>
+
+        <p class="admin_auth_text">
+          Доступ в админ-панель открывается только после скрытой комбинации и входа через разрешенный Discord-аккаунт.
+        </p>
+
+        <div class="form_status" hidden id="admin_modal_status"></div>
+
+        <div class="action modal_action admin_auth_action">
+          <p id="admin_modal_hint">
+            После успешного входа панель откроется автоматически.
+          </p>
+          <button id="admin_modal_discord_login" type="button">Войти через Discord</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="page-section active-page" data-page="home">
+      <div class="main content_margin">
+        <div class="container store_shell">
+          <p class="server_title" hidden>Выберите сервер</p>
+          <select class="server_select" hidden id="server">
+            <option>ESTELAR</option>
+          </select>
+
+          <div class="store_stage">
+            <aside class="store_sidebar">
+              <div class="items_box box_light">
+                <div class="store_sidebar_head">
+                  <p class="title">Товары</p>
+                </div>
+                <div class="items_list" id="items_list">
+                  <div class="catalog_notice">
+                    <p>Каталог загружается...</p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <div class="store_content">
+              <div class="store_content_inner">
+                <div class="item_info box_light" id="item_info">
+                  <div class="catalog_notice">
+                    <p>Загружаем витрину товаров...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" data-page="rules">
+      <div class="rules content_margin">
+        <div class="container">
+          <div class="rule_box box_light">
+            <div class="head">
+              <p class="title">1. Основные правила:</p>
+              <p class="box_status active">
+                Развернуть
+                <span aria-hidden="true" class="box_status_icon"></span>
+              </p>
+              <p class="box_status sf-hidden">
+                Свернуть
+                <span aria-hidden="true" class="box_status_icon up"></span>
+              </p>
+            </div>
+            <div class="rule_content sf-hidden">
+              Незнание правил не освобождает вас от ответственности;
+              Начав играть на наших серверах, Вы автоматически подтверждаете своё согласие с данным сводом правил;
+              Администратор вправе наказать игрока по причине, не указанной в настоящих правилах;
+              Администрация не несет ответственности за временную или постоянную невозможность игры на сервере конкретным лицом или группой лиц;
+              Администрация не несет ответственности за потерю игровых ценностей вследствие нарушения работоспособности сервера или его плагинов;
+              Администрация не гарантирует работоспособность сервера, а также сохранность информации на нем и продолжение работы над ним;
+              Администрация сервера не гарантирует надёжную работу в предоставлении услуг и сервисов, а также не несёт ответственность за ущерб, который может быть причинён пользователям вследствие сбоев в линиях связи, ошибочного использования предоставляемых услуг, дефектов программного обеспечения или других действий, которые могут привести к возникновению нежелательных ситуаций;
+              Игроки обязаны соблюдать все правила;
+              Администрация ведет логи всех действий игроков на сервере и всех сообщений чата;
+              Администрация имеет право корректировать данный свод правил без уведомления игрока;
+              Оскорбление, провоцирование администрации запрещено.
+            </div>
+          </div>
+
+          <div class="rule_box box_light">
+            <div class="head">
+              <p class="title">2. Правила чата:</p>
+              <p class="box_status active">
+                Развернуть
+                <span aria-hidden="true" class="box_status_icon"></span>
+              </p>
+              <p class="box_status sf-hidden">
+                Свернуть
+                <span aria-hidden="true" class="box_status_icon up"></span>
+              </p>
+            </div>
+            <div class="rule_content sf-hidden">
+              Запрещен капс, спам и флуд в любом из чатов;
+              Запрещены унижения и оскорбления игроков и администрации;
+              Запрещена реклама сторонних проектов и услуг;
+              Запрещено разжигание конфликтов и токсичное поведение;
+              Используйте чат по назначению и уважайте других игроков.
+            </div>
+          </div>
+
+          <div class="rule_box box_light">
+            <div class="head">
+              <p class="title">3. Игровой процесс:</p>
+              <p class="box_status active">
+                Развернуть
+                <span aria-hidden="true" class="box_status_icon"></span>
+              </p>
+              <p class="box_status sf-hidden">
+                Свернуть
+                <span aria-hidden="true" class="box_status_icon up"></span>
+              </p>
+            </div>
+            <div class="rule_content sf-hidden">
+              Запрещено использование читов, эксплойтов и любого ПО, дающего нечестное преимущество;
+              Запрещено мешать работе сервера и намеренно вызывать лаги;
+              Запрещено мошенничество, обман администрации и игроков;
+              Донат и цифровые товары нельзя переносить на другой аккаунт без решения администрации.
+            </div>
+          </div>
+
+          <div class="rule_box box_light">
+            <div class="head">
+              <p class="title">4. Платные услуги:</p>
+              <p class="box_status active">
+                Развернуть
+                <span aria-hidden="true" class="box_status_icon"></span>
+              </p>
+              <p class="box_status sf-hidden">
+                Свернуть
+                <span aria-hidden="true" class="box_status_icon up"></span>
+              </p>
+            </div>
+            <div class="rule_content sf-hidden">
+              Попытки махинаций с оплатой или ввод администрации в заблуждение наказываются блокировкой без возврата средств;
+              Сохраняйте чек оплаты до момента ручной выдачи;
+              Если товар требует ручной выдачи, срок обработки зависит от доступности администратора;
+              Промокоды и скидки применяются только при корректном вводе до создания заказа.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" data-page="contacts">
+      <div class="contacts content_margin">
+        <div class="container">
+          <div class="contact_box box_light">
+            <p class="title" id="contacts_title">Остались вопросы? Напиши нам в соц.сетях:</p>
+
+            <div class="box-row">
+              <div class="box-item">
+                <p class="subtitle" id="contact_discord_text">
+                  А ты уже есть в нашем Discord-сервере?
+                  <br />
+                  Скорее подключайся!
+                </p>
+                <a href="#" id="discord_link" rel="noopener noreferrer" target="_blank">
+                  <span id="discord_link_label">Подключиться</span>
+                </a>
+              </div>
+
+              <div class="box-item">
+                <p class="subtitle" id="contact_vk_text">
+                  Наш Telegram-канал: новости, анонсы и
+                  <br />
+                  быстрые обновления по серверу
+                </p>
+                <a href="#" id="vk_link" rel="noopener noreferrer" target="_blank">
+                  <span id="vk_link_label">Перейти</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="box-row single">
+              <div class="box-item">
+                <p class="subtitle" id="contact_support_text">
+                  Имеются другие вопросы?
+                  <br />
+                  Пиши на нашу почту:
+                </p>
+                <p class="copy" id="support_email">support@estelar.shop</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" data-page="admin">
+      <div class="admin_page content_margin">
+        <div class="container">
+          <div class="admin_gate_shell" id="admin_gate_shell">
+            <article class="admin_intro dash-card" id="admin_intro">
+              <div class="dash-card-head">
+                <div class="dash-card-head-copy">
+                  <div class="dash-card-head-title">ESTELAR.SU ADMIN</div>
+                  <div class="dash-card-head-sub">Товары, заявки, промокоды и контакты в одной панели.</div>
+                </div>
+              </div>
+              <div class="dash-card-body">
+                <p class="desc" id="admin_intro_text">
+                  Откройте доступ скрытой комбинацией и подтвердите вход через Discord.
+                </p>
+                <div class="admin_intro_status" id="admin_intro_status">Ожидает разблокировку</div>
+              </div>
+            </article>
+
+            <article class="admin_gate dash-card" id="admin_gate">
+              <div class="dash-card-head">
+                <div class="dash-card-head-copy">
+                  <div class="dash-card-head-title">Вход в админ-панель</div>
+                  <div class="dash-card-head-sub" id="admin_gate_text">Сначала комбинация, затем вход через Discord-аккаунт с доступом.</div>
+                </div>
+              </div>
+              <div class="dash-card-body">
+                <div class="admin_gate_actions">
+                  <button id="admin_discord_login" type="button">Войти через Discord</button>
+                  <button class="secondary" hidden id="admin_logout_button" type="button">Выйти</button>
+                </div>
+                <div class="admin_status" id="admin_status">Шаг 1 из 2: введите комбинацию → → ← ←</div>
+              </div>
+            </article>
+          </div>
+
+          <div class="admin_shell dash-layout" hidden id="admin_shell">
+            <aside class="dash-sidebar admin_dash_sidebar">
+              <div class="dash-brand">
+                <div class="dash-brand-mark" aria-hidden="true"><span>ES</span></div>
+                <div class="dash-brand-copy">
+                  <span class="dash-brand-title">ESTELAR.SU</span>
+                  <span class="dash-brand-sub">Панель управления</span>
+                </div>
+              </div>
+
+              <div class="admin_identity_card dash-card">
+                <p class="eyebrow">Аккаунт</p>
+                <p class="name" id="admin_identity_name">Администратор</p>
+                <p class="meta" id="admin_identity_meta">Сессия Discord активна</p>
+              </div>
+
+              <nav class="dash-nav" aria-label="Разделы админки">
+                <div class="dash-nav-section">Навигация</div>
+                <button class="dash-nav-link active" data-admin-view-nav="overview" type="button">
+                  <span class="dash-nav-icon">01</span>
+                  <span class="dash-nav-label">Аналитика</span>
+                </button>
+                <button class="dash-nav-link" data-admin-view-nav="orders" type="button">
+                  <span class="dash-nav-icon">02</span>
+                  <span class="dash-nav-label">Заказы</span>
+                </button>
+                <button class="dash-nav-link" data-admin-view-nav="catalog" type="button">
+                  <span class="dash-nav-icon">03</span>
+                  <span class="dash-nav-label">Каталог</span>
+                </button>
+                <button class="dash-nav-link" data-admin-view-nav="promos" type="button">
+                  <span class="dash-nav-icon">04</span>
+                  <span class="dash-nav-label">Промокоды</span>
+                </button>
+                <button class="dash-nav-link" data-admin-view-nav="contacts" type="button">
+                  <span class="dash-nav-icon">05</span>
+                  <span class="dash-nav-label">Контакты</span>
+                </button>
+              </nav>
+
+              <div class="dash-sidebar-footer">
+                <p>ESTELAR.SU © 2026</p>
+              </div>
+            </aside>
+
+            <main class="dash-main admin_dash_main">
+              <header class="dash-header admin_dash_header">
+                <div class="dash-title-wrap">
+                  <span class="section-label dash-header-label">ESTELAR.SU ADMIN</span>
+                  <h1 class="dash-header-title" id="admin_view_title">Аналитика</h1>
+                  <p hidden id="admin_view_subtitle"></p>
+                </div>
+
+                <div class="admin_status_chip" id="admin_status_chip">Панель активна</div>
+
+                <div class="dash-actions admin_dash_actions">
+                  <button class="dash-btn secondary" id="admin_refresh_button" type="button">Обновить</button>
+                  <a class="dash-btn" data-page-link="home" href="/">На сайт</a>
+                  <button class="dash-btn secondary" id="admin_logout_shell" type="button">Выйти</button>
+                </div>
+              </header>
+
+              <section class="dash-content admin_dash_content">
+                <section class="dash-view active" data-admin-view-panel="overview">
+                  <div class="dash-metrics-grid admin_metrics" id="admin_metrics"></div>
+                  <div class="admin_analytics_layout">
+                    <article class="dash-card admin_analytics_card admin_analytics_card_main">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Посещения</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <div class="admin_analytics_summary" id="admin_analytics_summary"></div>
+                        <div class="admin_analytics_trend" id="admin_analytics_trend"></div>
+                      </div>
+                    </article>
+
+                    <article class="dash-card admin_analytics_card">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Страницы</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_page_stats" id="admin_page_stats"></div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="orders">
+                  <div class="admin_workbench admin_orders_layout">
+                    <article class="dash-card admin_stage admin_stage_primary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Заявки</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_stage_body">
+                        <div class="admin_toolbar admin_orders_toolbar">
+                          <select id="admin_order_status_filter">
+                            <option value="">Все статусы</option>
+                            <option value="pending">Ожидают</option>
+                            <option value="review">На проверке</option>
+                            <option value="issued">Выданы</option>
+                            <option value="rejected">Отклонены</option>
+                          </select>
+                          <input id="admin_order_search" placeholder="Поиск по нику, товару или номеру" type="text" />
+                        </div>
+                        <div class="admin_order_kpis" id="admin_order_kpis"></div>
+                        <div class="admin_table admin_order_table">
+                          <div class="admin_table_head admin_order_table_head">
+                            <span>Заказ</span>
+                            <span>Игрок</span>
+                            <span>Сумма</span>
+                            <span>Статус</span>
+                            <span>Дата</span>
+                          </div>
+                          <div class="admin_table_body" id="admin_order_list"></div>
+                        </div>
+                      </div>
+                    </article>
+
+                    <article class="dash-card admin_stage admin_stage_secondary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Заявка</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_order_detail empty" id="admin_order_detail">Выберите заявку.</div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="catalog">
+                  <div class="admin_workbench admin_catalog_editor_layout">
+                    <article class="dash-card admin_stage admin_stage_primary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Каталог</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_stage_body">
+                        <div class="admin_toolbar">
+                          <input id="admin_catalog_search" placeholder="Поиск по названию или slug" type="text" />
+                        </div>
+                        <div class="admin_table admin_catalog_table">
+                          <div class="admin_table_head admin_entity_table_head">
+                            <span>Товар</span>
+                            <span>Slug</span>
+                            <span>Категория</span>
+                            <span>Цена</span>
+                            <span>Статус</span>
+                          </div>
+                          <div class="admin_table_body admin_catalog_list" id="admin_catalog_list"></div>
+                        </div>
+                      </div>
+                    </article>
+
+                    <article class="dash-card admin_stage admin_stage_secondary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Товар</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <form class="admin_form admin_form_shell" id="admin_catalog_form">
+                          <label class="admin_field">
+                            <span>Slug товара</span>
+                            <input id="admin_catalog_slug" placeholder="Например vip" type="text" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Название товара</span>
+                            <input id="admin_catalog_name" placeholder="Название товара" type="text" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Категория</span>
+                            <select id="admin_catalog_category">
+                              <option value="privilege">Привилегия / услуга</option>
+                              <option value="case">Кейс / валюта</option>
+                            </select>
+                          </label>
+                          <label class="admin_field">
+                            <span>Цена в рублях</span>
+                            <input id="admin_catalog_price" min="0" placeholder="Цена" type="number" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Путь к изображению</span>
+                            <input id="admin_catalog_image" placeholder="assets/images/..." type="text" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Порядок сортировки</span>
+                            <input id="admin_catalog_sort" min="1" placeholder="Порядок" type="number" />
+                          </label>
+                          <label class="admin_field admin_field_full">
+                            <span>Краткое описание</span>
+                            <textarea id="admin_catalog_summary" placeholder="Краткое описание товара"></textarea>
+                          </label>
+                          <label class="admin_field admin_field_full">
+                            <span>Содержимое / преимущества</span>
+                            <textarea id="admin_catalog_highlights" placeholder="Каждый пункт с новой строки"></textarea>
+                          </label>
+                          <label class="checkbox_line">
+                            <input checked id="admin_catalog_active" type="checkbox" />
+                            <span>Товар активен на витрине</span>
+                          </label>
+                          <button type="submit">Сохранить товар</button>
+                        </form>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="promos">
+                  <div class="admin_workbench admin_promos_layout">
+                    <article class="dash-card admin_stage admin_stage_primary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Промокоды</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_promo_list admin_promo_strip" id="admin_promo_list"></div>
+                    </article>
+
+                    <article class="dash-card admin_stage admin_stage_secondary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Код</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <form class="admin_form admin_form_shell admin_promo_form_shell" id="admin_promo_form">
+                          <label class="admin_field">
+                            <span>Код промокода</span>
+                            <input id="admin_promo_code" placeholder="Например EST15" type="text" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Скидка в процентах</span>
+                            <input id="admin_promo_discount" max="100" min="1" placeholder="15" type="number" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Лимит использований</span>
+                            <input id="admin_promo_limit" min="1" placeholder="Без лимита" type="number" />
+                          </label>
+                          <label class="checkbox_line">
+                            <input checked id="admin_promo_active" type="checkbox" />
+                            <span>Промокод активен</span>
+                          </label>
+                          <button type="submit">Сохранить промокод</button>
+                        </form>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="contacts">
+                  <div class="admin_workbench admin_contacts_layout">
+                    <article class="dash-card admin_stage admin_stage_primary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Контакты</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <form class="admin_form admin_form_shell" id="admin_settings_form">
+                          <label class="admin_field">
+                            <span>Discord URL</span>
+                            <input id="admin_settings_discord_url" placeholder="https://discord.gg/..." type="url" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Кнопка Discord</span>
+                            <input id="admin_settings_discord_button_label" placeholder="Подключиться" type="text" />
+                          </label>
+                          <label class="admin_field admin_field_full">
+                            <span>Telegram URL</span>
+                            <input id="admin_settings_vk_url" placeholder="https://t.me/..." type="url" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Кнопка Telegram</span>
+                            <input id="admin_settings_vk_button_label" placeholder="Перейти" type="text" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Почта поддержки</span>
+                            <input id="admin_settings_support_email" placeholder="support@estelar.su" type="email" />
+                          </label>
+                          <button type="submit">Сохранить контакты</button>
+                        </form>
+                      </div>
+                    </article>
+
+                    <article class="dash-card admin_stage admin_stage_secondary">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Данные</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_contacts_preview" id="admin_contacts_preview"></div>
+                    </article>
+                  </div>
+                </section>
+              </section>
+            </main>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container-fluid footer-container">
+      <div class="container">
+        <div class="footer footer_shell">
+          <p class="copyright">
+            Сервер <span id="footer_server_name">ESTELAR.SU</span> никак не относится к Mojang, AB.
+            <br />
+            Реквизиты будут добавлены перед запуском проекта
+            <br />
+            ИНН 000000000000, ОГРНИП/ОГРН 000000000000000
+            <br />
+            Копирование контента с сайта, серверов проекта запрещено.
+            <br />
+            <span class="policy_links">
+              <a href="/oferta" id="offer_link_footer">Договор оферты</a>
+              |
+              <a href="/privacy" id="privacy_link_footer">Политика обработки персональных данных</a>
+            </span>
+          </p>
+
+          <p class="developer">
+            © 2026 <span id="footer_brand_name">ESTELAR.SU</span>
+            <br />
+            Все права защищены
+          </p>
+        </div>
+
+        <div class="footer footer_cards">
+          <div>
+            <img alt="" class="footer_card_logo" src="assets/images/image-18-3d716c5c4e.svg" />
+          </div>
+          <div>
+            <img alt="" class="footer_card_logo" src="assets/images/image-19-6eeaa4999b.svg" />
+          </div>
+          <div>
+            <img alt="" class="footer_card_logo" src="assets/images/image-20-25bebdb1a9.svg" />
+          </div>
+          <div>
+            <img alt="" class="footer_card_logo" src="assets/images/image-21-cd10668a07.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/item-details.js?v=20260425b"></script>
+<script src="assets/js/app.js?v=20260425b"></script>
+<script src="assets/js/admin.js?v=20260425b"></script>
+  </body>
+</html>

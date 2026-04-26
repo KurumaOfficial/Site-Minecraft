@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modal Audit Preview</title>
+    <style>
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #0a0809;
+      }
+
+      iframe {
+        display: block;
+        width: 100vw;
+        height: 1400px;
+        border: 0;
+        background: #0a0809;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe id="preview" src="/" title="Modal audit preview"></iframe>
+    <script>
+      const frame = document.getElementById("preview");
+
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        if (!doc) {
+          return;
+        }
+
+        const modal = doc.getElementById("item_modal");
+        const adminModal = doc.getElementById("admin_auth_modal");
+        const storeCard = doc.querySelector("#item_modal .buy_item");
+        const formStatus = doc.getElementById("form_status");
+        const modalName = doc.querySelector("#item_modal .name span");
+        const modalPrice = doc.querySelector("#modal_price span");
+        const promoInfo = doc.querySelector(".check_info");
+        const discount = doc.querySelector(".check_info span");
+        const nickname = doc.getElementById("input_nick");
+        const promo = doc.querySelector('input[name="promo"]');
+
+        if (modal) {
+          modal.hidden = false;
+          modal.classList.add("is-open");
+        }
+        doc.body.classList.add("modal-open");
+        doc.body.style.overflow = "hidden";
+
+        if (modalName) modalName.textContent = "\"VIP\"";
+        if (modalPrice) modalPrice.textContent = "19 руб.";
+        if (nickname) nickname.value = "estelar_player";
+        if (promo) promo.value = "EST15";
+        if (promoInfo) promoInfo.hidden = false;
+        if (discount) discount.textContent = "-3 руб.";
+        if (formStatus) {
+          formStatus.hidden = false;
+          formStatus.textContent = "Проверьте ник и переходите к оплате.";
+        }
+
+        if (storeCard) {
+          storeCard.style.marginTop = "80px";
+        }
+
+        if (adminModal) {
+          adminModal.hidden = false;
+          adminModal.classList.add("is-open");
+          adminModal.style.left = "auto";
+          adminModal.style.right = "48px";
+          adminModal.style.width = "520px";
+          adminModal.style.background = "transparent";
+        }
+      });
+    </script>
+  </body>
+</html>

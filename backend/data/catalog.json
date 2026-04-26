@@ -1,0 +1,328 @@
+[
+  {
+    "id": "privilege-vip",
+    "externalId": "privilege-vip",
+    "slug": "vip",
+    "name": "VIP",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 19,
+    "currency": "RUB",
+    "image": "assets/images/image-05-3574266306.png",
+    "summary": "VIP-привилегия для базового донат-уровня сервера ESTELAR.SU.",
+    "highlights": [
+      "Команды:",
+      "-/suiside - убить самого себя",
+      "-/wb - открыть виртуальный верстак",
+      "-/kit vip - получить набор привилегии",
+      "-Возможности всех прошлых привилегий"
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 19,
+        "default": true
+      }
+    ],
+    "sort": 1,
+    "isActive": true
+  },
+  {
+    "id": "privilege-crystal",
+    "externalId": "privilege-crystal",
+    "slug": "crystal",
+    "name": "CRYSYSTAL",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 49,
+    "currency": "RUB",
+    "image": "assets/images/image-06-ec43498384.png",
+    "summary": "Усиленная постоянная привилегия сервера ESTELAR с фиксированной ценой.",
+    "highlights": [
+      "Навсегда без продления",
+      "Второй уровень привилегий",
+      "Фиксированная цена: 49 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 49,
+        "default": true
+      }
+    ],
+    "sort": 2,
+    "isActive": true
+  },
+  {
+    "id": "privilege-dragon",
+    "externalId": "privilege-dragon",
+    "slug": "dragon",
+    "name": "GALAXY",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 99,
+    "currency": "RUB",
+    "image": "assets/images/image-07-524845b051.png",
+    "summary": "Продвинутая постоянная привилегия ESTELAR для активных игроков.",
+    "highlights": [
+      "Навсегда без продления",
+      "Продвинутая линейка магазина",
+      "Фиксированная цена: 99 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 99,
+        "default": true
+      }
+    ],
+    "sort": 3,
+    "isActive": true
+  },
+  {
+    "id": "privilege-king",
+    "externalId": "privilege-king",
+    "slug": "king",
+    "name": "KING",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 179,
+    "currency": "RUB",
+    "image": "assets/images/image-08-cb0961288a.png",
+    "summary": "Постоянная привилегия повышенного уровня для сервера ESTELAR.",
+    "highlights": [
+      "Навсегда без продления",
+      "Повышенный уровень статуса",
+      "Фиксированная цена: 179 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 179,
+        "default": true
+      }
+    ],
+    "sort": 4,
+    "isActive": true
+  },
+  {
+    "id": "privilege-titan",
+    "externalId": "privilege-titan",
+    "slug": "titan",
+    "name": "TITAN",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 249,
+    "currency": "RUB",
+    "image": "assets/images/image-09-b8a9706aa0.png",
+    "summary": "Мощная постоянная привилегия для основной аудитории доната ESTELAR.",
+    "highlights": [
+      "Навсегда без продления",
+      "Старший уровень магазина",
+      "Фиксированная цена: 249 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 249,
+        "default": true
+      }
+    ],
+    "sort": 5,
+    "isActive": true
+  },
+  {
+    "id": "privilege-phenix",
+    "externalId": "privilege-phenix",
+    "slug": "phenix",
+    "name": "PHENIX",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 369,
+    "currency": "RUB",
+    "image": "assets/images/image-10-597bf172e7.png",
+    "summary": "Редкая постоянная привилегия премиум-уровня ESTELAR.",
+    "highlights": [
+      "Навсегда без продления",
+      "Премиальная линейка",
+      "Фиксированная цена: 369 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 369,
+        "default": true
+      }
+    ],
+    "sort": 6,
+    "isActive": true
+  },
+  {
+    "id": "privilege-immortal",
+    "externalId": "privilege-immortal",
+    "slug": "immortal",
+    "name": "IMMORTAL",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 499,
+    "currency": "RUB",
+    "image": "assets/images/image-11-cd3fc52735.png",
+    "summary": "Топовая постоянная привилегия ESTELAR с высоким статусом.",
+    "highlights": [
+      "Навсегда без продления",
+      "Почти максимальный уровень",
+      "Фиксированная цена: 499 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 499,
+        "default": true
+      }
+    ],
+    "sort": 7,
+    "isActive": true
+  },
+  {
+    "id": "privilege-infinity",
+    "externalId": "privilege-infinity",
+    "slug": "infinity",
+    "name": "INFINITY",
+    "category": "privilege",
+    "categoryLabel": "Привилегия",
+    "price": 699,
+    "currency": "RUB",
+    "image": "assets/images/image-12-e7d68a881c.png",
+    "summary": "Максимальная постоянная привилегия для игроков, которым нужен полный доступ к донат-линейке ESTELAR.SU.",
+    "highlights": [
+      "Навсегда без продления",
+      "Максимальный уровень линейки",
+      "Фиксированная цена: 699 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 699,
+        "default": true
+      }
+    ],
+    "sort": 8,
+    "isActive": true
+  },
+  {
+    "id": "service-unmute",
+    "externalId": "service-unmute",
+    "slug": "unmute",
+    "name": "РАЗМУТ",
+    "category": "privilege",
+    "categoryLabel": "Услуга",
+    "price": 99,
+    "currency": "RUB",
+    "image": "assets/images/image-15-e2262cce74.png",
+    "summary": "РАЗМУТ НА СЕРВЕРЕ\nПри покупке размута аккаунт который вы указали в корзине размутится.",
+    "highlights": [
+      "Разовая услуга",
+      "Ручная обработка заявки",
+      "Стоимость: 99 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 99,
+        "default": true
+      }
+    ],
+    "sort": 9,
+    "isActive": true
+  },
+  {
+    "id": "service-unban",
+    "externalId": "service-unban",
+    "slug": "unban",
+    "name": "РАЗБАН",
+    "category": "privilege",
+    "categoryLabel": "Услуга",
+    "price": 199,
+    "currency": "RUB",
+    "image": "assets/images/image-14-743744227c.png",
+    "summary": "РАЗБАН НА СЕРВЕРЕ\nПри покупке разбана аккаунт который вы указали в корзине разбанится.",
+    "highlights": [
+      "Разовая услуга",
+      "Ручная обработка заявки",
+      "Стоимость: 199 руб."
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 199,
+        "default": true
+      }
+    ],
+    "sort": 10,
+    "isActive": true
+  },
+  {
+    "id": "service-immunity",
+    "externalId": "service-immunity",
+    "slug": "immunity",
+    "name": "ИММУНИТЕТ",
+    "category": "privilege",
+    "categoryLabel": "Услуга",
+    "price": 499,
+    "currency": "RUB",
+    "image": "assets/images/image-13-ac5211f93c.png",
+    "summary": "ИМУНИТЕТ ОТ БАНА на неделю и только от игроков.\nПри покупке иммунитета аккаунт который вы указали в корзине будет невозможно забанить игрокам, но не админам.",
+    "highlights": [
+      "Срок действия: 1 неделя",
+      "Работает только против игроков",
+      "Администрация сохраняет полный доступ к наказаниям"
+    ],
+    "periods": [
+      {
+        "code": "forever",
+        "label": "Навсегда",
+        "price": 499,
+        "default": true
+      }
+    ],
+    "sort": 11,
+    "isActive": true
+  },
+  {
+    "id": "currency-donate",
+    "externalId": "currency-donate",
+    "slug": "donate-currency",
+    "name": "100 EST",
+    "category": "case",
+    "categoryLabel": "Валюта",
+    "price": 99,
+    "currency": "RUB",
+    "image": "assets/images/image-13-ac5211f93c.png",
+    "summary": "100 EST — донат-валюта сервера ESTELAR.SU.\nПосле покупки на аккаунт поступает 100 EST за каждый выбранный пакет.",
+    "highlights": [
+      "EST — внутриигровая донат-валюта",
+      "1 пакет = 100 EST",
+      "Стоимость пакета: 99 руб."
+    ],
+    "periods": [
+      {
+        "code": "units",
+        "label": "1 пакет = 100 EST",
+        "price": 99,
+        "default": true
+      }
+    ],
+    "sort": 12,
+    "isActive": true
+  }
+]

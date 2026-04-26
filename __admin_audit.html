@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Audit Preview</title>
+    <style>
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #0a0809;
+      }
+
+      iframe {
+        display: block;
+        width: 100vw;
+        height: 1400px;
+        border: 0;
+        background: #0a0809;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe id="preview" src="/admin" title="Admin audit preview"></iframe>
+    <script>
+      const frame = document.getElementById("preview");
+
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        if (!doc) {
+          return;
+        }
+
+        doc.body.dataset.page = "admin";
+
+        const intro = doc.getElementById("admin_intro");
+        const gate = doc.getElementById("admin_gate");
+        const shell = doc.getElementById("admin_shell");
+        if (intro) intro.style.display = "none";
+        if (gate) gate.style.display = "none";
+        if (shell) shell.hidden = false;
+
+        const subtitle = doc.getElementById("admin_view_subtitle");
+        if (subtitle) {
+          subtitle.hidden = false;
+          subtitle.textContent = "Просмотры, заказы и состояние витрины в одном рабочем экране.";
+        }
+
+        const metrics = doc.getElementById("admin_metrics");
+        if (metrics) {
+          metrics.innerHTML = `
+            <div class="metric_card dash-metric-card"><p class="metric_value">184</p><p class="metric_label">Сегодня</p></div>
+            <div class="metric_card dash-metric-card"><p class="metric_value">71</p><p class="metric_label">Уники</p></div>
+            <div class="metric_card dash-metric-card"><p class="metric_value">23</p><p class="metric_label">В очереди</p></div>
+          `;
+        }
+
+        const analyticsSummary = doc.getElementById("admin_analytics_summary");
+        if (analyticsSummary) {
+          analyticsSummary.innerHTML = `
+            <div class="admin_stat_tile"><p class="label">Сегодня</p><p class="value">184</p><p class="note">71 уникальных</p></div>
+            <div class="admin_stat_tile"><p class="label">7 дней</p><p class="value">1 284</p><p class="note">416 уникальных</p></div>
+            <div class="admin_stat_tile"><p class="label">Всего</p><p class="value">5 982</p><p class="note">2 104 за весь период</p></div>
+          `;
+        }
+
+        const trend = doc.getElementById("admin_analytics_trend");
+        if (trend) {
+          trend.innerHTML = `
+            <div class="admin_trend_bar"><div class="admin_trend_meta"><strong>88</strong><span>41 уники</span></div><div class="admin_trend_track"><span style="height:56%"></span></div><p>19 апр</p></div>
+            <div class="admin_trend_bar"><div class="admin_trend_meta"><strong>126</strong><span>58 уники</span></div><div class="admin_trend_track"><span style="height:80%"></span></div><p>20 апр</p></div>
+            <div class="admin_trend_bar"><div class="admin_trend_meta"><strong>157</strong><span>64 уники</span></div><div class="admin_trend_track"><span style="height:94%"></span></div><p>21 апр</p></div>
+            <div class="admin_trend_bar"><div class="admin_trend_meta"><strong>184</strong><span>71 уники</span></div><div class="admin_trend_track"><span style="height:100%"></span></div><p>Сегодня</p></div>
+          `;
+        }
+
+        const pages = doc.getElementById("admin_page_stats");
+        if (pages) {
+          pages.innerHTML = `
+            <div class="admin_page_stat_row"><div class="copy"><p class="label">Главная</p><p class="meta">58 уникальных</p></div><div class="bar"><span style="width:100%"></span></div><p class="value">184</p></div>
+            <div class="admin_page_stat_row"><div class="copy"><p class="label">Правила</p><p class="meta">36 уникальных</p></div><div class="bar"><span style="width:62%"></span></div><p class="value">114</p></div>
+            <div class="admin_page_stat_row"><div class="copy"><p class="label">Контакты</p><p class="meta">21 уникальный</p></div><div class="bar"><span style="width:38%"></span></div><p class="value">69</p></div>
+          `;
+        }
+      });
+    </script>
+  </body>
+</html>
