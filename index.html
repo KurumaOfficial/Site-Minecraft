@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>Главная | ESTELAR.SU</title>
-  <link href="assets/css/styles.css?v=20260425b" rel="stylesheet" />
+  <link href="assets/css/styles.css?v=20260426a" rel="stylesheet" />
   </head>
   <body>
     <div class="mobile_menu sf-hidden">
@@ -367,6 +367,14 @@
                   <span class="dash-nav-icon">05</span>
                   <span class="dash-nav-label">Контакты</span>
                 </button>
+                <button class="dash-nav-link" data-admin-view-nav="integrations" type="button">
+                  <span class="dash-nav-icon">06</span>
+                  <span class="dash-nav-label">API</span>
+                </button>
+                <button class="dash-nav-link" data-admin-view-nav="payments" type="button">
+                  <span class="dash-nav-icon">07</span>
+                  <span class="dash-nav-label">Оплата</span>
+                </button>
               </nav>
 
               <div class="dash-sidebar-footer">
@@ -438,16 +446,7 @@
                           <input id="admin_order_search" placeholder="Поиск по нику, товару или номеру" type="text" />
                         </div>
                         <div class="admin_order_kpis" id="admin_order_kpis"></div>
-                        <div class="admin_table admin_order_table">
-                          <div class="admin_table_head admin_order_table_head">
-                            <span>Заказ</span>
-                            <span>Игрок</span>
-                            <span>Сумма</span>
-                            <span>Статус</span>
-                            <span>Дата</span>
-                          </div>
-                          <div class="admin_table_body" id="admin_order_list"></div>
-                        </div>
+                        <div class="admin_order_v2_list" id="admin_order_list"></div>
                       </div>
                     </article>
 
@@ -474,16 +473,7 @@
                         <div class="admin_toolbar">
                           <input id="admin_catalog_search" placeholder="Поиск по названию или slug" type="text" />
                         </div>
-                        <div class="admin_table admin_catalog_table">
-                          <div class="admin_table_head admin_entity_table_head">
-                            <span>Товар</span>
-                            <span>Slug</span>
-                            <span>Категория</span>
-                            <span>Цена</span>
-                            <span>Статус</span>
-                          </div>
-                          <div class="admin_table_body admin_catalog_list" id="admin_catalog_list"></div>
-                        </div>
+                        <div class="admin_order_v2_list" id="admin_catalog_list"></div>
                       </div>
                     </article>
 
@@ -625,6 +615,91 @@
                         </div>
                       </div>
                       <div class="dash-card-body admin_contacts_preview" id="admin_contacts_preview"></div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="integrations">
+                  <div class="admin_workbench admin_integrations_layout">
+                    <article class="dash-card admin_integrations_intro">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Автоматическая выдача</div>
+                          <div class="dash-card-head-sub">Когда заказ переводится в статус «Выдан», сервер вызывает указанный webhook вашего Minecraft-плагина. Если плагин ответит 2xx — заказ помечается доставленным автоматически, иначе остаётся в очереди ручной выдачи.</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_integration_secret">
+                        <label class="admin_field">
+                          <span>Общий секрет webhook (HMAC-SHA256)</span>
+                          <input id="admin_integration_secret" placeholder="Сгенерируйте длинную строку 32+ символов" type="text" autocomplete="off" />
+                        </label>
+                        <p class="admin_hint">Сервер подписывает каждый исходящий webhook заголовком <code>X-ESTELAR-Signature</code>. Тот же секрет настройте в плагине, чтобы проверять подлинность.</p>
+                      </div>
+                    </article>
+
+                    <div class="admin_integrations_grid" id="admin_integrations_grid"></div>
+
+                    <div class="admin_integrations_actions">
+                      <button class="dash-btn" id="admin_integrations_save" type="button">Сохранить настройки</button>
+                      <div class="form_status" hidden id="admin_integrations_status"></div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="payments">
+                  <div class="admin_workbench admin_payments_layout">
+                    <article class="dash-card admin_payments_intro">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Платёжная система</div>
+                          <div class="dash-card-head-sub">Выберите провайдера и заполните ключи. До подключения боевого провайдера заказы продолжают обрабатываться в режиме ручной выдачи — это безопасно.</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <div class="admin_payment_providers" id="admin_payment_providers" role="radiogroup" aria-label="Выбор платёжного провайдера"></div>
+                      </div>
+                    </article>
+
+                    <article class="dash-card admin_payments_form_card">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Ключи и настройки</div>
+                        </div>
+                      </div>
+                      <div class="dash-card-body">
+                        <form class="admin_form admin_form_shell" id="admin_payments_form">
+                          <label class="admin_field">
+                            <span>Shop ID / Магазин</span>
+                            <input id="admin_payment_shop" placeholder="Идентификатор магазина у провайдера" type="text" autocomplete="off" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Public Key (опционально)</span>
+                            <input id="admin_payment_public" placeholder="Публичный ключ" type="text" autocomplete="off" />
+                          </label>
+                          <label class="admin_field admin_field_full">
+                            <span>Secret Key</span>
+                            <input id="admin_payment_secret" placeholder="•••••••• — оставьте пустым, чтобы не менять" type="password" autocomplete="off" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Return URL (страница успеха)</span>
+                            <input id="admin_payment_return" placeholder="https://estelar.su/orders/success" type="url" />
+                          </label>
+                          <label class="admin_field">
+                            <span>Webhook URL у провайдера</span>
+                            <input id="admin_payment_webhook" placeholder="https://estelar.su/api/v1/payments/webhook" type="url" />
+                          </label>
+                          <label class="admin_field admin_field_full">
+                            <span>Описание платежа (для чека)</span>
+                            <input id="admin_payment_description" placeholder="Покупка на ESTELAR.SU" type="text" />
+                          </label>
+                          <label class="checkbox_line">
+                            <input id="admin_payment_test" type="checkbox" />
+                            <span>Тестовый режим провайдера</span>
+                          </label>
+                          <div class="form_status" hidden id="admin_payment_status"></div>
+                          <button type="submit">Сохранить настройки оплаты</button>
+                        </form>
+                      </div>
                     </article>
                   </div>
                 </section>

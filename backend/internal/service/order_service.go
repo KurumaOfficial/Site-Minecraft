@@ -25,10 +25,18 @@ var orderStatusLabels = map[string]string{
 	"rejected": "Отклонено",
 }
 
+// IntegrationDispatcher вызывается, когда заказ переходит в статус
+// "issued". Через интерфейс (а не прямую зависимость) чтобы исключить
+// цикл импортов в пакете service.
+type IntegrationDispatcher interface {
+	DispatchOrderIssued(ctx context.Context, order domain.Order)
+}
+
 type OrderService struct {
 	catalog    *CatalogService
 	promos     *PromoService
 	repository repository.OrderRepository
+	dispatcher IntegrationDispatcher
 }
 
 func NewOrderService(catalog *CatalogService, promos *PromoService, repository repository.OrderRepository) *OrderService {
@@ -37,6 +45,12 @@ func NewOrderService(catalog *CatalogService, promos *PromoService, repository r
 		promos:     promos,
 		repository: repository,
 	}
+}
+
+// SetIntegrationDispatcher позволяет внедрить отправку webhook'ов после
+// того, как сервис уже создан (избегаем циклических зависимостей).
+func (s *OrderService) SetIntegrationDispatcher(dispatcher IntegrationDispatcher) {
+	s.dispatcher = dispatcher
 }
 
 func (s *OrderService) Quote(request domain.QuoteRequest) (domain.Quote, error) {
@@ -194,8 +208,22 @@ func (s *OrderService) Update(ctx context.Context, id string, update domain.Orde
 
 	update.Status = status
 	update.StatusLabel = label
+	update.AdminNote = strings.TrimSpace(update.AdminNote)
+	if len(update.AdminNote) > 1024 {
+		update.AdminNote = update.AdminNote[:1024]
+	}
 
-	return s.repository.Update(ctx, orderID, update, strings.TrimSpace(handledBy))
+	order, err := s.repository.Update(ctx, orderID, update, strings.TrimSpace(handledBy))
+	if err != nil {
+		return order, err
+	}
+
+	if status == "issued" && s.dispatcher != nil {
+		// Best effort: webhook вызывается в фоне, ошибки не блокируют выдачу.
+		go s.dispatcher.DispatchOrderIssued(context.Background(), order)
+	}
+
+	return order, nil
 }
 
 func (s *OrderService) resolveItemAndPeriod(productSlug, periodCode string) (domain.CatalogItem, domain.PeriodOption, error) {

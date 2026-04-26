@@ -1,0 +1,30 @@
+# Локальные секреты и тестовые данные
+.env
+.env.local
+.env.*.local
+
+# Бинарные сборки
+backend/server
+backend/server.exe
+backend/server.out.log
+backend/server.err.log
+
+# Временные файлы хранилища (генерируются при запуске)
+backend/data/orders.json
+backend/data/orders.jsonl
+backend/data/promos.json
+backend/data/site-settings.json
+backend/data/visit-analytics.json
+backend/data/integrations.json
+!backend/data/.gitkeep
+!backend/data/catalog.json
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Скриншоты для аудита (служебные)
+__*.html

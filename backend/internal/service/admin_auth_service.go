@@ -53,6 +53,17 @@ func NewAdminAuthService(cfg config.Config) *AdminAuthService {
 
 func (s *AdminAuthService) ValidateToken(ctx context.Context, rawToken string) (domain.AdminIdentity, error) {
 	if !s.cfg.Supabase.AuthEnabled() {
+		// Локальный bypass — только для разработки и только при явном
+		// ADMIN_LOCAL_BYPASS=true. На продакшене эта ветка недоступна,
+		// потому что IsLocalDevelopment() требует localhost-URL.
+		if s.cfg.Admin.LocalBypass && s.cfg.IsLocalDevelopment() {
+			return domain.AdminIdentity{
+				ID:       "local-admin",
+				Email:    "local@admin.dev",
+				Name:     "Локальный администратор",
+				Provider: "local-bypass",
+			}, nil
+		}
 		return domain.AdminIdentity{}, domain.NewForbidden("Supabase Auth еще не настроен.")
 	}
 

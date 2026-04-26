@@ -80,7 +80,17 @@ func main() {
 	adminService := service.NewAdminService(catalogService, promoService, orderService, settingsService, visitAnalyticsService)
 	metaService := service.NewMetaService(cfg, catalogService, settingsService)
 
-	app, err := server.New(cfg, catalogService, promoService, orderService, adminService, adminAuthService, metaService, settingsService, visitAnalyticsService)
+	integrationRepo, err := repository.NewFileIntegrationRepository(cfg.DataDir)
+	if err != nil {
+		log.Fatalf("integration repository error: %v", err)
+	}
+	integrationService, err := service.NewIntegrationService(bootstrapCtx, integrationRepo)
+	if err != nil {
+		log.Fatalf("integration bootstrap error: %v", err)
+	}
+	orderService.SetIntegrationDispatcher(integrationService)
+
+	app, err := server.New(cfg, catalogService, promoService, orderService, adminService, adminAuthService, metaService, settingsService, visitAnalyticsService, integrationService)
 	if err != nil {
 		log.Fatalf("server build error: %v", err)
 	}

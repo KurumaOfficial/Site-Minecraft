@@ -34,6 +34,7 @@ func New(
 	metaService *service.MetaService,
 	settingsService *service.SiteSettingsService,
 	visitAnalyticsService *service.VisitAnalyticsService,
+	integrationService *service.IntegrationService,
 ) (*fiber.App, error) {
 	if err := ensureStaticFiles(cfg.StaticDir); err != nil {
 		return nil, err
@@ -82,6 +83,12 @@ func New(
 		}, "; "),
 		CrossOriginEmbedderPolicy: "unsafe-none",
 		CrossOriginResourcePolicy: "same-site",
+		ReferrerPolicy:            "strict-origin-when-cross-origin",
+		XFrameOptions:             "DENY",
+		HSTSMaxAge:                31536000,
+		HSTSPreloadEnabled:        true,
+		HSTSExcludeSubdomains:     false,
+		PermissionPolicy:          "geolocation=(), camera=(), microphone=(), payment=(self)",
 	}))
 	app.Use(compress.New())
 	app.Use(etag.New())
@@ -108,6 +115,7 @@ func New(
 	metaHandler := httpapi.NewMetaHandler(metaService)
 	adminHandler := httpapi.NewAdminHandler(adminService, adminAuthService, catalogService, promoService, orderService, settingsService)
 	analyticsHandler := httpapi.NewAnalyticsHandler(visitAnalyticsService)
+	integrationHandler := httpapi.NewIntegrationHandler(integrationService, orderService)
 
 	api := app.Group("/api/v1", timeoutmw.NewWithContext(func(c *fiber.Ctx) error {
 		return c.Next()
@@ -190,6 +198,10 @@ func New(
 	admin.Post("/promos", adminHandler.SavePromo)
 	admin.Get("/settings", adminHandler.GetSettings)
 	admin.Post("/settings", adminHandler.SaveSettings)
+	admin.Get("/integrations", integrationHandler.Get)
+	admin.Post("/integrations", integrationHandler.SaveIntegrations)
+	admin.Post("/integrations/test", integrationHandler.Test)
+	admin.Post("/payments", integrationHandler.SavePayments)
 
 	app.Static("/assets", filepath.Join(cfg.StaticDir, "assets"), fiber.Static{
 		Compress:      false,

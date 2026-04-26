@@ -12448,3 +12448,538 @@ body[data-page="home"] .page-section[data-page="home"] .item_features ul {
     padding: 24px 20px !important;
   }
 }
+
+/* =====================================================================
+   FINAL AUDIT PASS — 2026-04-26
+   Унификация красно-розовой палитры в жёлтую/янтарную, переработка плотных
+   таблиц админки в card-list, стили для новых вкладок «API» и «Оплата».
+   ===================================================================== */
+
+:root {
+  --estelar-gold: #ffd25c;
+  --estelar-gold-soft: rgba(255, 210, 92, 0.18);
+  --estelar-gold-strong: #ffb547;
+  --estelar-warning: #f3a93a;
+  --estelar-success: #a4d473;
+  --estelar-muted: #b8b09c;
+  --estelar-shell: #1c1916;
+  --estelar-shell-2: #25201a;
+  --estelar-line: rgba(255, 210, 92, 0.18);
+}
+
+/* Замена остатков красно-розовой палитры в публичных модалках */
+.item_modal:not(.admin_auth_modal) .buy_item .modal_title span,
+.item_modal:not(.admin_auth_modal) .buy_item .privacy_policy span,
+.item_modal:not(.admin_auth_modal) .buy_item .privacy_policy a,
+.form_status.error,
+.form_status.warning {
+  color: var(--estelar-gold-strong) !important;
+}
+
+.form_status.error {
+  background: rgba(243, 169, 58, 0.14) !important;
+  border-color: rgba(243, 169, 58, 0.45) !important;
+  color: #f5d28b !important;
+}
+
+.form_status.warning {
+  background: rgba(255, 210, 92, 0.12) !important;
+  border-color: rgba(255, 210, 92, 0.4) !important;
+  color: #ffe09c !important;
+}
+
+.form_status.success {
+  background: rgba(164, 212, 115, 0.14) !important;
+  border-color: rgba(164, 212, 115, 0.4) !important;
+  color: #c7e7a3 !important;
+}
+
+/* Status pills — единый облик для всех видов статусов */
+.status.status_pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+  border: 1px solid rgba(255, 210, 92, 0.18) !important;
+  background: rgba(255, 210, 92, 0.08) !important;
+  color: #ffe09c !important;
+}
+
+.status.status_pill.success,
+.status.status_pill.issued {
+  border-color: rgba(164, 212, 115, 0.45) !important;
+  background: rgba(164, 212, 115, 0.14) !important;
+  color: #c7e7a3 !important;
+}
+
+.status.status_pill.warning,
+.status.status_pill.review {
+  border-color: rgba(255, 183, 71, 0.45) !important;
+  background: rgba(255, 183, 71, 0.14) !important;
+  color: #ffd28a !important;
+}
+
+.status.status_pill.pending {
+  border-color: rgba(255, 210, 92, 0.32) !important;
+  background: rgba(255, 210, 92, 0.10) !important;
+  color: #ffe5a0 !important;
+}
+
+.status.status_pill.error,
+.status.status_pill.rejected {
+  border-color: rgba(184, 176, 156, 0.4) !important;
+  background: rgba(184, 176, 156, 0.12) !important;
+  color: #e6dcc6 !important;
+}
+
+/* Карточная строка для списков заявок и каталога — replaces wall-of-text rows */
+.admin_order_v2_list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.admin_order_v2 {
+  display: grid !important;
+  grid-template-columns: 48px minmax(0, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 12px 16px !important;
+  background: rgba(28, 25, 22, 0.85) !important;
+  border: 1px solid var(--estelar-line) !important;
+  border-radius: 14px !important;
+  color: #f6ecd1 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease !important;
+}
+
+.admin_order_v2:hover {
+  border-color: rgba(255, 210, 92, 0.45) !important;
+  background: rgba(40, 33, 22, 0.92) !important;
+}
+
+.admin_order_v2.active {
+  border-color: var(--estelar-gold) !important;
+  background: rgba(56, 44, 22, 0.95) !important;
+}
+
+.admin_order_v2_thumb {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-color: rgba(255, 210, 92, 0.08) !important;
+  border: 1px solid rgba(255, 210, 92, 0.2) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--estelar-gold-strong) !important;
+}
+
+.admin_order_v2_thumb.admin_order_v2_thumb_fallback {
+  background-image: none !important;
+}
+
+.admin_promo_badge {
+  font-size: 13px !important;
+  letter-spacing: 0.02em !important;
+}
+
+.admin_order_v2_main {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+}
+
+.admin_order_v2_title {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #fff5d8 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.admin_order_v2_meta {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.admin_order_v2_meta code,
+.admin_order_v2_title code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  font-size: 12px !important;
+  color: #ffe09c !important;
+}
+
+.admin_order_v2_side {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 4px !important;
+  white-space: nowrap !important;
+}
+
+.admin_order_v2_price {
+  font-weight: 700 !important;
+  color: #fff5d8 !important;
+  font-size: 14px !important;
+}
+
+.admin_order_v2_date {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+}
+
+@media (max-width: 720px) {
+  .admin_order_v2 {
+    grid-template-columns: 40px minmax(0, 1fr) auto !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px 12px !important;
+  }
+  .admin_order_v2 .admin_order_v2_side {
+    grid-row: 2 !important;
+    grid-column: 2 / span 2 !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  .admin_order_v2 .status.status_pill {
+    grid-row: 1 !important;
+    grid-column: 3 !important;
+  }
+}
+
+/* Вкладка API: карточки эндпоинтов */
+.admin_integrations_layout,
+.admin_payments_layout {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+.admin_integrations_grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.admin_integration_card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  padding: 18px !important;
+}
+
+.admin_integration_card_head {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.admin_integration_icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 10px !important;
+  background: var(--estelar-gold-soft) !important;
+  font-size: 20px !important;
+}
+
+.admin_integration_title {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #fff5d8 !important;
+}
+
+.admin_integration_sub {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+  margin-top: 2px !important;
+}
+
+.admin_integration_toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+}
+
+.admin_integration_body,
+.admin_payments_form_card .admin_form {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+.admin_field_full {
+  grid-column: 1 / -1 !important;
+}
+
+.admin_field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.admin_field span {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+}
+
+.admin_field input,
+.admin_field textarea {
+  background: rgba(28, 25, 22, 0.65) !important;
+  border: 1px solid var(--estelar-line) !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  color: #fff5d8 !important;
+  font-size: 13px !important;
+}
+
+.admin_field input:focus,
+.admin_field textarea:focus {
+  outline: none !important;
+  border-color: var(--estelar-gold) !important;
+  box-shadow: 0 0 0 2px rgba(255, 210, 92, 0.25) !important;
+}
+
+.admin_integration_actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  grid-column: 1 / -1 !important;
+}
+
+.admin_hint {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+  margin-top: 4px !important;
+}
+
+.admin_hint code {
+  background: rgba(255, 210, 92, 0.1) !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+  color: #ffe09c !important;
+}
+
+.dash-btn_ghost {
+  background: transparent !important;
+  border: 1px solid var(--estelar-line) !important;
+  color: #ffe09c !important;
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+}
+
+.dash-btn_ghost:hover {
+  border-color: var(--estelar-gold) !important;
+  background: var(--estelar-gold-soft) !important;
+}
+
+.admin_integrations_actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+/* Вкладка «Оплата» */
+.admin_payment_providers {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.admin_payment_card {
+  display: flex !important;
+  align-items: stretch !important;
+  cursor: pointer !important;
+  background: rgba(28, 25, 22, 0.85) !important;
+  border: 1px solid var(--estelar-line) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  transition: border-color 120ms ease, background 120ms ease !important;
+}
+
+.admin_payment_card input[type="radio"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.admin_payment_card_inner {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+.admin_payment_card_title {
+  font-weight: 700 !important;
+  color: #fff5d8 !important;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.admin_payment_card_badge {
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 999px !important;
+  background: rgba(184, 176, 156, 0.2) !important;
+  color: var(--estelar-muted) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+.admin_payment_card_desc {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+}
+
+.admin_payment_card:hover {
+  border-color: rgba(255, 210, 92, 0.45) !important;
+}
+
+.admin_payment_card input[type="radio"]:checked + .admin_payment_card_inner {
+  color: #fff5d8 !important;
+}
+
+.admin_payment_card:has(input[type="radio"]:checked) {
+  border-color: var(--estelar-gold) !important;
+  background: rgba(56, 44, 22, 0.95) !important;
+}
+
+.checkbox_line {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+  grid-column: 1 / -1 !important;
+}
+
+@media (max-width: 720px) {
+  .admin_integration_body,
+  .admin_payments_form_card .admin_form {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Деталь заказа: компактный hero вместо стены текста */
+.admin_order_focus_hero {
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) auto !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 16px !important;
+  border-bottom: 1px solid var(--estelar-line) !important;
+}
+
+.admin_order_focus_thumb {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 14px !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-color: rgba(255, 210, 92, 0.08) !important;
+  border: 1px solid rgba(255, 210, 92, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--estelar-gold-strong) !important;
+}
+
+.admin_order_focus_hero_copy {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.admin_order_focus_hero_copy .eyebrow {
+  font-size: 11px !important;
+  letter-spacing: 0.04em !important;
+  color: var(--estelar-muted) !important;
+  margin: 0 !important;
+}
+
+.admin_order_focus_hero_copy h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  color: #fff5d8 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.admin_order_focus_hero_copy .meta {
+  font-size: 12px !important;
+  color: var(--estelar-muted) !important;
+  margin: 0 !important;
+}
+
+.admin_order_focus_hero_side {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+}
+
+.admin_order_focus_price {
+  font-size: 18px !important;
+  color: #fff5d8 !important;
+}
+
+.admin_info_grid_compact {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.admin_info_grid_compact .admin_info_item {
+  background: rgba(28, 25, 22, 0.55) !important;
+  border: 1px solid var(--estelar-line) !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.admin_info_grid_compact .admin_info_item span {
+  font-size: 11px !important;
+  color: var(--estelar-muted) !important;
+  letter-spacing: 0.03em !important;
+}
+
+.admin_info_grid_compact .admin_info_item strong {
+  font-size: 13px !important;
+  color: #fff5d8 !important;
+}

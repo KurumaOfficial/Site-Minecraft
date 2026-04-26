@@ -25,7 +25,12 @@
     adminOpening: false,
     orderLoading: false,
     publicPageBeforeAdmin: "home",
-    activeView: "overview"
+    activeView: "overview",
+    integrations: null,
+    payments: null,
+    paymentProviders: [],
+    integrationsLoaded: false,
+    integrationsLoading: false
   };
 
   const els = {
@@ -189,6 +194,46 @@
     const amount = Number(order?.quantity || 1).toLocaleString("ru-RU");
     const label = order?.unitLabel || "ед.";
     return `${amount} ${label}`;
+  }
+
+  function formatRelativeDate(value) {
+    if (!value) {
+      return "—";
+    }
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return "—";
+    }
+    const now = new Date();
+    const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    const dayDiff = Math.round((startOfDay(now) - startOfDay(date)) / (24 * 60 * 60 * 1000));
+    const time = date.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+    if (dayDiff === 0) {
+      return `сегодня ${time}`;
+    }
+    if (dayDiff === 1) {
+      return `вчера ${time}`;
+    }
+    if (dayDiff > 1 && dayDiff < 7) {
+      return `${dayDiff} дн. назад`;
+    }
+    return date.toLocaleDateString("ru-RU", { day: "2-digit", month: "short", year: dayDiff > 365 ? "numeric" : undefined });
+  }
+
+  function getCatalogImageBySlug(slug) {
+    if (!slug) {
+      return "";
+    }
+    const item = state.catalog.find((entry) => entry?.slug === slug);
+    return item?.image || "";
+  }
+
+  function shortOrderId(id) {
+    if (!id) {
+      return "";
+    }
+    const tail = String(id).split("-").pop();
+    return tail ? `#${tail}` : String(id);
   }
 
   let authModalCloseTimer = 0;
@@ -548,6 +593,16 @@
           title: "Контакты",
           subtitle: "Ссылки кнопок, Telegram, Discord и почта публичной страницы."
         };
+      case "integrations":
+        return {
+          title: "API интеграции",
+          subtitle: "Webhook'и для автоматической выдачи привилегий, кейсов и валюты."
+        };
+      case "payments":
+        return {
+          title: "Оплата",
+          subtitle: "Выбор платёжной системы и ключи провайдера."
+        };
       default:
         return {
           title: "Аналитика",
@@ -557,7 +612,7 @@
   }
 
   function setAdminView(view) {
-    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts"]);
+    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts", "integrations", "payments"]);
     const normalized = allowedViews.has(view) ? view : "overview";
     state.activeView = normalized;
 
@@ -576,6 +631,10 @@
     if (els.viewSubtitle) {
       els.viewSubtitle.textContent = copy.subtitle || "";
       els.viewSubtitle.hidden = !copy.subtitle;
+    }
+
+    if ((normalized === "integrations" || normalized === "payments") && state.session && !state.integrationsLoading) {
+      void loadIntegrations();
     }
   }
 
@@ -1094,21 +1153,46 @@
 
     els.orderList.innerHTML = state.orders.map((order) => {
       const status = getStatusMeta(order.status);
+      const image = getCatalogImageBySlug(order.productSlug);
+      const compactStatus = compactStatusLabel(order.status, order.statusLabel || status.label);
+      const thumb = image
+        ? `<span class="admin_order_v2_thumb" style="background-image:url('${escapeHtml(image)}')" aria-hidden="true"></span>`
+        : `<span class="admin_order_v2_thumb admin_order_v2_thumb_fallback" aria-hidden="true">${escapeHtml(initialFor(order.productName))}</span>`;
       return `
-        <button class="admin_table_row admin_order_row${order.id === state.selectedOrderID ? " active" : ""}" data-order-id="${escapeHtml(order.id)}" type="button">
-          <span class="cell cell-main">
-            <strong>${escapeHtml(order.productName)}</strong>
-            <small>${escapeHtml(order.id)}</small>
+        <button class="admin_order_v2${order.id === state.selectedOrderID ? " active" : ""}" data-order-id="${escapeHtml(order.id)}" type="button">
+          ${thumb}
+          <span class="admin_order_v2_main">
+            <span class="admin_order_v2_title">${escapeHtml(order.productName)}</span>
+            <span class="admin_order_v2_meta">${escapeHtml(order.nickname)} • ${escapeHtml(shortOrderId(order.id))}</span>
           </span>
-          <span class="cell">${escapeHtml(order.nickname)}</span>
-          <span class="cell">${escapeHtml(formatPrice(order.finalPrice))}</span>
-          <span class="cell">
-            <span class="status ${escapeHtml(order.status)} ${escapeHtml(status.tone)}">${escapeHtml(order.statusLabel || status.label)}</span>
+          <span class="admin_order_v2_side">
+            <span class="admin_order_v2_price">${escapeHtml(formatPrice(order.finalPrice))}</span>
+            <span class="admin_order_v2_date">${escapeHtml(formatRelativeDate(order.createdAt))}</span>
           </span>
-          <span class="cell">${escapeHtml(formatDate(order.createdAt))}</span>
+          <span class="status status_pill ${escapeHtml(order.status)} ${escapeHtml(status.tone)}">${escapeHtml(compactStatus)}</span>
         </button>
       `;
     }).join("");
+  }
+
+  function compactStatusLabel(status, fallback) {
+    switch (status) {
+      case "issued":
+        return "Выдан";
+      case "review":
+        return "На проверке";
+      case "rejected":
+        return "Отклонён";
+      case "pending":
+        return "Ожидает";
+      default:
+        return fallback || "Ожидает";
+    }
+  }
+
+  function initialFor(text) {
+    const trimmed = String(text || "").trim();
+    return trimmed ? trimmed.charAt(0).toUpperCase() : "?";
   }
 
   function getSelectedOrder() {
@@ -1134,35 +1218,29 @@
       ? `<p>Цена за единицу: <span>${escapeHtml(formatPrice(order.unitPrice))}</span></p>`
       : "";
 
+    const image = getCatalogImageBySlug(order.productSlug);
+    const heroThumb = image
+      ? `<span class="admin_order_focus_thumb" style="background-image:url('${escapeHtml(image)}')" aria-hidden="true"></span>`
+      : `<span class="admin_order_focus_thumb admin_order_focus_thumb_fallback" aria-hidden="true">${escapeHtml(initialFor(order.productName))}</span>`;
+    const statusMeta = getStatusMeta(order.status);
+
     els.orderDetail.className = "admin_order_detail";
     els.orderDetail.innerHTML = `
       <div class="admin_order_focus">
-        <div class="admin_order_focus_head">
-          <div class="copy">
-            <p class="eyebrow">${escapeHtml(order.id)}</p>
+        <div class="admin_order_focus_hero">
+          ${heroThumb}
+          <div class="admin_order_focus_hero_copy">
+            <p class="eyebrow"><code>${escapeHtml(order.id)}</code></p>
             <h3>${escapeHtml(order.productName)}</h3>
-            <p class="meta">${escapeHtml(order.nickname)}</p>
+            <p class="meta">Игрок <strong>${escapeHtml(order.nickname)}</strong> • ${escapeHtml(order.categoryLabel)} • ${escapeHtml(order.periodLabel)}</p>
           </div>
-          <span class="status ${escapeHtml(order.status)} ${escapeHtml(getStatusMeta(order.status).tone)}">${escapeHtml(order.statusLabel)}</span>
+          <div class="admin_order_focus_hero_side">
+            <span class="status status_pill ${escapeHtml(order.status)} ${escapeHtml(statusMeta.tone)}">${escapeHtml(compactStatusLabel(order.status, order.statusLabel))}</span>
+            <strong class="admin_order_focus_price">${escapeHtml(formatPrice(order.finalPrice))}</strong>
+          </div>
         </div>
 
-        <div class="admin_info_grid">
-          <div class="admin_info_item">
-            <span>Ник</span>
-            <strong>${escapeHtml(order.nickname)}</strong>
-          </div>
-          <div class="admin_info_item">
-            <span>Категория</span>
-            <strong>${escapeHtml(order.categoryLabel)}</strong>
-          </div>
-          <div class="admin_info_item">
-            <span>Формат</span>
-            <strong>${escapeHtml(order.periodLabel)}</strong>
-          </div>
-          <div class="admin_info_item">
-            <span>Сумма</span>
-            <strong>${escapeHtml(formatPrice(order.finalPrice))}</strong>
-          </div>
+        <div class="admin_info_grid admin_info_grid_compact">
           ${quantityLine ? `<div class="admin_info_item"><span>Количество</span><strong>${escapeHtml(formatQuantity(order))}</strong></div>` : ""}
           ${unitLine ? `<div class="admin_info_item"><span>За единицу</span><strong>${escapeHtml(formatPrice(order.unitPrice))}</strong></div>` : ""}
           <div class="admin_info_item">
@@ -1175,11 +1253,11 @@
           </div>
           <div class="admin_info_item">
             <span>Создан</span>
-            <strong>${escapeHtml(formatDate(order.createdAt))}</strong>
+            <strong>${escapeHtml(formatRelativeDate(order.createdAt))}</strong>
           </div>
           <div class="admin_info_item">
             <span>Обновлен</span>
-            <strong>${escapeHtml(formatDate(order.updatedAt))}</strong>
+            <strong>${escapeHtml(formatRelativeDate(order.updatedAt))}</strong>
           </div>
         </div>
       </div>
@@ -1229,19 +1307,26 @@
       return;
     }
 
-    els.catalogList.innerHTML = items.map((item) => `
-      <button class="admin_table_row admin_entity_row${item.slug === state.selectedCatalogSlug ? " active" : ""}" data-catalog-slug="${escapeHtml(item.slug)}" type="button">
-        <span class="cell cell-main">
-          <strong>${escapeHtml(item.name)}</strong>
-        </span>
-        <span class="cell">${escapeHtml(item.slug)}</span>
-        <span class="cell">${escapeHtml(item.categoryLabel)}</span>
-        <span class="cell">${escapeHtml(formatPrice(item.price))}</span>
-        <span class="cell">
-          <span class="status ${item.isActive ? "issued success" : "rejected error"}">${item.isActive ? "Активен" : "Скрыт"}</span>
-        </span>
-      </button>
-    `).join("");
+    els.catalogList.innerHTML = items.map((item) => {
+      const thumb = item.image
+        ? `<span class="admin_order_v2_thumb" style="background-image:url('${escapeHtml(item.image)}')" aria-hidden="true"></span>`
+        : `<span class="admin_order_v2_thumb admin_order_v2_thumb_fallback" aria-hidden="true">${escapeHtml(initialFor(item.name))}</span>`;
+      const stateClass = item.isActive ? "issued success" : "pending warning";
+      const stateLabel = item.isActive ? "Активен" : "Скрыт";
+      return `
+        <button class="admin_order_v2${item.slug === state.selectedCatalogSlug ? " active" : ""}" data-catalog-slug="${escapeHtml(item.slug)}" type="button">
+          ${thumb}
+          <span class="admin_order_v2_main">
+            <span class="admin_order_v2_title">${escapeHtml(item.name)}</span>
+            <span class="admin_order_v2_meta">${escapeHtml(item.categoryLabel)} • <code>${escapeHtml(item.slug)}</code></span>
+          </span>
+          <span class="admin_order_v2_side">
+            <span class="admin_order_v2_price">${escapeHtml(formatPrice(item.price))}</span>
+          </span>
+          <span class="status status_pill ${escapeHtml(stateClass)}">${escapeHtml(stateLabel)}</span>
+        </button>
+      `;
+    }).join("");
   }
 
   function renderPromoList() {
@@ -1255,12 +1340,13 @@
     }
 
     els.promoList.innerHTML = state.promos.map((promo) => `
-      <button class="admin_promo_row${promo.code === state.selectedPromoCode ? " active" : ""}" data-promo-code="${escapeHtml(promo.code)}" type="button">
-        <span class="promo-code">${escapeHtml(promo.code)}</span>
-        <span class="promo-discount">-${escapeHtml(promo.discountPercent)}%</span>
-        <span class="promo-usage">Использований ${escapeHtml(promo.timesUsed)}</span>
-        <span class="promo-limit">${escapeHtml(promo.usageLimit ?? "без лимита")}</span>
-        <span class="status ${promo.isActive ? "issued success" : "rejected error"}">${promo.isActive ? "Активен" : "Отключен"}</span>
+      <button class="admin_promo_row admin_order_v2 admin_promo_card${promo.code === state.selectedPromoCode ? " active" : ""}" data-promo-code="${escapeHtml(promo.code)}" type="button">
+        <span class="admin_order_v2_thumb admin_promo_badge" aria-hidden="true">−${escapeHtml(promo.discountPercent)}%</span>
+        <span class="admin_order_v2_main">
+          <span class="admin_order_v2_title"><code>${escapeHtml(promo.code)}</code></span>
+          <span class="admin_order_v2_meta">Использований ${escapeHtml(promo.timesUsed)} • Лимит ${escapeHtml(promo.usageLimit ?? "без лимита")}</span>
+        </span>
+        <span class="status status_pill ${promo.isActive ? "issued success" : "pending warning"}">${promo.isActive ? "Активен" : "Отключен"}</span>
       </button>
     `).join("");
   }
@@ -1584,6 +1670,8 @@
       });
     });
 
+    attachIntegrationEvents();
+
     els.authModal?.addEventListener("click", (event) => {
       if (event.target === els.authModal) {
         closeAuthModal();
@@ -1683,6 +1771,296 @@
       if (page && publicPageSet.has(page)) {
         hideAdminShell(false);
       }
+    });
+  }
+
+  const INTEGRATION_CATEGORIES = [
+    {
+      key: "privilegesEndpoint",
+      category: "privilege",
+      title: "Привилегии",
+      icon: "🛡",
+      description: "Webhook вызывается при выдаче VIP/Premium/Deluxe и пр. — плагин ставит привилегию игроку."
+    },
+    {
+      key: "casesEndpoint",
+      category: "case",
+      title: "Кейсы",
+      icon: "📦",
+      description: "Webhook вызывается при выдаче кейсов — плагин начисляет ключи или открывает кейс."
+    },
+    {
+      key: "currencyEndpoint",
+      category: "currency",
+      title: "Донат-валюта",
+      icon: "💰",
+      description: "Webhook вызывается при покупке внутриигровой валюты — плагин зачисляет монеты."
+    }
+  ];
+
+  function authorizedJSON(method, path, body) {
+    return authorizedFetch(`${apiBase}${path}`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  async function loadIntegrations() {
+    if (state.integrationsLoading) {
+      return;
+    }
+    state.integrationsLoading = true;
+    try {
+      const response = await authorizedFetch(`${apiBase}/admin/integrations`);
+      if (!response.ok) {
+        throw new Error(`Не удалось загрузить интеграции (${response.status}).`);
+      }
+      const data = await response.json();
+      state.integrations = data.integrations || {};
+      state.payments = data.payments || { provider: "manual" };
+      state.paymentProviders = Array.isArray(data.providers) ? data.providers : [];
+      state.integrationsLoaded = true;
+      renderIntegrations();
+      renderPayments();
+    } catch (error) {
+      setAdminFormStatus(els.integrationsStatus, error.message || "Ошибка загрузки.", "error");
+    } finally {
+      state.integrationsLoading = false;
+    }
+  }
+
+  function setAdminFormStatus(element, message, tone) {
+    if (!element) {
+      return;
+    }
+    if (!message) {
+      element.hidden = true;
+      element.textContent = "";
+      element.className = "form_status";
+      return;
+    }
+    element.hidden = false;
+    element.textContent = message;
+    element.className = `form_status ${tone || "ready"}`;
+  }
+
+  function renderIntegrations() {
+    const grid = document.querySelector("#admin_integrations_grid");
+    if (!grid) {
+      return;
+    }
+    const cfg = state.integrations || {};
+    grid.innerHTML = INTEGRATION_CATEGORIES.map((meta) => {
+      const endpoint = cfg[meta.key] || {};
+      const enabled = Boolean(endpoint.enabled);
+      return `
+        <article class="dash-card admin_integration_card" data-integration-key="${escapeHtml(meta.key)}" data-integration-category="${escapeHtml(meta.category)}">
+          <header class="admin_integration_card_head">
+            <span class="admin_integration_icon" aria-hidden="true">${meta.icon}</span>
+            <div>
+              <div class="admin_integration_title">${escapeHtml(meta.title)}</div>
+              <div class="admin_integration_sub">${escapeHtml(meta.description)}</div>
+            </div>
+            <label class="admin_integration_toggle">
+              <input type="checkbox" data-integration-enabled ${enabled ? "checked" : ""} />
+              <span>Включить</span>
+            </label>
+          </header>
+          <div class="admin_integration_body">
+            <label class="admin_field admin_field_full">
+              <span>URL webhook</span>
+              <input type="url" data-integration-url placeholder="https://your-mc-server.example/api/issue" value="${escapeHtml(endpoint.url || "")}" />
+            </label>
+            <label class="admin_field admin_field_full">
+              <span>Bearer-токен (опционально)</span>
+              <input type="password" data-integration-token placeholder="${endpoint.token ? "•••••••• — оставьте пустым, чтобы не менять" : "Заголовок Authorization: Bearer …"}" autocomplete="off" />
+            </label>
+            <div class="admin_integration_actions">
+              <button class="dash-btn dash-btn_ghost" type="button" data-integration-test>Тестовый запрос</button>
+              <span class="form_status admin_integration_test_status" data-integration-test-status hidden></span>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    const secret = document.querySelector("#admin_integration_secret");
+    if (secret) {
+      if (cfg.webhookSecret) {
+        secret.placeholder = "•••••••• — оставьте пустым, чтобы не менять";
+        secret.value = "";
+      } else {
+        secret.placeholder = "Сгенерируйте длинную строку 32+ символов";
+      }
+    }
+  }
+
+  function readIntegrationsFromDOM() {
+    const grid = document.querySelector("#admin_integrations_grid");
+    if (!grid) {
+      return null;
+    }
+    const out = { webhookSecret: document.querySelector("#admin_integration_secret")?.value || "" };
+    INTEGRATION_CATEGORIES.forEach((meta) => {
+      const card = grid.querySelector(`[data-integration-key="${meta.key}"]`);
+      if (!card) {
+        return;
+      }
+      out[meta.key] = {
+        enabled: Boolean(card.querySelector("[data-integration-enabled]")?.checked),
+        url: card.querySelector("[data-integration-url]")?.value?.trim() || "",
+        token: card.querySelector("[data-integration-token]")?.value || ""
+      };
+    });
+    return out;
+  }
+
+  async function saveIntegrations() {
+    const button = document.querySelector("#admin_integrations_save");
+    const status = document.querySelector("#admin_integrations_status");
+    const payload = readIntegrationsFromDOM();
+    if (!payload) {
+      return;
+    }
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Сохраняем...";
+    }
+    setAdminFormStatus(status, "", "");
+    try {
+      const response = await authorizedJSON("POST", "/admin/integrations", payload);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || `Ошибка сохранения (${response.status}).`);
+      }
+      state.integrations = data.integrations || state.integrations;
+      renderIntegrations();
+      setAdminFormStatus(status, "Настройки сохранены.", "success");
+    } catch (error) {
+      setAdminFormStatus(status, error.message || "Не удалось сохранить.", "error");
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Сохранить настройки";
+      }
+    }
+  }
+
+  async function testIntegration(category, button, statusEl) {
+    if (!category) {
+      return;
+    }
+    button.disabled = true;
+    const initialLabel = button.textContent;
+    button.textContent = "Запрос...";
+    setAdminFormStatus(statusEl, "", "");
+    try {
+      const response = await authorizedJSON("POST", "/admin/integrations/test", { category });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || `Ошибка теста (${response.status}).`);
+      }
+      const result = data.result || {};
+      setAdminFormStatus(statusEl, result.message || (result.ok ? "OK" : "Нет ответа."), result.ok ? "success" : "warning");
+    } catch (error) {
+      setAdminFormStatus(statusEl, error.message || "Сбой теста.", "error");
+    } finally {
+      button.disabled = false;
+      button.textContent = initialLabel;
+    }
+  }
+
+  function renderPayments() {
+    const providersBox = document.querySelector("#admin_payment_providers");
+    if (!providersBox) {
+      return;
+    }
+    const providers = state.paymentProviders || [];
+    const current = state.payments?.provider || "manual";
+    providersBox.innerHTML = providers.map((provider) => {
+      const checked = provider.id === current ? "checked" : "";
+      const ready = provider.ready ? "" : "<span class=\"admin_payment_card_badge\">Скоро</span>";
+      return `
+        <label class="admin_payment_card${provider.ready ? "" : " is-stub"}">
+          <input type="radio" name="admin_payment_provider" value="${escapeHtml(provider.id)}" ${checked} />
+          <span class="admin_payment_card_inner">
+            <span class="admin_payment_card_title">${escapeHtml(provider.label)}${ready}</span>
+            <span class="admin_payment_card_desc">${escapeHtml(provider.description)}</span>
+          </span>
+        </label>
+      `;
+    }).join("");
+
+    const payments = state.payments || {};
+    const map = {
+      "#admin_payment_shop": payments.shopId || "",
+      "#admin_payment_public": payments.publicKey || "",
+      "#admin_payment_return": payments.returnUrl || "",
+      "#admin_payment_webhook": payments.webhookUrl || "",
+      "#admin_payment_description": payments.description || ""
+    };
+    Object.entries(map).forEach(([selector, value]) => {
+      const el = document.querySelector(selector);
+      if (el) {
+        el.value = value;
+      }
+    });
+    const secretField = document.querySelector("#admin_payment_secret");
+    if (secretField) {
+      secretField.value = "";
+      secretField.placeholder = payments.secretKey ? "•••••••• — оставьте пустым, чтобы не менять" : "Секретный ключ провайдера";
+    }
+    const test = document.querySelector("#admin_payment_test");
+    if (test) {
+      test.checked = Boolean(payments.testMode);
+    }
+  }
+
+  async function savePayments(event) {
+    event?.preventDefault?.();
+    const status = document.querySelector("#admin_payment_status");
+    const provider = document.querySelector("input[name=\"admin_payment_provider\"]:checked")?.value || "manual";
+    const payload = {
+      provider,
+      testMode: Boolean(document.querySelector("#admin_payment_test")?.checked),
+      shopId: document.querySelector("#admin_payment_shop")?.value || "",
+      publicKey: document.querySelector("#admin_payment_public")?.value || "",
+      secretKey: document.querySelector("#admin_payment_secret")?.value || "",
+      returnUrl: document.querySelector("#admin_payment_return")?.value || "",
+      webhookUrl: document.querySelector("#admin_payment_webhook")?.value || "",
+      description: document.querySelector("#admin_payment_description")?.value || ""
+    };
+    setAdminFormStatus(status, "", "");
+    try {
+      const response = await authorizedJSON("POST", "/admin/payments", payload);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || `Ошибка сохранения (${response.status}).`);
+      }
+      state.payments = data.payments || state.payments;
+      renderPayments();
+      setAdminFormStatus(status, "Настройки оплаты сохранены.", "success");
+    } catch (error) {
+      setAdminFormStatus(status, error.message || "Не удалось сохранить.", "error");
+    }
+  }
+
+  function attachIntegrationEvents() {
+    document.querySelector("#admin_integrations_save")?.addEventListener("click", saveIntegrations);
+    document.querySelector("#admin_integrations_grid")?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-integration-test]");
+      if (!button) {
+        return;
+      }
+      const card = button.closest("[data-integration-category]");
+      const statusEl = card?.querySelector("[data-integration-test-status]");
+      const category = card?.dataset?.integrationCategory;
+      void testIntegration(category, button, statusEl);
+    });
+    document.querySelector("#admin_payments_form")?.addEventListener("submit", savePayments);
+    document.querySelector("#admin_payment_providers")?.addEventListener("change", () => {
+      // Если выбрали ручную выдачу — поля становятся опциональными.
     });
   }
 
