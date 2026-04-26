@@ -28,3 +28,5 @@ Thumbs.db
 
 # Скриншоты для аудита (служебные)
 __*.html
+data/
+backend/data/integrations.json

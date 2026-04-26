@@ -226,6 +226,45 @@ func (s *OrderService) Update(ctx context.Context, id string, update domain.Orde
 	return order, nil
 }
 
+// MarkPaid вызывается из webhook'а платежной системы после того, как
+// backend ПОВТОРНО подтвердил статус платежа через API провайдера.
+// Заказ переводится в "issued", автоматически срабатывает webhook
+// плагина (как при ручной выдаче). Идемпотентно: повторный вызов не
+// дублирует webhook (статус уже issued — repository вернёт ту же запись
+// с тем же значением).
+func (s *OrderService) MarkPaid(ctx context.Context, id string, verification domain.PaymentVerification) error {
+	orderID := strings.TrimSpace(id)
+	if orderID == "" || !orderIDPattern.MatchString(orderID) {
+		return domain.NewBadRequest("Некорректный номер заказа.")
+	}
+
+	current, err := s.repository.GetByID(ctx, orderID)
+	if err != nil {
+		return err
+	}
+	if current.Status == "issued" {
+		// Идемпотентность: уже выдан, ничего не делаем.
+		return nil
+	}
+
+	update := domain.OrderStatusUpdate{
+		Status:      "issued",
+		StatusLabel: orderStatusLabels["issued"],
+		AdminNote:   fmt.Sprintf("Автовыдача после оплаты %s (paymentId=%s)", verification.Provider, verification.PaymentID),
+	}
+
+	handledBy := fmt.Sprintf("payment:%s", verification.Provider)
+	order, err := s.repository.Update(ctx, orderID, update, handledBy)
+	if err != nil {
+		return err
+	}
+
+	if s.dispatcher != nil {
+		go s.dispatcher.DispatchOrderIssued(context.Background(), order)
+	}
+	return nil
+}
+
 func (s *OrderService) resolveItemAndPeriod(productSlug, periodCode string) (domain.CatalogItem, domain.PeriodOption, error) {
 	slug := strings.TrimSpace(productSlug)
 	if slug == "" {

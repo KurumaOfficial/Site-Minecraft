@@ -12983,3 +12983,365 @@ body[data-page="home"] .page-section[data-page="home"] .item_features ul {
   font-size: 13px !important;
   color: #fff5d8 !important;
 }
+
+/* =====================================================================
+   FINAL AUDIT PASS — fullscreen admin + gate cleanup (2026-04-26 v2)
+   ===================================================================== */
+
+/* 1. Прячем декоративные карточки гейта — login полностью идёт через модалку. */
+#admin_gate_shell,
+.admin_gate_shell {
+  display: none !important;
+}
+
+/* 2. Полноэкранная админка: внешний скролл выключен, скролл только внутри. */
+body[data-page="admin"] {
+  overflow: hidden !important;
+}
+
+body[data-page="admin"]:not(.admin-active) {
+  overflow: auto !important;
+}
+
+body.admin-active .header,
+body.admin-active .footer,
+body.admin-active .mobile_menu {
+  display: none !important;
+}
+
+body.admin-active .admin_page,
+body.admin-active .admin_page.content_margin {
+  position: fixed !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 50 !important;
+  background: #14110d !important;
+  display: flex !important;
+}
+
+body.admin-active .admin_page .container {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex: 1 1 auto !important;
+}
+
+body.admin-active .admin_shell.dash-layout {
+  display: grid !important;
+  grid-template-columns: 240px minmax(0, 1fr) !important;
+  width: 100% !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  background: #14110d !important;
+  overflow: hidden !important;
+}
+
+body.admin-active .admin_dash_sidebar {
+  position: relative !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  overflow-y: auto !important;
+  border-right: 1px solid var(--estelar-line, rgba(255, 210, 92, 0.18)) !important;
+  background: #1a1610 !important;
+  border-radius: 0 !important;
+  padding: 24px 16px !important;
+}
+
+body.admin-active .admin_dash_sidebar::-webkit-scrollbar,
+body.admin-active .admin_dash_main::-webkit-scrollbar,
+body.admin-active .dash-content::-webkit-scrollbar {
+  width: 8px;
+}
+body.admin-active .admin_dash_sidebar::-webkit-scrollbar-thumb,
+body.admin-active .admin_dash_main::-webkit-scrollbar-thumb,
+body.admin-active .dash-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 210, 92, 0.25);
+  border-radius: 999px;
+}
+
+body.admin-active .admin_dash_main {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  background: #14110d !important;
+}
+
+body.admin-active .admin_dash_header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5 !important;
+  flex: 0 0 auto !important;
+  padding: 18px 28px !important;
+  background: rgba(20, 17, 13, 0.95) !important;
+  border-bottom: 1px solid var(--estelar-line, rgba(255, 210, 92, 0.18)) !important;
+  backdrop-filter: blur(8px) !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+body.admin-active .admin_dash_header .dash-header-title {
+  font-size: 22px !important;
+  margin: 0 !important;
+  letter-spacing: 0.02em !important;
+}
+
+body.admin-active .admin_dash_header .section-label {
+  font-size: 10px !important;
+  color: var(--estelar-muted, #b8b09c) !important;
+  letter-spacing: 0.12em !important;
+}
+
+body.admin-active .admin_status_chip {
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  background: rgba(255, 210, 92, 0.1) !important;
+  border: 1px solid rgba(255, 210, 92, 0.25) !important;
+  color: #ffe09c !important;
+}
+
+body.admin-active .admin_dash_actions {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+body.admin-active .admin_dash_actions .dash-btn {
+  padding: 8px 14px !important;
+  font-size: 12px !important;
+  border-radius: 8px !important;
+}
+
+body.admin-active .admin_dash_content,
+body.admin-active .dash-content {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 24px 28px 40px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body.admin-active .dash-view {
+  margin: 0 !important;
+}
+
+body.admin-active .admin_identity_card {
+  background: rgba(28, 25, 22, 0.7) !important;
+  border: 1px solid var(--estelar-line, rgba(255, 210, 92, 0.18)) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  margin: 16px 0 !important;
+}
+
+body.admin-active .dash-nav-link {
+  border-radius: 10px !important;
+}
+
+body.admin-active .dash-nav-link.active {
+  background: rgba(255, 210, 92, 0.12) !important;
+  border-color: rgba(255, 210, 92, 0.45) !important;
+  color: #ffe09c !important;
+}
+
+body.admin-active .dash-sidebar-footer {
+  font-size: 11px !important;
+  color: var(--estelar-muted, #b8b09c) !important;
+  margin-top: auto !important;
+  padding-top: 16px !important;
+}
+
+@media (max-width: 900px) {
+  body.admin-active .admin_shell.dash-layout {
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+  }
+  body.admin-active .admin_dash_sidebar {
+    padding: 16px 8px !important;
+  }
+  body.admin-active .dash-brand-copy,
+  body.admin-active .dash-nav-section,
+  body.admin-active .dash-nav-label,
+  body.admin-active .admin_identity_card,
+  body.admin-active .dash-sidebar-footer {
+    display: none !important;
+  }
+  body.admin-active .dash-nav-link {
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+  body.admin-active .admin_dash_header {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-rows: auto auto !important;
+    padding: 12px 16px !important;
+  }
+  body.admin-active .admin_status_chip {
+    grid-row: 2 !important;
+    grid-column: 1 / -1 !important;
+    justify-self: start !important;
+  }
+  body.admin-active .admin_dash_content,
+  body.admin-active .dash-content {
+    padding: 16px !important;
+  }
+}
+
+/* =====================================================================
+   GLOBAL PALETTE UNIFICATION — public site to gold/amber (2026-04-26 v3)
+   Overrides legacy pink/red accents on the public catalogue + modals.
+   ===================================================================== */
+:root {
+  --site-accent: #ffd25c !important;
+  --site-accent-soft: #ffb547 !important;
+  --site-line: rgba(255, 210, 92, 0.18) !important;
+  --site-line-strong: rgba(255, 181, 71, 0.32) !important;
+}
+
+/* Кнопки и активные элементы публичной части — золото вместо розового */
+.main button,
+.action button,
+.modal_action button,
+.box_light button,
+.item_info .item_action button,
+.servers_list .btn,
+.payment_method_list label.active,
+.buy_item button,
+.admin_auth_action button,
+.btn_buy,
+.action button[type="submit"] {
+  background: linear-gradient(180deg, #ffd25c 0%, #f3a93a 100%) !important;
+  color: #1a1610 !important;
+  border: 1px solid rgba(255, 181, 71, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(255, 181, 71, 0.18) !important;
+  transition: filter 0.18s ease, transform 0.18s ease !important;
+}
+
+.main button:hover,
+.action button:hover,
+.modal_action button:hover,
+.box_light button:hover,
+.item_info .item_action button:hover,
+.buy_item button:hover,
+.admin_auth_action button:hover,
+.btn_buy:hover,
+.action button[type="submit"]:hover {
+  filter: brightness(1.05) !important;
+  transform: translateY(-1px) !important;
+}
+
+.modal_close,
+.close_bModal {
+  color: rgba(255, 224, 156, 0.85) !important;
+}
+
+.modal_close:hover,
+.close_bModal:hover {
+  color: #ffd25c !important;
+}
+
+/* Модалки на сайте — единая dark+gold рамка */
+.item_modal {
+  background: rgba(8, 6, 4, 0.78) !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+.item_modal .buy_item,
+.item_modal .box_light {
+  background: linear-gradient(180deg, #1f1a14 0%, #14110d 100%) !important;
+  border: 1px solid rgba(255, 210, 92, 0.22) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 210, 92, 0.06) inset !important;
+  border-radius: 14px !important;
+}
+
+.modal_title,
+.buy_item .name,
+.item_modal .name {
+  color: #ffe09c !important;
+}
+
+.modal_title span,
+.buy_item .name span {
+  color: #ffd25c !important;
+}
+
+.admin_auth_text,
+.buy_item p,
+.item_modal p {
+  color: rgba(255, 240, 210, 0.78) !important;
+}
+
+.form_status {
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  border: 1px solid rgba(255, 181, 71, 0.32) !important;
+  background: rgba(255, 210, 92, 0.06) !important;
+  color: #ffe09c !important;
+}
+
+.form_status.error {
+  border-color: rgba(255, 105, 95, 0.45) !important;
+  background: rgba(255, 105, 95, 0.08) !important;
+  color: #ffb4a8 !important;
+}
+
+.form_status.success {
+  border-color: rgba(122, 220, 128, 0.45) !important;
+  background: rgba(122, 220, 128, 0.08) !important;
+  color: #b6f1bd !important;
+}
+
+/* Старые розовые радиальные градиенты — заменяем на тёплые золотые */
+body::before {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 210, 92, 0.10), transparent 28%),
+    radial-gradient(circle at 86% 16%, rgba(255, 181, 71, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(6, 5, 7, 0.05), rgba(6, 5, 7, 0.32)) !important;
+}
+
+/* Текстовые ссылки и подчёркивания — золото */
+a {
+  color: #ffd25c;
+}
+a:hover {
+  color: #ffe09c;
+}
+
+/* Фокус — янтарный */
+*:focus-visible {
+  outline: 2px solid rgba(255, 210, 92, 0.55) !important;
+  outline-offset: 2px !important;
+}
+
+/* Старые розовые input border'ы */
+input,
+select,
+textarea {
+  border-color: rgba(255, 210, 92, 0.22) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(255, 210, 92, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(255, 210, 92, 0.18) !important;
+}

@@ -186,6 +186,8 @@ func New(
 	api.Post("/orders/quote", orderLimiter, orderHandler.Quote)
 	api.Post("/orders", orderLimiter, orderHandler.Create)
 	api.Get("/orders/:id", orderHandler.Get)
+	api.Post("/orders/:id/payment", orderLimiter, integrationHandler.InitPayment)
+	api.Post("/payments/yookassa/webhook", integrationHandler.YooKassaWebhook)
 
 	admin := api.Group("/admin", adminLimiter, adminHandler.RequireAdmin)
 	admin.Get("/session", adminHandler.Session)

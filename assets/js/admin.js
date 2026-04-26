@@ -505,12 +505,7 @@
     if (els.shell) {
       els.shell.hidden = true;
     }
-    if (els.intro) {
-      els.intro.style.display = "flex";
-    }
-    if (els.gate) {
-      els.gate.style.display = "block";
-    }
+    document.body.classList.remove("admin-active");
     if (restorePublicPage) {
       navigateToPage(getReturnPage(), true);
     }
@@ -518,15 +513,10 @@
 
   function showAdminShell() {
     state.publicPageBeforeAdmin = currentVisiblePublicPage();
-    if (els.intro) {
-      els.intro.style.display = "none";
-    }
-    if (els.gate) {
-      els.gate.style.display = "none";
-    }
     if (els.shell) {
       els.shell.hidden = false;
     }
+    document.body.classList.add("admin-active");
     navigateToPage("admin", true);
     setAdminView(state.activeView || "overview");
     renderAdminIdentity();

@@ -240,29 +240,54 @@ func (s *IntegrationService) deliver(ctx context.Context, endpoint domain.Integr
 	return resp, nil
 }
 
-// InitPayment возвращает заготовку платежа. Реальные провайдеры будут
-// подключены позже — сейчас все запросы возвращают ручной режим.
-func (s *IntegrationService) InitPayment(order domain.Order) domain.PaymentInitResponse {
-	provider := s.Payments().Provider
+// InitPayment запускает оплату для существующего заказа. Поддерживается:
+//   - manual:    ручная очередь, заявка падает к админу — ничего внешнего
+//   - yookassa:  реальный POST /v3/payments в YooKassa, возврат
+//                confirmation_url (редирект пользователя на форму оплаты)
+//
+// Остальные провайдеры (cloudpayments/lava/tinkoff) ещё не подключены к
+// внешним API и принудительно отдают ошибку — никаких "тихих" заглушек.
+func (s *IntegrationService) InitPayment(ctx context.Context, order domain.Order) (domain.PaymentInitResponse, error) {
+	settings := s.Payments()
+	provider := settings.Provider
 	if provider == "" {
 		provider = domain.PaymentProviderManual
 	}
 
-	if provider == domain.PaymentProviderManual {
+	switch provider {
+	case domain.PaymentProviderManual:
 		return domain.PaymentInitResponse{
 			Provider: provider,
 			OrderID:  order.ID,
 			Manual:   true,
 			Message:  "Ручная выдача: заявка попадет в очередь администратора.",
-		}
-	}
+		}, nil
 
-	return domain.PaymentInitResponse{
-		Provider:    provider,
-		OrderID:     order.ID,
-		Manual:      true,
-		Message:     fmt.Sprintf("Платёжный провайдер %q пока в режиме заготовки. Заявка будет обработана вручную.", provider),
-		RedirectURL: "",
+	case domain.PaymentProviderYooKassa:
+		if order.FinalPrice <= 0 {
+			return domain.PaymentInitResponse{
+				Provider: provider,
+				OrderID:  order.ID,
+				Manual:   true,
+				Message:  "Сумма заказа равна нулю — оплата не требуется, заявка пойдет в ручную очередь.",
+			}, nil
+		}
+		paymentID, redirect, err := s.createYooKassaPayment(ctx, order, settings)
+		if err != nil {
+			return domain.PaymentInitResponse{}, err
+		}
+		return domain.PaymentInitResponse{
+			Provider:    provider,
+			OrderID:     order.ID,
+			PaymentID:   paymentID,
+			RedirectURL: redirect,
+			Manual:      false,
+			Message:     "Оплата ЮKassa: пользователя нужно перенаправить на redirectUrl.",
+		}, nil
+
+	default:
+		return domain.PaymentInitResponse{}, domain.NewBadRequest(
+			fmt.Sprintf("Провайдер %q ещё не подключён. Выберите 'manual' или 'yookassa' в настройках.", provider))
 	}
 }
 
@@ -314,16 +339,12 @@ func normalizeEndpoint(input domain.IntegrationEndpoint, current domain.Integrat
 func normalizePayments(input domain.PaymentSettingsInput, current domain.PaymentSettings) (domain.PaymentSettings, error) {
 	provider := strings.TrimSpace(strings.ToLower(string(input.Provider)))
 	switch domain.PaymentProviderID(provider) {
-	case domain.PaymentProviderManual,
-		domain.PaymentProviderYooKassa,
-		domain.PaymentProviderCloudPayments,
-		domain.PaymentProviderLava,
-		domain.PaymentProviderTinkoff:
+	case domain.PaymentProviderManual, domain.PaymentProviderYooKassa:
 		// ok
 	case "":
 		provider = string(domain.PaymentProviderManual)
 	default:
-		return domain.PaymentSettings{}, domain.NewBadRequest("Неизвестный платёжный провайдер.")
+		return domain.PaymentSettings{}, domain.NewBadRequest("Поддерживаются только провайдеры 'manual' и 'yookassa'.")
 	}
 
 	settings := domain.PaymentSettings{

@@ -46,11 +46,8 @@ type IntegrationTestResult struct {
 type PaymentProviderID string
 
 const (
-	PaymentProviderManual       PaymentProviderID = "manual"
-	PaymentProviderYooKassa     PaymentProviderID = "yookassa"
-	PaymentProviderCloudPayments PaymentProviderID = "cloudpayments"
-	PaymentProviderLava         PaymentProviderID = "lava"
-	PaymentProviderTinkoff      PaymentProviderID = "tinkoff"
+	PaymentProviderManual   PaymentProviderID = "manual"
+	PaymentProviderYooKassa PaymentProviderID = "yookassa"
 )
 
 // PaymentSettings — настройки платёжной системы. Заготовка: пока активным
@@ -80,11 +77,27 @@ type PaymentSettingsInput struct {
 	Description string            `json:"description"`
 }
 
-// PaymentInitResponse — заготовка ответа на инициацию платежа.
+// PaymentInitResponse — ответ на инициацию платежа.
+//   - Manual = true: ручная очередь (заявка попадает к админу)
+//   - RedirectURL не пустой: фронт делает window.location = redirectUrl
+//   - PaymentID: идентификатор платежа в провайдере (для аудита)
 type PaymentInitResponse struct {
 	Provider    PaymentProviderID `json:"provider"`
 	OrderID     string            `json:"orderId"`
+	PaymentID   string            `json:"paymentId,omitempty"`
 	RedirectURL string            `json:"redirectUrl,omitempty"`
 	Manual      bool              `json:"manual"`
 	Message     string            `json:"message"`
+}
+
+// PaymentVerification — результат повторной проверки платежа в API
+// провайдера. Backend использует его для подтверждения подлинности
+// webhook'а от платежной системы.
+type PaymentVerification struct {
+	Provider  PaymentProviderID `json:"provider"`
+	PaymentID string            `json:"paymentId"`
+	OrderID   string            `json:"orderId"`
+	Status    string            `json:"status"`
+	Paid      bool              `json:"paid"`
+	FetchedAt time.Time         `json:"fetchedAt"`
 }

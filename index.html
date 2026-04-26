@@ -296,37 +296,15 @@
     <section class="page-section" data-page="admin">
       <div class="admin_page content_margin">
         <div class="container">
-          <div class="admin_gate_shell" id="admin_gate_shell">
-            <article class="admin_intro dash-card" id="admin_intro">
-              <div class="dash-card-head">
-                <div class="dash-card-head-copy">
-                  <div class="dash-card-head-title">ESTELAR.SU ADMIN</div>
-                  <div class="dash-card-head-sub">Товары, заявки, промокоды и контакты в одной панели.</div>
-                </div>
-              </div>
-              <div class="dash-card-body">
-                <p class="desc" id="admin_intro_text">
-                  Откройте доступ скрытой комбинацией и подтвердите вход через Discord.
-                </p>
-                <div class="admin_intro_status" id="admin_intro_status">Ожидает разблокировку</div>
-              </div>
-            </article>
-
-            <article class="admin_gate dash-card" id="admin_gate">
-              <div class="dash-card-head">
-                <div class="dash-card-head-copy">
-                  <div class="dash-card-head-title">Вход в админ-панель</div>
-                  <div class="dash-card-head-sub" id="admin_gate_text">Сначала комбинация, затем вход через Discord-аккаунт с доступом.</div>
-                </div>
-              </div>
-              <div class="dash-card-body">
-                <div class="admin_gate_actions">
-                  <button id="admin_discord_login" type="button">Войти через Discord</button>
-                  <button class="secondary" hidden id="admin_logout_button" type="button">Выйти</button>
-                </div>
-                <div class="admin_status" id="admin_status">Шаг 1 из 2: введите комбинацию → → ← ←</div>
-              </div>
-            </article>
+          <div class="admin_gate_shell" hidden id="admin_gate_shell">
+            <span hidden id="admin_intro"></span>
+            <span hidden id="admin_intro_text"></span>
+            <span hidden id="admin_intro_status"></span>
+            <span hidden id="admin_gate"></span>
+            <span hidden id="admin_gate_text"></span>
+            <button hidden id="admin_discord_login" type="button"></button>
+            <button hidden id="admin_logout_button" type="button"></button>
+            <span hidden id="admin_status"></span>
           </div>
 
           <div class="admin_shell dash-layout" hidden id="admin_shell">
@@ -627,13 +605,14 @@
                           <div class="dash-card-head-title">Автоматическая выдача</div>
                           <div class="dash-card-head-sub">Когда заказ переводится в статус «Выдан», сервер вызывает указанный webhook вашего Minecraft-плагина. Если плагин ответит 2xx — заказ помечается доставленным автоматически, иначе остаётся в очереди ручной выдачи.</div>
                         </div>
+                        <a class="dash-btn secondary admin_docs_link" href="https://github.com/KurumaOfficial/Site-Minecraft/blob/main/docs/API.md" rel="noopener" target="_blank">Открыть API-документацию</a>
                       </div>
                       <div class="dash-card-body admin_integration_secret">
                         <label class="admin_field">
                           <span>Общий секрет webhook (HMAC-SHA256)</span>
                           <input id="admin_integration_secret" placeholder="Сгенерируйте длинную строку 32+ символов" type="text" autocomplete="off" />
                         </label>
-                        <p class="admin_hint">Сервер подписывает каждый исходящий webhook заголовком <code>X-ESTELAR-Signature</code>. Тот же секрет настройте в плагине, чтобы проверять подлинность.</p>
+                        <p class="admin_hint">Сервер подписывает каждый исходящий webhook заголовком <code>X-ESTELAR-Signature</code>. Тот же секрет настройте в плагине, чтобы проверять подлинность. Полное описание формата запроса — в <a href="https://github.com/KurumaOfficial/Site-Minecraft/blob/main/docs/API.md#webhookи-в-плагин-minecraft" rel="noopener" target="_blank">API.md</a>.</p>
                       </div>
                     </article>
 
