@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API · ESTELAR.SU</title>
+    <link rel="icon" href="/assets/images/favicon.png" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f0d0a;
+        --panel: #181410;
+        --panel-2: #1f1a13;
+        --text: #f4ead4;
+        --muted: #a8a08a;
+        --gold: #ffd25c;
+        --gold-strong: #f3a93a;
+        --border: rgba(255, 210, 92, 0.16);
+        --code-bg: #110e0a;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif; }
+      header.topbar {
+        position: sticky; top: 0; z-index: 10;
+        background: rgba(15,13,10,0.92); backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 28px; display: flex; align-items: center; gap: 18px;
+      }
+      header.topbar .brand { font-weight: 700; letter-spacing: 0.04em; color: var(--gold); }
+      header.topbar a { color: var(--muted); text-decoration: none; font-size: 13px; }
+      header.topbar a:hover { color: var(--text); }
+      .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 0; }
+      aside.toc {
+        position: sticky; top: 60px; align-self: start;
+        max-height: calc(100vh - 60px); overflow-y: auto;
+        padding: 24px 16px; border-right: 1px solid var(--border);
+      }
+      aside.toc h4 { color: var(--gold); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; margin: 0 0 10px; }
+      aside.toc a { display: block; padding: 5px 0; color: var(--muted); text-decoration: none; font-size: 13px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 10px; }
+      aside.toc a:hover { color: var(--text); }
+      aside.toc a.active { color: var(--gold); border-left-color: var(--gold); }
+      aside.toc a.l3 { padding-left: 22px; font-size: 12px; opacity: 0.85; }
+      main.doc { padding: 32px 40px; min-width: 0; }
+      main.doc h1 { color: var(--gold); margin-top: 0; font-size: 28px; }
+      main.doc h2 { color: var(--gold); margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 22px; }
+      main.doc h3 { color: var(--gold-strong); margin-top: 28px; font-size: 17px; }
+      main.doc h4 { color: var(--text); font-size: 15px; }
+      main.doc p, main.doc li { color: var(--text); }
+      main.doc a { color: var(--gold); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      main.doc code { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace; background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #ffe6a6; }
+      main.doc pre { background: var(--code-bg); border: 1px solid var(--border); padding: 14px 16px; border-radius: 10px; overflow-x: auto; }
+      main.doc pre code { background: transparent; padding: 0; color: var(--text); font-size: 13px; line-height: 1.55; }
+      main.doc table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+      main.doc th, main.doc td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+      main.doc th { background: var(--panel-2); color: var(--gold); }
+      main.doc blockquote { border-left: 3px solid var(--gold); margin: 16px 0; padding: 6px 14px; color: var(--muted); background: var(--panel); border-radius: 0 8px 8px 0; }
+      main.doc hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+      @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr; }
+        aside.toc { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--border); }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="brand">ESTELAR.SU API</span>
+      <span style="color: var(--muted); font-size: 13px;">Документация интеграции</span>
+      <span style="margin-left: auto;"><a href="/admin">← Вернуться в админ-панель</a></span>
+    </header>
+    <div class="layout">
+      <aside class="toc" id="toc"></aside>
+      <main class="doc" id="doc">Загружаем документацию…</main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      (async () => {
+        const docEl = document.getElementById("doc");
+        const tocEl = document.getElementById("toc");
+        try {
+          const md = await fetch("/api/v1/docs/api", { cache: "no-store" }).then(r => r.text());
+          marked.setOptions({ gfm: true, breaks: false, headerIds: true });
+          const html = marked.parse(md);
+          docEl.innerHTML = html;
+          // Build TOC from h2/h3 headings
+          const headings = docEl.querySelectorAll("h2, h3");
+          const toc = ["<h4>Содержание</h4>"];
+          headings.forEach(h => {
+            const id = h.id || h.textContent.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9а-я-]/gi, "");
+            h.id = id;
+            const cls = h.tagName === "H3" ? "l3" : "";
+            toc.push(`<a href="#${id}" class="${cls}">${h.textContent}</a>`);
+          });
+          tocEl.innerHTML = toc.join("");
+          // Active TOC tracking
+          const links = tocEl.querySelectorAll("a");
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+              if (e.isIntersecting) {
+                links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === `#${e.target.id}`));
+              }
+            });
+          }, { rootMargin: "-30% 0px -60% 0px" });
+          headings.forEach(h => observer.observe(h));
+        } catch (err) {
+          docEl.innerHTML = `<p style="color: #ff8a65;">Не удалось загрузить документацию: ${err.message}</p>`;
+        }
+      })();
+    </script>
+  </body>
+</html>

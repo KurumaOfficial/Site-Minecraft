@@ -148,13 +148,36 @@ func paymentProviderCatalog() []fiber.Map {
 			"id":          domain.PaymentProviderManual,
 			"label":       "Ручная выдача",
 			"ready":       true,
+			"requires":    []string{},
 			"description": "Заявка попадает в очередь админ-панели. Подходит для запуска без подключённой платежной системы.",
 		},
 		{
 			"id":          domain.PaymentProviderYooKassa,
-			"label":       "ЮKassa",
+			"label":       "ЮKassa (карта)",
 			"ready":       true,
-			"description": "Реальная интеграция с YooKassa (Yandex.Pay): создание платежа, редирект покупателя на форму, webhook с проверкой статуса через API провайдера.",
+			"requires":    []string{"shopId", "secretKey", "returnUrl"},
+			"description": "Полноценная интеграция с YooKassa (Yandex.Pay): создание платежа, редирект на форму, webhook с обратной проверкой статуса через API провайдера.",
+		},
+		{
+			"id":          domain.PaymentProviderYooKassaSBP,
+			"label":       "СБП через ЮKassa",
+			"ready":       true,
+			"requires":    []string{"shopId", "secretKey", "returnUrl"},
+			"description": "Те же ключи ЮKassa, но платежи проходят через Систему Быстрых Платежей (QR-код). Покупатель платит из своего банка без ввода карты.",
+		},
+		{
+			"id":          domain.PaymentProviderDonationAlerts,
+			"label":       "DonationAlerts (по коду в комменте)",
+			"ready":       true,
+			"requires":    []string{"secretKey"},
+			"description": "Покупатель донатит на ваш аккаунт DonationAlerts и в комментарии указывает код заказа. Сервер опрашивает API DA и закрывает заказ при совпадении кода и суммы. Подходит как «easy-mode» без эквайринга.",
+		},
+		{
+			"id":          domain.PaymentProviderFunPay,
+			"label":       "FunPay (ссылка на лот)",
+			"ready":       true,
+			"requires":    []string{"returnUrl"},
+			"description": "Полу-ручной режим: после оформления заказа покупатель уходит на ваш лот FunPay (URL указывается в Return URL). После оплаты вы вручную подтверждаете заказ в админ-панели.",
 		},
 	}
 }

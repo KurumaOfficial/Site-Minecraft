@@ -58,7 +58,10 @@ type yooKassaPayment struct {
 
 // CreateYooKassaPayment создает платеж в YooKassa и возвращает URL формы
 // оплаты, на которую нужно перенаправить покупателя.
-func (s *IntegrationService) createYooKassaPayment(ctx context.Context, order domain.Order, settings domain.PaymentSettings) (string, string, error) {
+// sbp=true принудительно проводит платеж через Систему Быстрых Платежей
+// (payment_method_data.type=sbp) — покупатель оплачивает QR-кодом из
+// мобильного приложения своего банка.
+func (s *IntegrationService) createYooKassaPayment(ctx context.Context, order domain.Order, settings domain.PaymentSettings, sbp bool) (string, string, error) {
 	shopID := strings.TrimSpace(settings.ShopID)
 	secret := strings.TrimSpace(settings.SecretKey)
 	if shopID == "" || secret == "" {
@@ -96,6 +99,9 @@ func (s *IntegrationService) createYooKassaPayment(ctx context.Context, order do
 			"category":     order.Category,
 			"nickname":     order.Nickname,
 		},
+	}
+	if sbp {
+		body["payment_method_data"] = map[string]string{"type": "sbp"}
 	}
 
 	payload, err := json.Marshal(body)

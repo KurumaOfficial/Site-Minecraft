@@ -260,21 +260,26 @@ func (s *IntegrationService) InitPayment(ctx context.Context, order domain.Order
 			Provider: provider,
 			OrderID:  order.ID,
 			Manual:   true,
-			Message:  "Ручная выдача: заявка попадет в очередь администратора.",
+			Message:  "Ручная выдача: заявка попадёт в очередь администратора.",
 		}, nil
 
-	case domain.PaymentProviderYooKassa:
+	case domain.PaymentProviderYooKassa, domain.PaymentProviderYooKassaSBP:
 		if order.FinalPrice <= 0 {
 			return domain.PaymentInitResponse{
 				Provider: provider,
 				OrderID:  order.ID,
 				Manual:   true,
-				Message:  "Сумма заказа равна нулю — оплата не требуется, заявка пойдет в ручную очередь.",
+				Message:  "Сумма заказа равна нулю — оплата не требуется, заявка пойдёт в ручную очередь.",
 			}, nil
 		}
-		paymentID, redirect, err := s.createYooKassaPayment(ctx, order, settings)
+		sbp := provider == domain.PaymentProviderYooKassaSBP
+		paymentID, redirect, err := s.createYooKassaPayment(ctx, order, settings, sbp)
 		if err != nil {
 			return domain.PaymentInitResponse{}, err
+		}
+		msg := "Оплата ЮKassa: пользователя нужно перенаправить на redirectUrl."
+		if sbp {
+			msg = "Оплата СБП через ЮKassa: пользователь переходит на redirectUrl, оплачивает из своего банка через QR/СБП."
 		}
 		return domain.PaymentInitResponse{
 			Provider:    provider,
@@ -282,12 +287,32 @@ func (s *IntegrationService) InitPayment(ctx context.Context, order domain.Order
 			PaymentID:   paymentID,
 			RedirectURL: redirect,
 			Manual:      false,
-			Message:     "Оплата ЮKassa: пользователя нужно перенаправить на redirectUrl.",
+			Message:     msg,
+		}, nil
+
+	case domain.PaymentProviderFunPay:
+		if strings.TrimSpace(settings.ReturnURL) == "" {
+			return domain.PaymentInitResponse{}, domain.NewBadRequest("Ссылка на лот FunPay не настроена. Администратор должен указать URL в настройках Оплаты (Return URL).")
+		}
+		return domain.PaymentInitResponse{
+			Provider:    provider,
+			OrderID:     order.ID,
+			RedirectURL: settings.ReturnURL,
+			Manual:      false,
+			Message:     "FunPay: покупатель перейдёт на лот. После оплаты админ вручную подтверждает заказ.",
+		}, nil
+
+	case domain.PaymentProviderDonationAlerts:
+		return domain.PaymentInitResponse{
+			Provider: provider,
+			OrderID:  order.ID,
+			Manual:   false,
+			Message:  fmt.Sprintf("DonationAlerts: покупатель делает донат и в комментарии указывает код заказа: %s. Сервер регулярно опрашивает API DonationAlerts и закрывает заказ при совпадении.", order.ID),
 		}, nil
 
 	default:
 		return domain.PaymentInitResponse{}, domain.NewBadRequest(
-			fmt.Sprintf("Провайдер %q ещё не подключён. Выберите 'manual' или 'yookassa' в настройках.", provider))
+			fmt.Sprintf("Провайдер %q не поддерживается.", provider))
 	}
 }
 
@@ -339,12 +364,16 @@ func normalizeEndpoint(input domain.IntegrationEndpoint, current domain.Integrat
 func normalizePayments(input domain.PaymentSettingsInput, current domain.PaymentSettings) (domain.PaymentSettings, error) {
 	provider := strings.TrimSpace(strings.ToLower(string(input.Provider)))
 	switch domain.PaymentProviderID(provider) {
-	case domain.PaymentProviderManual, domain.PaymentProviderYooKassa:
+	case domain.PaymentProviderManual,
+		domain.PaymentProviderYooKassa,
+		domain.PaymentProviderYooKassaSBP,
+		domain.PaymentProviderDonationAlerts,
+		domain.PaymentProviderFunPay:
 		// ok
 	case "":
 		provider = string(domain.PaymentProviderManual)
 	default:
-		return domain.PaymentSettings{}, domain.NewBadRequest("Поддерживаются только провайдеры 'manual' и 'yookassa'.")
+		return domain.PaymentSettings{}, domain.NewBadRequest("Неизвестный провайдер оплаты. Доступны: manual, yookassa, yookassa_sbp, donationalerts, funpay.")
 	}
 
 	settings := domain.PaymentSettings{
@@ -368,9 +397,18 @@ func normalizePayments(input domain.PaymentSettingsInput, current domain.Payment
 		}
 	}
 
-	if settings.Provider != domain.PaymentProviderManual {
+	switch settings.Provider {
+	case domain.PaymentProviderYooKassa, domain.PaymentProviderYooKassaSBP:
 		if settings.ShopID == "" {
-			return domain.PaymentSettings{}, domain.NewBadRequest("Для выбранного провайдера нужен Shop ID.")
+			return domain.PaymentSettings{}, domain.NewBadRequest("Для ЮKassa нужен Shop ID.")
+		}
+	case domain.PaymentProviderDonationAlerts:
+		if settings.SecretKey == "" {
+			return domain.PaymentSettings{}, domain.NewBadRequest("Для DonationAlerts укажите Access Token (Secret Key).")
+		}
+	case domain.PaymentProviderFunPay:
+		if settings.ReturnURL == "" {
+			return domain.PaymentSettings{}, domain.NewBadRequest("Для FunPay укажите ссылку на лот (поле Return URL).")
 		}
 	}
 

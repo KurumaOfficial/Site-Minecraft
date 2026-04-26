@@ -46,8 +46,11 @@ type IntegrationTestResult struct {
 type PaymentProviderID string
 
 const (
-	PaymentProviderManual   PaymentProviderID = "manual"
-	PaymentProviderYooKassa PaymentProviderID = "yookassa"
+	PaymentProviderManual         PaymentProviderID = "manual"
+	PaymentProviderYooKassa       PaymentProviderID = "yookassa"
+	PaymentProviderYooKassaSBP    PaymentProviderID = "yookassa_sbp"
+	PaymentProviderDonationAlerts PaymentProviderID = "donationalerts"
+	PaymentProviderFunPay         PaymentProviderID = "funpay"
 )
 
 // PaymentSettings — настройки платёжной системы. Заготовка: пока активным

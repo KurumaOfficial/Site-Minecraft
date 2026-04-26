@@ -215,6 +215,17 @@ func New(
 	indexPath := filepath.Join(cfg.StaticDir, "index.html")
 	offerPath := filepath.Join(cfg.StaticDir, "oferta.html")
 	privacyPath := filepath.Join(cfg.StaticDir, "privacy.html")
+	apiDocsPath := filepath.Join(cfg.StaticDir, "docs", "API.md")
+	apiDocsHTMLPath := filepath.Join(cfg.StaticDir, "docs", "api-docs.html")
+	app.Get("/admin/api-docs", func(c *fiber.Ctx) error {
+		c.Set(fiber.HeaderCacheControl, "no-store")
+		return c.SendFile(apiDocsHTMLPath)
+	})
+	app.Get("/api/v1/docs/api", func(c *fiber.Ctx) error {
+		c.Set(fiber.HeaderCacheControl, "public, max-age=300")
+		c.Set(fiber.HeaderContentType, "text/markdown; charset=utf-8")
+		return c.SendFile(apiDocsPath)
+	})
 	app.Get("/", func(c *fiber.Ctx) error {
 		c.Set(fiber.HeaderCacheControl, "no-store")
 		return c.SendFile(indexPath)

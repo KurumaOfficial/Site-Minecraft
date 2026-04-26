@@ -30,7 +30,8 @@
     payments: null,
     paymentProviders: [],
     integrationsLoaded: false,
-    integrationsLoading: false
+    integrationsLoading: false,
+    apiDocsLoaded: false
   };
 
   const els = {
@@ -565,45 +566,26 @@
   function getAdminViewMeta(view) {
     switch (view) {
       case "orders":
-        return {
-          title: "Заказы",
-          subtitle: "Очередь заявок, быстрый поиск и смена статуса."
-        };
+        return { title: "Заказы" };
       case "catalog":
-        return {
-          title: "Каталог",
-          subtitle: "Редактирование названий, цен, описаний и активности товаров."
-        };
+        return { title: "Каталог" };
       case "promos":
-        return {
-          title: "Промокоды",
-          subtitle: "Скидки, лимиты и актуальный статус каждого кода."
-        };
+        return { title: "Промокоды" };
       case "contacts":
-        return {
-          title: "Контакты",
-          subtitle: "Ссылки кнопок, Telegram, Discord и почта публичной страницы."
-        };
+        return { title: "Контакты" };
       case "integrations":
-        return {
-          title: "API интеграции",
-          subtitle: "Webhook'и для автоматической выдачи привилегий, кейсов и валюты."
-        };
+        return { title: "API" };
       case "payments":
-        return {
-          title: "Оплата",
-          subtitle: "Выбор платёжной системы и ключи провайдера."
-        };
+        return { title: "Оплата" };
+      case "apidocs":
+        return { title: "Документация" };
       default:
-        return {
-          title: "Аналитика",
-          subtitle: "Просмотры сайта, переходы по страницам и сводка по магазину."
-        };
+        return { title: "Аналитика" };
     }
   }
 
   function setAdminView(view) {
-    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts", "integrations", "payments"]);
+    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts", "integrations", "payments", "apidocs"]);
     const normalized = allowedViews.has(view) ? view : "overview";
     state.activeView = normalized;
 
@@ -620,12 +602,15 @@
       els.viewTitle.textContent = copy.title;
     }
     if (els.viewSubtitle) {
-      els.viewSubtitle.textContent = copy.subtitle || "";
-      els.viewSubtitle.hidden = !copy.subtitle;
+      els.viewSubtitle.textContent = "";
+      els.viewSubtitle.hidden = true;
     }
 
     if ((normalized === "integrations" || normalized === "payments") && state.session && !state.integrationsLoading) {
       void loadIntegrations();
+    }
+    if (normalized === "apidocs" && !state.apiDocsLoaded) {
+      void loadApiDocs();
     }
   }
 
@@ -1817,6 +1802,7 @@
       state.integrationsLoaded = true;
       renderIntegrations();
       renderPayments();
+      renderIntegrationPresets();
     } catch (error) {
       setAdminFormStatus(els.integrationsStatus, error.message || "Ошибка загрузки.", "error");
     } finally {
@@ -1965,18 +1951,19 @@
     const providers = state.paymentProviders || [];
     const current = state.payments?.provider || "manual";
     providersBox.innerHTML = providers.map((provider) => {
-      const checked = provider.id === current ? "checked" : "";
-      const ready = provider.ready ? "" : "<span class=\"admin_payment_card_badge\">Скоро</span>";
+      const isActive = provider.id === current;
+      const badge = provider.ready
+        ? "<span class=\"badge_ready\">Готов</span>"
+        : "<span class=\"badge_ready badge_pending\">Скоро</span>";
       return `
-        <label class="admin_payment_card${provider.ready ? "" : " is-stub"}">
-          <input type="radio" name="admin_payment_provider" value="${escapeHtml(provider.id)}" ${checked} />
-          <span class="admin_payment_card_inner">
-            <span class="admin_payment_card_title">${escapeHtml(provider.label)}${ready}</span>
-            <span class="admin_payment_card_desc">${escapeHtml(provider.description)}</span>
-          </span>
+        <label class="admin_payment_provider${isActive ? " is-active" : ""}${provider.ready ? "" : " is-stub"}">
+          <input type="radio" name="admin_payment_provider" value="${escapeHtml(provider.id)}" ${isActive ? "checked" : ""} style="position:absolute;opacity:0;pointer-events:none;" />
+          <span class="label">${escapeHtml(provider.label)} ${badge}</span>
+          <span class="description">${escapeHtml(provider.description)}</span>
         </label>
       `;
     }).join("");
+
 
     const payments = state.payments || {};
     const map = {
@@ -2028,6 +2015,91 @@
     }
   }
 
+  const INTEGRATION_PRESETS = [
+    {
+      name: "LuckPerms",
+      meta: "Самый популярный плагин прав/привилегий. Подходит для выдачи группы на N дней.",
+      command: "lp user %nickname% parent addtemp %group% %duration%",
+      params: "%group% — например, vip / premium / deluxe; %duration% — 30d / 90d / 365d / forever."
+    },
+    {
+      name: "EssentialsX",
+      meta: "Лёгкая альтернатива. Через PermissionsEx-совместимый бэкенд.",
+      command: "manuadd %nickname% %group%",
+      params: "Постоянная выдача группы. Для срока используйте scheduler/cron на стороне сервера."
+    },
+    {
+      name: "CMI",
+      meta: "Платный комплекс «всё в одном». Команда выдачи группы.",
+      command: "cmi group set %nickname% %group% %duration%",
+      params: "%duration% — `forever` или количество секунд (например, 2592000 = 30 дней)."
+    },
+    {
+      name: "GroupManager",
+      meta: "Старый, но всё ещё используемый плагин прав.",
+      command: "manuadd %nickname% %group%",
+      params: "Постоянная выдача. Для удаления — `manudel %nickname%`."
+    },
+    {
+      name: "Кастомный плагин",
+      meta: "Любой свой плагин/скрипт. Сервер шлёт HTTP webhook с HMAC-подписью.",
+      command: "POST {webhook_url}\\nX-ESTELAR-Signature: sha256={hex}\\n{\"event\":\"order.issued\",\"nickname\":\"...\",\"productSlug\":\"vip\",\"category\":\"privilege\"}",
+      params: "Полный контракт — на вкладке «Документация»."
+    }
+  ];
+
+  function renderIntegrationPresets() {
+    const container = document.querySelector("#admin_integration_presets");
+    if (!container) {
+      return;
+    }
+    container.innerHTML = INTEGRATION_PRESETS.map((preset) => `
+      <div class="admin_preset_card">
+        <div class="name">${escapeHtml(preset.name)}</div>
+        <div class="meta">${escapeHtml(preset.meta)}</div>
+        <pre><code>${escapeHtml(preset.command)}</code></pre>
+        <div class="meta">${escapeHtml(preset.params)}</div>
+      </div>
+    `).join("");
+  }
+
+  async function loadApiDocs() {
+    const target = document.querySelector("#admin_apidocs_body");
+    if (!target) {
+      return;
+    }
+    if (state.apiDocsLoaded) {
+      return;
+    }
+    target.textContent = "Загружаем документацию…";
+    try {
+      const response = await fetch("/api/v1/docs/api", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      const md = await response.text();
+      await ensureMarkedLoaded();
+      target.innerHTML = window.marked ? window.marked.parse(md) : `<pre>${escapeHtml(md)}</pre>`;
+      state.apiDocsLoaded = true;
+    } catch (error) {
+      target.innerHTML = `<p style="color: var(--av-danger, #e07b3c);">Не удалось загрузить документацию: ${escapeHtml(error.message)}</p>`;
+    }
+  }
+
+  function ensureMarkedLoaded() {
+    return new Promise((resolve) => {
+      if (window.marked) {
+        resolve();
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
+      script.onload = () => resolve();
+      script.onerror = () => resolve();
+      document.head.appendChild(script);
+    });
+  }
+
   function attachIntegrationEvents() {
     document.querySelector("#admin_integrations_save")?.addEventListener("click", saveIntegrations);
     document.querySelector("#admin_integrations_grid")?.addEventListener("click", (event) => {
@@ -2041,8 +2113,15 @@
       void testIntegration(category, button, statusEl);
     });
     document.querySelector("#admin_payments_form")?.addEventListener("submit", savePayments);
-    document.querySelector("#admin_payment_providers")?.addEventListener("change", () => {
-      // Если выбрали ручную выдачу — поля становятся опциональными.
+    document.querySelector("#admin_payment_providers")?.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement) || target.name !== "admin_payment_provider") {
+        return;
+      }
+      document.querySelectorAll("#admin_payment_providers .admin_payment_provider").forEach((node) => {
+        const input = node.querySelector("input[type=radio]");
+        node.classList.toggle("is-active", input?.checked === true);
+      });
     });
   }
 
