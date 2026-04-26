@@ -1797,7 +1797,7 @@
   ];
 
   function authorizedJSON(method, path, body) {
-    return authorizedFetch(`${apiBase}${path}`, {
+    return authorizedFetch(path, {
       method,
       headers: { "Content-Type": "application/json" },
       body: body ? JSON.stringify(body) : undefined
@@ -1810,11 +1810,7 @@
     }
     state.integrationsLoading = true;
     try {
-      const response = await authorizedFetch(`${apiBase}/admin/integrations`);
-      if (!response.ok) {
-        throw new Error(`Не удалось загрузить интеграции (${response.status}).`);
-      }
-      const data = await response.json();
+      const data = await authorizedFetch("/admin/integrations");
       state.integrations = data.integrations || {};
       state.payments = data.payments || { provider: "manual" };
       state.paymentProviders = Array.isArray(data.providers) ? data.providers : [];
@@ -1927,11 +1923,7 @@
     }
     setAdminFormStatus(status, "", "");
     try {
-      const response = await authorizedJSON("POST", "/admin/integrations", payload);
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data?.error || `Ошибка сохранения (${response.status}).`);
-      }
+      const data = await authorizedJSON("POST", "/admin/integrations", payload);
       state.integrations = data.integrations || state.integrations;
       renderIntegrations();
       setAdminFormStatus(status, "Настройки сохранены.", "success");
@@ -1954,11 +1946,7 @@
     button.textContent = "Запрос...";
     setAdminFormStatus(statusEl, "", "");
     try {
-      const response = await authorizedJSON("POST", "/admin/integrations/test", { category });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data?.error || `Ошибка теста (${response.status}).`);
-      }
+      const data = await authorizedJSON("POST", "/admin/integrations/test", { category });
       const result = data.result || {};
       setAdminFormStatus(statusEl, result.message || (result.ok ? "OK" : "Нет ответа."), result.ok ? "success" : "warning");
     } catch (error) {
@@ -2031,11 +2019,7 @@
     };
     setAdminFormStatus(status, "", "");
     try {
-      const response = await authorizedJSON("POST", "/admin/payments", payload);
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data?.error || `Ошибка сохранения (${response.status}).`);
-      }
+      const data = await authorizedJSON("POST", "/admin/payments", payload);
       state.payments = data.payments || state.payments;
       renderPayments();
       setAdminFormStatus(status, "Настройки оплаты сохранены.", "success");
