@@ -345,6 +345,10 @@
                   <svg class="dash-nav-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                   <span class="dash-nav-label">Оплата</span>
                 </button>
+                <button class="dash-nav-link" data-admin-view-nav="audit" type="button">
+                  <svg class="dash-nav-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                  <span class="dash-nav-label">Журнал</span>
+                </button>
                 <button class="dash-nav-link" data-admin-view-nav="apidocs" type="button">
                   <svg class="dash-nav-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4V4z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
                   <span class="dash-nav-label">Документация</span>
@@ -631,6 +635,31 @@
                       <button class="dash-btn" id="admin_integrations_save" type="button">Сохранить настройки</button>
                       <div class="form_status" hidden id="admin_integrations_status"></div>
                     </div>
+                  </div>
+                </section>
+
+                <section class="dash-view" data-admin-view-panel="audit">
+                  <div class="admin_workbench admin_audit_layout">
+                    <article class="dash-card admin_audit_card">
+                      <div class="dash-card-head">
+                        <div class="dash-card-head-copy">
+                          <div class="dash-card-head-title">Журнал действий администраторов</div>
+                        </div>
+                        <div class="admin_audit_filters">
+                          <select id="admin_audit_filter_action" aria-label="Фильтр по типу действия">
+                            <option value="">Все действия</option>
+                            <option value="order.">Заявки</option>
+                            <option value="catalog.">Каталог</option>
+                            <option value="promo.">Промокоды</option>
+                            <option value="settings.">Контакты</option>
+                            <option value="integrations.">Интеграции</option>
+                            <option value="payments.">Оплата</option>
+                          </select>
+                          <button class="dash-btn ghost" id="admin_audit_refresh" type="button">Обновить</button>
+                        </div>
+                      </div>
+                      <div class="dash-card-body admin_audit_body" id="admin_audit_body">Загружаем журнал…</div>
+                    </article>
                   </div>
                 </section>
 

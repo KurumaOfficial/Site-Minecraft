@@ -91,7 +91,13 @@ func main() {
 	}
 	orderService.SetIntegrationDispatcher(integrationService)
 
-	app, err := server.New(cfg, catalogService, promoService, orderService, adminService, adminAuthService, metaService, settingsService, visitAnalyticsService, integrationService)
+	auditRepo, err := repository.NewFileAuditLogRepository(cfg.DataDir)
+	if err != nil {
+		log.Fatalf("audit repository error: %v", err)
+	}
+	auditService := service.NewAuditLogService(auditRepo)
+
+	app, err := server.New(cfg, catalogService, promoService, orderService, adminService, adminAuthService, metaService, settingsService, visitAnalyticsService, integrationService, auditService)
 	if err != nil {
 		log.Fatalf("server build error: %v", err)
 	}

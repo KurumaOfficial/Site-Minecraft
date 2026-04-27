@@ -578,6 +578,8 @@
         return { title: "API" };
       case "payments":
         return { title: "Оплата" };
+      case "audit":
+        return { title: "Журнал" };
       case "apidocs":
         return { title: "Документация" };
       default:
@@ -586,7 +588,7 @@
   }
 
   function setAdminView(view) {
-    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts", "integrations", "payments", "apidocs"]);
+    const allowedViews = new Set(["overview", "orders", "catalog", "promos", "contacts", "integrations", "payments", "audit", "apidocs"]);
     const normalized = allowedViews.has(view) ? view : "overview";
     state.activeView = normalized;
 
@@ -612,6 +614,9 @@
     }
     if (normalized === "apidocs" && !state.apiDocsLoaded) {
       void loadApiDocs();
+    }
+    if (normalized === "audit" && state.session) {
+      void loadAuditLog();
     }
   }
 
@@ -1658,6 +1663,7 @@
     });
 
     attachIntegrationEvents();
+    attachAuditEvents();
 
     els.authModal?.addEventListener("click", (event) => {
       if (event.target === els.authModal) {
@@ -2067,6 +2073,69 @@
     `).join("");
   }
 
+  async function loadAuditLog() {
+    const body = document.querySelector("#admin_audit_body");
+    if (!body) {
+      return;
+    }
+    const filterEl = document.querySelector("#admin_audit_filter_action");
+    const action = filterEl?.value || "";
+    body.textContent = "Загружаем журнал…";
+    try {
+      const params = new URLSearchParams({ limit: "200" });
+      if (action) {
+        params.set("action", action);
+      }
+      const data = await authorizedFetch(`/admin/audit?${params.toString()}`);
+      renderAuditLog(body, data.entries || []);
+    } catch (error) {
+      body.innerHTML = `<p style="color:var(--av-danger,#e07b3c);">Не удалось загрузить журнал: ${escapeHtml(error.message)}</p>`;
+    }
+  }
+
+  function renderAuditLog(target, entries) {
+    if (!entries.length) {
+      target.innerHTML = `<p style="color:var(--av-text-muted,#a1a1aa);">Журнал пока пуст. Действия администраторов начнут появляться здесь сразу после первого изменения.</p>`;
+      return;
+    }
+    const rows = entries.map((entry) => {
+      const at = entry.at ? new Date(entry.at) : null;
+      const dateLabel = at && !Number.isNaN(at.getTime())
+        ? at.toLocaleString("ru-RU", { dateStyle: "short", timeStyle: "medium" })
+        : "—";
+      const actor = escapeHtml(entry.actorName || entry.actorId || "—");
+      const action = escapeHtml(entry.action || "");
+      const subject = escapeHtml(entry.subject || "");
+      const summary = escapeHtml(entry.summary || "");
+      const ip = escapeHtml(entry.ip || "—");
+      const before = entry.before ? JSON.stringify(entry.before, null, 2) : "";
+      const after = entry.after ? JSON.stringify(entry.after, null, 2) : "";
+      const details = before || after
+        ? `<details class="admin_audit_details"><summary>Показать diff</summary>
+            <div class="admin_audit_diff">
+              <div><span>Было</span><pre>${before ? escapeHtml(before) : "—"}</pre></div>
+              <div><span>Стало</span><pre>${after ? escapeHtml(after) : "—"}</pre></div>
+            </div>
+          </details>`
+        : "";
+      return `<article class="admin_audit_row">
+        <div class="admin_audit_row_main">
+          <div class="admin_audit_row_top">
+            <span class="admin_audit_row_action">${action}</span>
+            <span class="admin_audit_row_subject">${subject}</span>
+          </div>
+          <div class="admin_audit_row_summary">${summary}</div>
+          ${details}
+        </div>
+        <div class="admin_audit_row_side">
+          <span class="admin_audit_row_actor">${actor}</span>
+          <span class="admin_audit_row_meta">${escapeHtml(dateLabel)} · ${ip}</span>
+        </div>
+      </article>`;
+    });
+    target.innerHTML = rows.join("");
+  }
+
   async function loadApiDocs() {
     const target = document.querySelector("#admin_apidocs_body");
     if (!target) {
@@ -2101,6 +2170,15 @@
       script.onload = () => resolve();
       script.onerror = () => resolve();
       document.head.appendChild(script);
+    });
+  }
+
+  function attachAuditEvents() {
+    document.querySelector("#admin_audit_refresh")?.addEventListener("click", () => {
+      void loadAuditLog();
+    });
+    document.querySelector("#admin_audit_filter_action")?.addEventListener("change", () => {
+      void loadAuditLog();
     });
   }
 

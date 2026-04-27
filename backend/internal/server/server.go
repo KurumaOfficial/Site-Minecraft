@@ -36,6 +36,7 @@ func New(
 	settingsService *service.SiteSettingsService,
 	visitAnalyticsService *service.VisitAnalyticsService,
 	integrationService *service.IntegrationService,
+	auditService *service.AuditLogService,
 ) (*fiber.App, error) {
 	if err := ensureStaticFiles(cfg.StaticDir); err != nil {
 		return nil, err
@@ -112,11 +113,11 @@ func New(
 	}
 
 	catalogHandler := httpapi.NewCatalogHandler(catalogService)
-	orderHandler := httpapi.NewOrderHandler(orderService)
+	orderHandler := httpapi.NewOrderHandler(orderService, auditService)
 	metaHandler := httpapi.NewMetaHandler(metaService)
-	adminHandler := httpapi.NewAdminHandler(adminService, adminAuthService, catalogService, promoService, orderService, settingsService)
+	adminHandler := httpapi.NewAdminHandler(adminService, adminAuthService, catalogService, promoService, orderService, settingsService, auditService)
 	analyticsHandler := httpapi.NewAnalyticsHandler(visitAnalyticsService)
-	integrationHandler := httpapi.NewIntegrationHandler(integrationService, orderService)
+	integrationHandler := httpapi.NewIntegrationHandler(integrationService, orderService, auditService)
 
 	api := app.Group("/api/v1", timeoutmw.NewWithContext(func(c *fiber.Ctx) error {
 		return c.Next()
@@ -205,6 +206,7 @@ func New(
 	admin.Post("/integrations", integrationHandler.SaveIntegrations)
 	admin.Post("/integrations/test", integrationHandler.Test)
 	admin.Post("/payments", integrationHandler.SavePayments)
+	admin.Get("/audit", adminHandler.ListAudit)
 
 	app.Static("/assets", filepath.Join(cfg.StaticDir, "assets"), fiber.Static{
 		Compress:      false,

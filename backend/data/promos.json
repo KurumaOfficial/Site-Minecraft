@@ -1,5 +1,13 @@
 [
   {
+    "code": "AUDITTEST",
+    "discountPercent": 15,
+    "isActive": true,
+    "timesUsed": 0,
+    "createdAt": "2026-04-27T14:33:38.296866371Z",
+    "updatedAt": "2026-04-27T14:33:38.296866371Z"
+  },
+  {
     "code": "EST15",
     "discountPercent": 15,
     "isActive": true,

@@ -135,6 +135,17 @@ func (s *PromoService) List() []domain.PromoCode {
 	return items
 }
 
+// FindByCode возвращает копию промокода по коду или nil, если такого нет.
+// Используется для аудит-журнала: снимок «до изменения».
+func (s *PromoService) FindByCode(code string) *domain.PromoCode {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if promo, ok := s.byCode[strings.ToUpper(strings.TrimSpace(code))]; ok {
+		return &promo
+	}
+	return nil
+}
+
 func (s *PromoService) Upsert(ctx context.Context, input domain.PromoCodeInput) (domain.PromoCode, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

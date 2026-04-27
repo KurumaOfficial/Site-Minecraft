@@ -12,10 +12,11 @@ import (
 
 type OrderHandler struct {
 	service *service.OrderService
+	audit   *service.AuditLogService
 }
 
-func NewOrderHandler(service *service.OrderService) *OrderHandler {
-	return &OrderHandler{service: service}
+func NewOrderHandler(svc *service.OrderService, audit *service.AuditLogService) *OrderHandler {
+	return &OrderHandler{service: svc, audit: audit}
 }
 
 func (h *OrderHandler) Quote(c *fiber.Ctx) error {
@@ -97,12 +98,39 @@ func (h *OrderHandler) Update(c *fiber.Ctx) error {
 		return writeError(c, err)
 	}
 
+	beforeOrder, _ := h.service.GetByID(c.UserContext(), c.Params("id"))
 	order, err := h.service.Update(c.UserContext(), c.Params("id"), update, handledBy)
 	if err != nil {
 		return writeError(c, err)
 	}
 
+	h.audit.Record(
+		c.UserContext(),
+		adminIdentity.ID, adminIdentity.Name,
+		"order.update",
+		order.ID,
+		"Изменён заказ "+order.ID+" → "+order.Status,
+		orderSnapshot(beforeOrder),
+		orderSnapshot(order),
+		c.IP(), c.Get(fiber.HeaderUserAgent),
+	)
+
 	return c.JSON(fiber.Map{
 		"order": order,
 	})
+}
+
+func orderSnapshot(o domain.Order) map[string]any {
+	if o.ID == "" {
+		return nil
+	}
+	return map[string]any{
+		"id":         o.ID,
+		"nickname":   o.Nickname,
+		"product":    o.ProductSlug,
+		"status":     o.Status,
+		"finalPrice": o.FinalPrice,
+		"adminNote":  o.AdminNote,
+		"handledBy":  o.HandledBy,
+	}
 }

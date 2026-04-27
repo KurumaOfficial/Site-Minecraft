@@ -16,10 +16,11 @@ import (
 type IntegrationHandler struct {
 	integrations *service.IntegrationService
 	orders       *service.OrderService
+	audit        *service.AuditLogService
 }
 
-func NewIntegrationHandler(integrations *service.IntegrationService, orders *service.OrderService) *IntegrationHandler {
-	return &IntegrationHandler{integrations: integrations, orders: orders}
+func NewIntegrationHandler(integrations *service.IntegrationService, orders *service.OrderService, audit *service.AuditLogService) *IntegrationHandler {
+	return &IntegrationHandler{integrations: integrations, orders: orders, audit: audit}
 }
 
 func (h *IntegrationHandler) Get(c *fiber.Ctx) error {
@@ -40,6 +41,18 @@ func (h *IntegrationHandler) SaveIntegrations(c *fiber.Ctx) error {
 	if err != nil {
 		return writeError(c, err)
 	}
+	identity, _ := c.Locals(adminIdentityKey).(domain.AdminIdentity)
+	h.audit.Record(c.UserContext(),
+		identity.ID, identity.Name,
+		"integrations.save", "webhooks",
+		"Сохранены настройки интеграций (привилегии/кейсы/валюта)",
+		nil,
+		map[string]any{
+			"privileges": map[string]any{"enabled": cfg.PrivilegesEndpoint.Enabled, "url": cfg.PrivilegesEndpoint.URL},
+			"cases":      map[string]any{"enabled": cfg.CasesEndpoint.Enabled, "url": cfg.CasesEndpoint.URL},
+			"currency":   map[string]any{"enabled": cfg.CurrencyEndpoint.Enabled, "url": cfg.CurrencyEndpoint.URL},
+		},
+		c.IP(), c.Get(fiber.HeaderUserAgent))
 	cfg.PrivilegesEndpoint.Token = maskToken(cfg.PrivilegesEndpoint.Token)
 	cfg.CasesEndpoint.Token = maskToken(cfg.CasesEndpoint.Token)
 	cfg.CurrencyEndpoint.Token = maskToken(cfg.CurrencyEndpoint.Token)
@@ -57,6 +70,19 @@ func (h *IntegrationHandler) SavePayments(c *fiber.Ctx) error {
 	if err != nil {
 		return writeError(c, err)
 	}
+	identity, _ := c.Locals(adminIdentityKey).(domain.AdminIdentity)
+	h.audit.Record(c.UserContext(),
+		identity.ID, identity.Name,
+		"payments.save", string(settings.Provider),
+		"Сохранены настройки оплаты ("+string(settings.Provider)+")",
+		nil,
+		map[string]any{
+			"provider":  settings.Provider,
+			"shopId":    settings.ShopID,
+			"returnUrl": settings.ReturnURL,
+			"testMode":  settings.TestMode,
+		},
+		c.IP(), c.Get(fiber.HeaderUserAgent))
 	settings.SecretKey = maskToken(settings.SecretKey)
 	return c.JSON(fiber.Map{"payments": settings})
 }
@@ -68,6 +94,22 @@ func (h *IntegrationHandler) Test(c *fiber.Ctx) error {
 	}
 
 	result, err := h.integrations.Test(c.UserContext(), input.Category)
+	identity, _ := c.Locals(adminIdentityKey).(domain.AdminIdentity)
+	resultMap := map[string]any{"category": input.Category}
+	summary := "Тестовый webhook (" + input.Category + ")"
+	if err != nil {
+		resultMap["error"] = err.Error()
+		summary += " — ошибка"
+	} else {
+		resultMap["statusCode"] = result.StatusCode
+		resultMap["ok"] = result.OK
+		resultMap["message"] = result.Message
+	}
+	h.audit.Record(c.UserContext(),
+		identity.ID, identity.Name,
+		"integrations.test", input.Category, summary,
+		nil, resultMap,
+		c.IP(), c.Get(fiber.HeaderUserAgent))
 	if err != nil {
 		return writeError(c, err)
 	}

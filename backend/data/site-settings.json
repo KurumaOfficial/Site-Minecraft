@@ -1,11 +1,11 @@
 {
-  "contactTitle": "Остались вопросы? Напиши нам в соц.сетях:",
-  "discordUrl": "https://discord.gg/estelar",
-  "discordText": "А ты уже есть в нашем Discord-сервере?\nСкорее подключайся!",
-  "discordButtonLabel": "Подключиться",
-  "vkUrl": "https://t.me/estelar",
+  "contactTitle": "Контакты",
+  "discordUrl": "https://discord.gg/test",
+  "discordText": "Discord",
+  "discordButtonLabel": "Войти",
+  "vkUrl": "#",
   "vkText": "Наш Telegram-канал: новости, анонсы и\nбыстрые обновления по серверу",
   "vkButtonLabel": "Перейти",
-  "supportEmail": "support@estelar.shop",
+  "supportEmail": "a@b.com",
   "supportText": "Имеются другие вопросы?\nПиши на нашу почту:"
 }
