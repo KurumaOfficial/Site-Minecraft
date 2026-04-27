@@ -10271,3 +10271,166 @@ body[data-page="admin"].admin-active .dash-actions a.dash-btn svg {
   height: 14px !important;
   opacity: 0.78 !important;
 }
+
+/* === Финал-2: модалка без жёлтого прямоугольника, кнопка не переносится === */
+
+/* Убираем псевдо-элементы — они дают серый/жёлтый прямоугольник
+   поверх скруглённых углов и больше ничего полезного не делают. */
+.item_modal .buy_item::before,
+.item_modal .buy_item::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+/* Сжимаем верхний padding, увеличенный другими блоками. */
+.item_modal .buy_item {
+  padding: 28px 26px !important;
+  border-radius: 16px !important;
+  border-top: none !important;
+  background:
+    linear-gradient(180deg, rgba(20, 14, 12, 0.96), rgba(12, 9, 8, 0.98)) !important;
+}
+
+/* Заголовок поджимаем по высоте, без лишнего нижнего отступа. */
+.item_modal .buy_item .name.modal_title {
+  margin: 0 0 18px !important;
+  font-size: 20px !important;
+  line-height: 1.25 !important;
+}
+
+/* Кнопка закрытия — компактный круг в углу. */
+.item_modal .buy_item .close_bModal {
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 999px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.item_modal .buy_item .close_bModal:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* === modal_action: цена слева компактно, кнопка не переносится === */
+.item_modal .action.modal_action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin-top: 18px !important;
+  padding: 0 !important;
+}
+.item_modal .action.modal_action .modal_price {
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: baseline !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.6px !important;
+  text-transform: uppercase !important;
+}
+.item_modal .action.modal_action .modal_price br {
+  display: none !important;
+}
+.item_modal .action.modal_action .modal_price span {
+  display: inline !important;
+  margin: 0 !important;
+  color: #ffd25c !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  line-height: 1 !important;
+}
+.item_modal .action.modal_action button {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  height: 44px !important;
+  padding: 0 22px !important;
+  font-size: 13px !important;
+  letter-spacing: 0.4px !important;
+  border-radius: 10px !important;
+}
+
+/* privacy_policy — мельче и без огромного отступа */
+.item_modal .buy_item .privacy_policy {
+  margin: 14px 0 0 !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  text-align: center !important;
+}
+.item_modal .buy_item .privacy_policy span {
+  color: rgba(255, 210, 92, 0.7) !important;
+  font-weight: 500 !important;
+}
+
+/* === /rules: убираем лишнюю «зелёную полосу» под футером === */
+body[data-page="rules"],
+body[data-page="contacts"] {
+  background-color: #0a0a0b !important;
+}
+body[data-page="rules"] .footer-container,
+body[data-page="contacts"] .footer-container {
+  margin-top: 32px !important;
+  margin-bottom: 0 !important;
+}
+body[data-page="rules"] .footer-container .footer,
+body[data-page="contacts"] .footer-container .footer {
+  margin-bottom: 0 !important;
+}
+
+/* admin auth modal: тот же фикс верхнего отступа */
+#admin_auth_modal .buy_item {
+  padding: 28px 26px !important;
+}
+#admin_auth_modal .buy_item .name.modal_title {
+  margin: 0 0 14px !important;
+}
+#admin_auth_modal .admin_auth_text {
+  margin: 0 0 18px !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+#admin_auth_modal .action.admin_auth_action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  margin-top: 6px !important;
+}
+#admin_auth_modal #admin_modal_hint {
+  margin: 0 !important;
+  flex: 1 1 auto !important;
+  color: rgba(255, 210, 92, 0.85) !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+#admin_auth_modal #admin_modal_discord_login {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  height: 44px !important;
+  padding: 0 22px !important;
+}
