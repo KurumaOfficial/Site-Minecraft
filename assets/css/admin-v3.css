@@ -897,3 +897,213 @@ body[data-page="admin"].admin-active .grid-3 { display: grid; grid-template-colu
 /* === стек слева кнопок toolbar === */
 body[data-page="admin"].admin-active .admin_toolbar > input,
 body[data-page="admin"].admin-active .admin_toolbar > select { max-width: 280px; }
+
+/* =================================================================
+ * API tab: переопределяем сетку workbench и стилизуем все блоки.
+ * До этого фикса 4 ребёнка ложились в 2-колоночный workbench-grid,
+ * из-за чего пресеты вставали правее интро, а кнопка «Сохранить» —
+ * правее карточек webhook'ов. Теперь — одно вертикальное полотно.
+ * ================================================================= */
+body[data-page="admin"].admin-active .admin_workbench.admin_integrations_layout {
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* интро-карточка (общий секрет + ссылка на доки) */
+body[data-page="admin"].admin-active .admin_integrations_intro .dash-card-head {
+  gap: 12px;
+}
+body[data-page="admin"].admin-active .admin_integrations_intro .dash-card-body.admin_integration_secret {
+  padding: 16px;
+}
+
+/* пресеты популярных плагинов: сетка карточек */
+body[data-page="admin"].admin-active .admin_integration_presets_card .dash-card-body.admin_integration_presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+body[data-page="admin"].admin-active .admin_preset_card {
+  background: var(--av-surface-2);
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 120ms, background 120ms;
+}
+body[data-page="admin"].admin-active .admin_preset_card:hover {
+  border-color: var(--av-accent-bd);
+  background: var(--av-surface-3);
+}
+body[data-page="admin"].admin-active .admin_preset_card .name {
+  font: 600 13px/1.2 var(--av-sans);
+  color: var(--av-text);
+}
+body[data-page="admin"].admin-active .admin_preset_card .meta {
+  font: 400 12px/1.5 var(--av-sans);
+  color: var(--av-text-muted);
+}
+body[data-page="admin"].admin-active .admin_preset_card pre {
+  margin: 0;
+  background: var(--av-bg);
+  border: 1px solid var(--av-border);
+  border-radius: 4px;
+  padding: 8px 10px;
+  overflow-x: auto;
+}
+body[data-page="admin"].admin-active .admin_preset_card pre code {
+  font: 400 11px/1.5 var(--av-mono);
+  color: var(--av-accent-2);
+  white-space: pre;
+}
+
+/* грид webhook-карточек: 3 равные колонки на широких, иначе перенос */
+body[data-page="admin"].admin-active .admin_integrations_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+/* отдельная webhook-карточка */
+body[data-page="admin"].admin-active .admin_integration_card {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+body[data-page="admin"].admin-active .admin_integration_card_head {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--av-border);
+  background: var(--av-surface);
+}
+body[data-page="admin"].admin-active .admin_integration_icon {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-sm);
+  background: var(--av-surface-2);
+  font-size: 18px;
+  line-height: 1;
+}
+body[data-page="admin"].admin-active .admin_integration_title {
+  font: 600 14px/1.2 var(--av-sans);
+  color: var(--av-text);
+  margin-bottom: 2px;
+}
+body[data-page="admin"].admin-active .admin_integration_sub {
+  font: 400 12px/1.5 var(--av-sans);
+  color: var(--av-text-muted);
+}
+
+/* переключатель «Включить» — компактный chip с чекбоксом */
+body[data-page="admin"].admin-active .admin_integration_toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--av-border);
+  border-radius: 999px;
+  background: var(--av-surface-2);
+  font: 500 12px/1 var(--av-sans);
+  color: var(--av-text-muted);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: all 120ms;
+}
+body[data-page="admin"].admin-active .admin_integration_toggle input {
+  width: 14px; height: 14px;
+  margin: 0;
+  accent-color: var(--av-accent);
+  cursor: pointer;
+}
+body[data-page="admin"].admin-active .admin_integration_toggle:has(input:checked) {
+  border-color: var(--av-accent-bd);
+  background: var(--av-accent-soft);
+  color: var(--av-accent);
+}
+
+/* тело карточки */
+body[data-page="admin"].admin-active .admin_integration_body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+body[data-page="admin"].admin-active .admin_field_full { width: 100%; }
+
+/* строка действий внутри карточки (кнопка тестового запроса + статус) */
+body[data-page="admin"].admin-active .admin_integration_actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+body[data-page="admin"].admin-active .admin_integration_test_status {
+  font: 400 12px/1.4 var(--av-sans);
+  color: var(--av-text-muted);
+}
+
+/* нижняя строка «Сохранить настройки» — отдельной полосой, кнопка справа */
+body[data-page="admin"].admin-active .admin_integrations_actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 4px;
+}
+body[data-page="admin"].admin-active .admin_integrations_actions .form_status {
+  margin-right: auto;
+}
+
+/* стиль кнопки секции — primary gold */
+body[data-page="admin"].admin-active #admin_integrations_save,
+body[data-page="admin"].admin-active #admin_payments_form button[type="submit"],
+body[data-page="admin"].admin-active .admin_workbench button[type="submit"] {
+  background: linear-gradient(180deg, var(--av-accent-2), var(--av-accent)) !important;
+  border-color: transparent !important;
+  color: #1a1207 !important;
+  font-weight: 600;
+  height: 36px;
+  padding: 0 16px;
+}
+
+/* мелкий ghost-вариант для «Документация API» в шапке интро-карточки */
+body[data-page="admin"].admin-active .admin_docs_link.dash-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--av-border);
+  color: var(--av-text);
+  height: 32px;
+}
+body[data-page="admin"].admin-active .admin_docs_link.dash-btn.secondary:hover {
+  background: var(--av-surface-2);
+  border-color: var(--av-accent-bd);
+  color: var(--av-accent);
+}
+
+/* topbar action buttons (Обновить / На сайт): чисто ghost, без золота */
+body[data-page="admin"].admin-active .dash-actions .dash-btn,
+body[data-page="admin"].admin-active .dash-actions a.dash-btn {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--av-border);
+  color: var(--av-text);
+  height: 32px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+body[data-page="admin"].admin-active .dash-actions .dash-btn:hover,
+body[data-page="admin"].admin-active .dash-actions a.dash-btn:hover {
+  background: var(--av-surface-2) !important;
+  border-color: var(--av-border-2);
+  color: var(--av-text);
+}
