@@ -495,7 +495,140 @@ body[data-page="admin"].admin-active .admin_table tbody tr { cursor: pointer; tr
 body[data-page="admin"].admin-active .admin_table tbody tr:hover { background: var(--av-surface-2); }
 body[data-page="admin"].admin-active .admin_table tbody tr.is-active { background: var(--av-accent-soft); }
 
-/* === order/catalog list (карточные ряды) === */
+/* === order/catalog/promo list rows v2 (актуальные классы JS) === */
+body[data-page="admin"].admin-active .admin_order_v2,
+body[data-page="admin"].admin-active button.admin_order_v2,
+body[data-page="admin"].admin-active button.admin_promo_row {
+  all: unset;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--av-border);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 80ms ease;
+  box-sizing: border-box;
+  font: 400 13px/1.3 var(--av-sans);
+  color: var(--av-text);
+}
+body[data-page="admin"].admin-active button.admin_order_v2:focus-visible {
+  outline: 2px solid var(--av-accent-bd); outline-offset: -2px;
+}
+body[data-page="admin"].admin-active button.admin_order_v2:hover {
+  background: var(--av-surface-2);
+}
+body[data-page="admin"].admin-active button.admin_order_v2.active {
+  background: var(--av-accent-soft);
+}
+body[data-page="admin"].admin-active button.admin_order_v2:last-child {
+  border-bottom: 0;
+}
+
+body[data-page="admin"].admin-active .admin_order_v2_thumb {
+  width: 36px; height: 36px;
+  border-radius: 7px;
+  background: var(--av-surface-3) center/cover no-repeat;
+  border: 1px solid var(--av-border);
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 600 14px/1 var(--av-sans);
+  color: var(--av-text-muted);
+  overflow: hidden;
+}
+body[data-page="admin"].admin-active .admin_order_v2_thumb_fallback {
+  background: var(--av-surface-3);
+}
+body[data-page="admin"].admin-active .admin_promo_badge {
+  font: 700 12px/1 var(--av-mono);
+  color: var(--av-accent);
+  background: var(--av-accent-soft);
+  border-color: var(--av-accent-bd);
+}
+
+body[data-page="admin"].admin-active .admin_order_v2_main {
+  display: flex; flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+  text-align: left;
+}
+body[data-page="admin"].admin-active .admin_order_v2_title {
+  font: 600 13px/1.2 var(--av-sans);
+  color: var(--av-text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body[data-page="admin"].admin-active .admin_order_v2_meta {
+  font: 400 12px/1.4 var(--av-sans);
+  color: var(--av-text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body[data-page="admin"].admin-active .admin_order_v2_meta code {
+  font: 400 11px/1.4 var(--av-mono);
+  color: var(--av-text-muted);
+  background: transparent;
+  padding: 0;
+}
+body[data-page="admin"].admin-active .admin_order_v2_side {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 2px;
+  white-space: nowrap;
+}
+body[data-page="admin"].admin-active .admin_order_v2_price {
+  font: 600 13px/1 var(--av-sans);
+  color: var(--av-text);
+  font-variant-numeric: tabular-nums;
+}
+body[data-page="admin"].admin-active .admin_order_v2_date {
+  font: 400 11px/1 var(--av-sans);
+  color: var(--av-text-dim);
+}
+
+/* status_pill (актуальный класс JS) */
+body[data-page="admin"].admin-active .status_pill,
+body[data-page="admin"].admin-active .status.status_pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 22px; padding: 0 10px;
+  border-radius: 999px;
+  font: 600 11px/1 var(--av-sans);
+  letter-spacing: 0.01em;
+  background: var(--av-surface-3);
+  border: 1px solid var(--av-border);
+  color: var(--av-text-muted);
+  white-space: nowrap;
+}
+body[data-page="admin"].admin-active .status_pill.issued,
+body[data-page="admin"].admin-active .status_pill.success {
+  color: var(--av-success);
+  border-color: rgba(74,222,128,0.32);
+  background: rgba(74,222,128,0.10);
+}
+body[data-page="admin"].admin-active .status_pill.pending,
+body[data-page="admin"].admin-active .status_pill.review,
+body[data-page="admin"].admin-active .status_pill.warning {
+  color: var(--av-warning);
+  border-color: rgba(251,191,36,0.32);
+  background: rgba(251,191,36,0.10);
+}
+body[data-page="admin"].admin-active .status_pill.rejected,
+body[data-page="admin"].admin-active .status_pill.danger {
+  color: var(--av-danger);
+  border-color: rgba(248,113,113,0.32);
+  background: rgba(248,113,113,0.10);
+}
+
+/* контейнер списков — высота под viewport, скролл внутри */
+body[data-page="admin"].admin-active #admin_order_list,
+body[data-page="admin"].admin-active #admin_catalog_list,
+body[data-page="admin"].admin-active #admin_promo_list {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  border-top: 1px solid var(--av-border);
+}
+
+/* === legacy селекторы (оставлены для совместимости со старым HTML) === */
 body[data-page="admin"].admin-active .admin_order_v2_list {
   display: flex; flex-direction: column;
   max-height: calc(100vh - 240px);
@@ -538,6 +671,142 @@ body[data-page="admin"].admin-active .admin_order_v2_row .row-side {
 body[data-page="admin"].admin-active .admin_order_v2_row .row-price {
   font: 600 13px/1 var(--av-sans);
   color: var(--av-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Аналитика — Посещения / Тренд / Страницы === */
+body[data-page="admin"].admin-active .admin_analytics_layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 1100px) {
+  body[data-page="admin"].admin-active .admin_analytics_layout {
+    grid-template-columns: 1fr;
+  }
+}
+body[data-page="admin"].admin-active .admin_analytics_summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+body[data-page="admin"].admin-active .admin_stat_tile {
+  padding: 10px 12px;
+  border: 1px solid var(--av-border);
+  border-radius: var(--av-radius-sm);
+  background: var(--av-surface-2);
+}
+body[data-page="admin"].admin-active .admin_stat_tile .label {
+  font: 500 11px/1 var(--av-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--av-text-dim);
+  margin: 0 0 6px;
+}
+body[data-page="admin"].admin-active .admin_stat_tile .value {
+  font: 700 20px/1 var(--av-sans);
+  color: var(--av-text);
+  margin: 0 0 4px;
+  font-variant-numeric: tabular-nums;
+}
+body[data-page="admin"].admin-active .admin_stat_tile .note {
+  font: 400 11px/1.3 var(--av-sans);
+  color: var(--av-text-muted);
+  margin: 0;
+}
+
+body[data-page="admin"].admin-active .admin_analytics_trend {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  align-items: end;
+  height: 140px;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--av-border);
+}
+body[data-page="admin"].admin-active .admin_trend_bar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  height: 100%;
+}
+body[data-page="admin"].admin-active .admin_trend_meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font: 600 11px/1 var(--av-sans);
+  color: var(--av-text);
+}
+body[data-page="admin"].admin-active .admin_trend_meta span {
+  font: 400 10px/1 var(--av-sans);
+  color: var(--av-text-dim);
+}
+body[data-page="admin"].admin-active .admin_trend_track {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  background: var(--av-surface-2);
+  border-radius: var(--av-radius-sm);
+  overflow: hidden;
+  min-height: 6px;
+}
+body[data-page="admin"].admin-active .admin_trend_track > span {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, var(--av-accent), var(--av-accent-2));
+  border-radius: var(--av-radius-sm) var(--av-radius-sm) 0 0;
+  min-height: 4px;
+}
+body[data-page="admin"].admin-active .admin_trend_bar p {
+  margin: 0;
+  font: 500 11px/1 var(--av-sans);
+  color: var(--av-text-muted);
+  text-align: center;
+}
+
+body[data-page="admin"].admin-active .admin_page_stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 80px auto;
+  align-items: center;
+  gap: 12px;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row .copy { min-width: 0; }
+body[data-page="admin"].admin-active .admin_page_stat_row .label {
+  font: 500 13px/1.2 var(--av-sans);
+  color: var(--av-text);
+  margin: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row .meta {
+  font: 400 11px/1 var(--av-sans);
+  color: var(--av-text-dim);
+  margin: 2px 0 0;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row .bar {
+  height: 6px;
+  background: var(--av-surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row .bar > span {
+  display: block;
+  height: 100%;
+  background: var(--av-accent);
+  border-radius: 999px;
+}
+body[data-page="admin"].admin-active .admin_page_stat_row .value {
+  font: 600 13px/1 var(--av-sans);
+  color: var(--av-text);
+  margin: 0;
   font-variant-numeric: tabular-nums;
 }
 
