@@ -790,11 +790,33 @@
     const quantityValue = String(quantityInput?.value ?? "").trim();
     const requiresQuantity = !quantityWrap?.classList.contains("sf-hidden");
 
-    if (!nickname || (requiresQuantity && !quantityValue)) {
-      return "Ошибка\nЗаполните все поля!";
+    if (nicknameInput) {
+      nicknameInput.classList.toggle("is-invalid", !nickname);
+    }
+    if (requiresQuantity && quantityInput) {
+      quantityInput.classList.toggle("is-invalid", !quantityValue);
+    }
+
+    if (!nickname && requiresQuantity && !quantityValue) {
+      return "Введите ник получателя и количество.";
+    }
+    if (!nickname) {
+      return "Введите ник получателя.";
+    }
+    if (requiresQuantity && !quantityValue) {
+      return "Укажите количество.";
     }
 
     return "";
+  }
+
+  function clearValidationFlag(input) {
+    if (!input) return;
+    input.addEventListener("input", () => {
+      if (input.value.trim()) {
+        input.classList.remove("is-invalid");
+      }
+    });
   }
 
   function openModal(item, periodCode) {
@@ -808,6 +830,8 @@
     state.lastQuote = null;
     resetModalPanels();
     buyForm?.reset();
+    nicknameInput?.classList.remove("is-invalid");
+    quantityInput?.classList.remove("is-invalid");
 
     if (modalName) {
       modalName.textContent = `"${resolvedItem.name}"`;
@@ -966,7 +990,6 @@
     paymentMethod.innerHTML = `
       <div class="payment_stage">
         <p class="title">Оплата заказа</p>
-        <p class="desc">Заказ уже создан. Следующий шаг будет вести на онлайн-оплату сразу после подключения платёжного провайдера.</p>
 
         <div class="payment_stage_summary">
           <p>Номер заказа <span>${escapeHtml(order.id)}</span></p>
@@ -977,19 +1000,10 @@
         </div>
 
         <ul class="methods payment_methods_list">
-          ${paymentProviders.map((provider) => `
-            <li>
-              <button class="payment-btn${provider.enabled ? "" : " is-disabled"}" ${provider.enabled ? "" : "disabled"} data-payment-provider="${escapeHtml(provider.code)}" type="button">
-                ${escapeHtml(provider.label)}
-              </button>
-              <p class="payment_provider_note">${escapeHtml(provider.note)}</p>
-            </li>
-          `).join("")}
+          <li>
+            <button class="payment-btn" data-payment-init type="button">Перейти к оплате</button>
+          </li>
         </ul>
-
-        <div class="payment_notice">
-          Здесь уже подготовлено место под оплату картой, СБП и резервные методы без переделки корзины.
-        </div>
 
         <div class="payment_stage_actions">
           <button class="secondary" data-copy-order type="button">Скопировать номер</button>
@@ -1005,6 +1019,46 @@
         setFormStatus("Номер заказа скопирован.", "success");
       } catch (_error) {
         setFormStatus(`Номер заказа: ${order.id}`, "info");
+      }
+    });
+    qs("[data-payment-init]", paymentMethod)?.addEventListener("click", async (event) => {
+      const button = event.currentTarget;
+      const original = button.textContent;
+      button.disabled = true;
+      button.textContent = "Готовим оплату...";
+      try {
+        const res = await fetch(`${apiBase}/orders/${encodeURIComponent(order.id)}/payment`, {
+          method: "POST",
+          headers: { Accept: "application/json" }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data?.error || "Не удалось подготовить оплату.");
+        }
+        if (data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+          return;
+        }
+        if (data.manual) {
+          setFormStatus(
+            "Заявка передана администратору. Скопируйте номер заказа и свяжитесь с нами в Discord — выдача в течение 24 часов.",
+            "info"
+          );
+          button.textContent = "Скопировать номер заказа";
+          button.disabled = false;
+          button.onclick = () => {
+            navigator.clipboard?.writeText(order.id);
+            setFormStatus("Номер заказа скопирован.", "success");
+          };
+          return;
+        }
+        setFormStatus("Платёжный провайдер пока не подключён. Свяжитесь с поддержкой.", "info");
+        button.textContent = original;
+        button.disabled = false;
+      } catch (error) {
+        setFormStatus(error.message || "Не удалось подготовить оплату.", "error");
+        button.textContent = original;
+        button.disabled = false;
       }
     });
   }
@@ -1228,6 +1282,8 @@
 
   promoInput?.addEventListener("input", scheduleQuoteRefresh);
   quantityInput?.addEventListener("input", scheduleQuoteRefresh);
+  clearValidationFlag(nicknameInput);
+  clearValidationFlag(quantityInput);
   buyForm?.addEventListener("submit", submitOrder);
   qs(".close_bModal", modal)?.addEventListener("click", closeModal);
   modal?.addEventListener("click", (event) => {

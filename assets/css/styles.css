@@ -430,7 +430,7 @@ body {
   bottom: -14px;
   width: 100%;
   height: 30px;
-  background: linear-gradient(0deg, rgba(255, 0, 90, 0.5) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(0deg, rgba(245, 179, 66, 0.5) 0%, rgba(245, 179, 66, 0) 100%);
   transition: all 0.2s
 }
 
@@ -496,7 +496,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  background: linear-gradient(180deg, rgba(255, 0, 90, 0.2) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, 0.2) 0%, rgba(245, 179, 66, 0) 100%);
   width: 100%;
   height: 50px;
   z-index: -1
@@ -534,7 +534,7 @@ body {
 }
 
 .item_modal .buy_item .action button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .item_modal .buy_item .privacy_policy a:hover {
@@ -598,11 +598,11 @@ body {
 }
 
 .main .items_box .items_list .item.active {
-  background: linear-gradient(90deg, rgba(255, 0, 90, 0.4) 0%, rgba(255, 0, 90, 0) 100%)
+  background: linear-gradient(90deg, rgba(245, 179, 66, 0.4) 0%, rgba(245, 179, 66, 0) 100%)
 }
 
 .main .items_box .items_list .item:not(.active):hover {
-  background: linear-gradient(90deg, rgba(255, 0, 90, 0.2) 0%, rgba(255, 0, 90, 0) 100%)
+  background: linear-gradient(90deg, rgba(245, 179, 66, 0.2) 0%, rgba(245, 179, 66, 0) 100%)
 }
 
 .main .items_box .items_list .item .name {
@@ -672,7 +672,7 @@ body {
   bottom: -15px;
   width: 100%;
   height: 20px;
-  background: linear-gradient(0deg, rgba(255, 0, 90, 0.5) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(0deg, rgba(245, 179, 66, 0.5) 0%, rgba(245, 179, 66, 0) 100%);
   transition: all 0.2s
 }
 
@@ -738,16 +738,16 @@ body {
   font-weight: 700;
   padding: 16px 33px;
   transition: all 0.2s;
-  border: 2px solid rgba(255, 0, 90, 0.5);
+  border: 2px solid rgba(245, 179, 66, 0.5);
   text-transform: uppercase
 }
 
 .main .item_info .item_action button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .promotions .sale_box .actions button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .contacts .contact_box .box p.black:hover {
@@ -802,7 +802,7 @@ body {
 }
 
 .contacts .contact_box .box a:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .footer {
@@ -2357,7 +2357,7 @@ body {
   bottom: -14px;
   width: 100%;
   height: 30px;
-  background: linear-gradient(0deg, rgba(255, 0, 90, 0.5) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(0deg, rgba(245, 179, 66, 0.5) 0%, rgba(245, 179, 66, 0) 100%);
   transition: all 0.2s
 }
 
@@ -2423,7 +2423,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  background: linear-gradient(180deg, rgba(255, 0, 90, 0.2) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, 0.2) 0%, rgba(245, 179, 66, 0) 100%);
   width: 100%;
   height: 50px;
   z-index: -1
@@ -2461,7 +2461,7 @@ body {
 }
 
 .item_modal .buy_item .action button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .item_modal .buy_item .privacy_policy a:hover {
@@ -2473,7 +2473,7 @@ body {
 }
 
 .main .items_box .items_list .item:not(.active):hover {
-  background: linear-gradient(90deg, rgba(255, 0, 90, 0.2) 0%, rgba(255, 0, 90, 0) 100%)
+  background: linear-gradient(90deg, rgba(245, 179, 66, 0.2) 0%, rgba(245, 179, 66, 0) 100%)
 }
 
 .main .item_info .method .select p:not(.active):hover:after,
@@ -2494,7 +2494,7 @@ body {
   bottom: -15px;
   width: 100%;
   height: 20px;
-  background: linear-gradient(0deg, rgba(255, 0, 90, 0.5) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(0deg, rgba(245, 179, 66, 0.5) 0%, rgba(245, 179, 66, 0) 100%);
   transition: all 0.2s
 }
 
@@ -2515,11 +2515,11 @@ body {
 }
 
 .main .item_info .item_action button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .promotions .sale_box .actions button:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .contacts .contact_box .box p.black:hover {
@@ -2574,7 +2574,7 @@ body {
 }
 
 .contacts .contact_box .box a:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .rules .rule_box {
@@ -2801,7 +2801,7 @@ a.ui-button:active,
   width: min(90%, 420px);
   z-index: 1200;
   background: rgba(16, 16, 16, 0.96);
-  border: 2px solid rgba(255, 0, 90, 0.4);
+  border: 2px solid rgba(245, 179, 66, 0.4);
   padding: 14px 18px;
   display: flex;
   flex-direction: column;
@@ -2881,7 +2881,7 @@ a.ui-button:active,
   font-weight: 700;
   padding: 16px 33px;
   transition: all .2s;
-  border: 2px solid rgba(255, 0, 90, 0.5);
+  border: 2px solid rgba(245, 179, 66, 0.5);
   text-transform: uppercase;
   text-decoration: none;
   display: inline-flex;
@@ -2892,7 +2892,7 @@ a.ui-button:active,
 
 .promotions .sale_box .actions button:hover,
 .contacts .contact_box a:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 90, 0.7)
+  box-shadow: 0 0 25px rgba(245, 179, 66, 0.7)
 }
 
 .contacts .contact_box .box-row {
@@ -2965,7 +2965,7 @@ a.ui-button:active,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 0, 90, .16) 0%, rgba(255, 0, 90, 0) 26%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, .16) 0%, rgba(245, 179, 66, 0) 26%);
 }
 
 .item_modal #donate-info,
@@ -3007,8 +3007,8 @@ a.ui-button:active,
 .item_modal .buy_item .check_info {
   margin: 6px 0 18px;
   padding: 14px 16px;
-  background: rgba(255, 0, 90, .10);
-  border: 1px solid rgba(255, 0, 90, .28);
+  background: rgba(245, 179, 66, .10);
+  border: 1px solid rgba(245, 179, 66, .28);
 }
 
 .item_modal .buy_item .check_info p {
@@ -3097,7 +3097,7 @@ a.ui-button:active,
 }
 
 .item_modal .close_bModal:hover {
-  background: rgba(255, 0, 90, .18);
+  background: rgba(245, 179, 66, .18);
   transform: rotate(90deg);
 }
 
@@ -3308,8 +3308,8 @@ a.ui-button:active,
 
 .lookup_input:focus {
   outline: none;
-  border-color: rgba(255, 0, 90, .5);
-  box-shadow: 0 0 0 1px rgba(255, 0, 90, .2)
+  border-color: rgba(245, 179, 66, .5);
+  box-shadow: 0 0 0 1px rgba(245, 179, 66, .2)
 }
 
 .lookup_result {
@@ -5175,8 +5175,8 @@ body[data-page="admin"] .page-section.active-page {
 
 .item_modal .payment_notice {
   padding: 14px 16px;
-  border: 1px solid rgba(255, 0, 90, .28);
-  background: rgba(255, 0, 90, .10);
+  border: 1px solid rgba(245, 179, 66, .28);
+  background: rgba(245, 179, 66, .10);
   color: #fff;
   line-height: 1.6;
 }
@@ -5260,7 +5260,7 @@ body[data-page="home"] .footer-container {
 
   body[data-page="admin"] .admin_dash_sidebar {
     border-right: 0 !important;
-    border-bottom: 1px solid rgba(255, 0, 90, .14) !important;
+    border-bottom: 1px solid rgba(245, 179, 66, .14) !important;
   }
 
   body[data-page="admin"] .admin_order_kpis,
@@ -5350,7 +5350,7 @@ body[data-page="home"] .footer-container {
   display: grid;
   gap: 6px;
   padding: 18px 18px 16px;
-  border: 1px solid rgba(255, 0, 90, .14);
+  border: 1px solid rgba(245, 179, 66, .14);
   border-radius: 22px;
   background: rgba(255, 255, 255, .025);
 }
@@ -5446,7 +5446,7 @@ body[data-page="home"] .footer-container {
 
 .main .items_box .items_list .item.active {
   transform: translateX(4px);
-  background: linear-gradient(90deg, rgba(255, 0, 90, .18) 0%, rgba(255, 255, 255, .02) 100%);
+  background: linear-gradient(90deg, rgba(245, 179, 66, .18) 0%, rgba(255, 255, 255, .02) 100%);
   border-color: rgba(255, 84, 132, .26);
 }
 
@@ -5481,7 +5481,7 @@ body[data-page="home"] .footer-container {
 .main .item_info .method .select p {
   margin-left: 0;
   padding: 10px 16px;
-  border: 1px solid rgba(255, 0, 90, .14);
+  border: 1px solid rgba(245, 179, 66, .14);
   border-radius: 999px;
   background: rgba(255, 255, 255, .02);
   font-size: 14px;
@@ -5496,7 +5496,7 @@ body[data-page="home"] .footer-container {
 .main .item_info .method .select p.active {
   color: #fff;
   border-color: rgba(255, 84, 132, .32);
-  background: linear-gradient(135deg, rgba(255, 0, 90, .2) 0%, rgba(255, 255, 255, .03) 100%);
+  background: linear-gradient(135deg, rgba(245, 179, 66, .2) 0%, rgba(255, 255, 255, .03) 100%);
   transform: translateY(-1px);
 }
 
@@ -5533,7 +5533,7 @@ body[data-page="home"] .footer-container {
   margin-top: 18px;
   padding-top: 20px;
   padding-right: 0;
-  border-top: 1px solid rgba(255, 0, 90, .12);
+  border-top: 1px solid rgba(245, 179, 66, .12);
 }
 
 .main .item_info .item_action .price {
@@ -5551,13 +5551,13 @@ body[data-page="home"] .footer-container {
   padding: 16px 28px;
   border: none;
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(255, 0, 90, .26) 0%, rgba(255, 0, 90, .1) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 0, 90, .22), 0 16px 34px rgba(255, 0, 90, .14);
+  background: linear-gradient(135deg, rgba(245, 179, 66, .26) 0%, rgba(245, 179, 66, .1) 100%);
+  box-shadow: inset 0 0 0 1px rgba(245, 179, 66, .22), 0 16px 34px rgba(245, 179, 66, .14);
 }
 
 .main .item_info .item_action button:hover {
   transform: translateY(-2px);
-  box-shadow: inset 0 0 0 1px rgba(255, 84, 132, .3), 0 18px 38px rgba(255, 0, 90, .18);
+  box-shadow: inset 0 0 0 1px rgba(255, 84, 132, .3), 0 18px 38px rgba(245, 179, 66, .18);
 }
 
 .catalog_notice {
@@ -5625,7 +5625,7 @@ body[data-page="home"] .footer-container {
   --site-accent-soft: #ff7da1;
   --site-panel: rgba(16, 8, 11, 0.92);
   --site-panel-strong: rgba(11, 6, 8, 0.96);
-  --site-line: rgba(255, 0, 90, 0.15);
+  --site-line: rgba(245, 179, 66, 0.15);
   --site-line-strong: rgba(255, 84, 132, 0.26);
   --site-text: rgba(255, 255, 255, 0.82);
   --site-muted: rgba(255, 255, 255, 0.56);
@@ -5638,7 +5638,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 10% 12%, rgba(255, 0, 90, 0.16), transparent 24%),
+    radial-gradient(circle at 10% 12%, rgba(245, 179, 66, 0.16), transparent 24%),
     radial-gradient(circle at 86% 16%, rgba(255, 112, 154, 0.12), transparent 20%),
     linear-gradient(180deg, rgba(6, 5, 7, 0.05), rgba(6, 5, 7, 0.32));
 }
@@ -5651,7 +5651,7 @@ body::before {
 .header .topline {
   min-height: 74px;
   padding: 0 24px;
-  border: 1px solid rgba(255, 0, 90, 0.14);
+  border: 1px solid rgba(245, 179, 66, 0.14);
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(18, 9, 12, 0.88) 0%, rgba(8, 6, 7, 0.82) 100%);
   box-shadow: var(--site-shadow);
@@ -5685,7 +5685,7 @@ body::before {
   width: 100%;
   height: 100%;
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 0, 90, 0.18) 0%, rgba(255, 0, 90, 0.05) 100%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, 0.18) 0%, rgba(245, 179, 66, 0.05) 100%);
 }
 
 .header .topline .main_menu a:after,
@@ -5697,7 +5697,7 @@ body::before {
 .header .topline .main_menu a.active,
 .header .topline .main_menu a:hover {
   color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(255, 0, 90, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(245, 179, 66, 0.12);
 }
 
 .content_margin {
@@ -5710,7 +5710,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, rgba(255, 0, 90, 0.08), transparent 28%),
+    radial-gradient(circle at top left, rgba(245, 179, 66, 0.08), transparent 28%),
     radial-gradient(circle at bottom right, rgba(255, 111, 154, 0.08), transparent 24%);
 }
 
@@ -5734,7 +5734,7 @@ body::before {
 
 .box_light:after {
   height: 110px;
-  background: linear-gradient(180deg, rgba(255, 0, 90, 0.12) 0%, rgba(255, 0, 90, 0) 100%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, 0.12) 0%, rgba(245, 179, 66, 0) 100%);
 }
 
 .main .row {
@@ -5776,14 +5776,14 @@ body::before {
 }
 
 .main .items_box .items_list .item.active {
-  background: linear-gradient(90deg, rgba(255, 0, 90, 0.17) 0%, rgba(255, 255, 255, 0.02) 100%);
+  background: linear-gradient(90deg, rgba(245, 179, 66, 0.17) 0%, rgba(255, 255, 255, 0.02) 100%);
   border-color: var(--site-line-strong);
   transform: translateX(4px);
 }
 
 .main .items_box .items_list .item:not(.active):hover {
   background: rgba(255, 255, 255, 0.045);
-  border-color: rgba(255, 0, 90, 0.12);
+  border-color: rgba(245, 179, 66, 0.12);
 }
 
 .main .items_box .items_list .item .img {
@@ -5818,7 +5818,7 @@ body::before {
 .main .item_info .method .select p {
   margin-left: 0;
   padding: 10px 14px;
-  border: 1px solid rgba(255, 0, 90, 0.12);
+  border: 1px solid rgba(245, 179, 66, 0.12);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.018);
 }
@@ -5852,7 +5852,7 @@ body::before {
   padding-right: 0;
   margin-top: 18px;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 0, 90, 0.12);
+  border-top: 1px solid rgba(245, 179, 66, 0.12);
 }
 
 .main .item_info .item_action .price {
@@ -5863,8 +5863,8 @@ body::before {
   min-width: 220px;
   border: none;
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(255, 0, 90, 0.18) 0%, rgba(255, 0, 90, 0.06) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 0, 90, 0.22);
+  background: linear-gradient(135deg, rgba(245, 179, 66, 0.18) 0%, rgba(245, 179, 66, 0.06) 100%);
+  box-shadow: inset 0 0 0 1px rgba(245, 179, 66, 0.22);
 }
 
 .catalog_notice {
@@ -5872,7 +5872,7 @@ body::before {
   place-items: center;
   min-height: 100%;
   padding: 24px;
-  border: 1px dashed rgba(255, 0, 90, 0.18);
+  border: 1px dashed rgba(245, 179, 66, 0.18);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.015);
 }
@@ -5889,7 +5889,7 @@ body::before {
 .rules .rule_box .head .box_status {
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 0, 90, 0.14);
+  border: 1px solid rgba(245, 179, 66, 0.14);
   background: rgba(255, 255, 255, 0.018);
 }
 
@@ -5919,7 +5919,7 @@ body::before {
 .contacts .contact_box .box-item {
   min-height: 188px;
   padding: 24px;
-  border: 1px solid rgba(255, 0, 90, 0.12);
+  border: 1px solid rgba(245, 179, 66, 0.12);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.02);
 }
@@ -5934,8 +5934,8 @@ body::before {
   min-height: 56px;
   padding: 0 22px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 0, 90, 0.16);
-  background: rgba(255, 0, 90, 0.08);
+  border: 1px solid rgba(245, 179, 66, 0.16);
+  background: rgba(245, 179, 66, 0.08);
   box-shadow: none;
 }
 
@@ -5951,7 +5951,7 @@ body::before {
 
 .footer_shell {
   padding: 20px 24px;
-  border: 1px solid rgba(255, 0, 90, 0.12);
+  border: 1px solid rgba(245, 179, 66, 0.12);
   border-radius: 24px;
   background: linear-gradient(180deg, rgba(13, 8, 10, 0.9) 0%, rgba(8, 6, 7, 0.94) 100%);
 }
@@ -5959,7 +5959,7 @@ body::before {
 .footer_cards {
   margin-top: 12px;
   padding: 14px 18px;
-  border: 1px solid rgba(255, 0, 90, 0.1);
+  border: 1px solid rgba(245, 179, 66, 0.1);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.018);
 }
@@ -6170,8 +6170,8 @@ body::before {
 
 .page-section[data-page="home"] .main .items_box .items_list .item.active {
   border-color: rgba(255, 84, 132, 0.34);
-  background: linear-gradient(135deg, rgba(255, 0, 90, 0.2) 0%, rgba(255, 255, 255, 0.03) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 0, 90, 0.14), 0 12px 28px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(135deg, rgba(245, 179, 66, 0.2) 0%, rgba(255, 255, 255, 0.03) 100%);
+  box-shadow: inset 0 0 0 1px rgba(245, 179, 66, 0.14), 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .page-section[data-page="home"] .main .items_box .items_list .item:not(.active):hover {
@@ -6195,7 +6195,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top right, rgba(255, 0, 90, 0.08), transparent 24%),
+    radial-gradient(circle at top right, rgba(245, 179, 66, 0.08), transparent 24%),
     radial-gradient(circle at bottom left, rgba(255, 139, 174, 0.07), transparent 24%);
 }
 
@@ -6210,7 +6210,7 @@ body::before {
   gap: 18px;
   align-items: start;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 0, 90, 0.1);
+  border-bottom: 1px solid rgba(245, 179, 66, 0.1);
 }
 
 .page-section[data-page="home"] .item_head_copy {
@@ -6250,9 +6250,9 @@ body::before {
   gap: 7px;
   min-width: 190px;
   padding: 16px 18px 15px;
-  border: 1px solid rgba(255, 0, 90, 0.15);
+  border: 1px solid rgba(245, 179, 66, 0.15);
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255, 0, 90, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  background: linear-gradient(180deg, rgba(245, 179, 66, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
   text-align: right;
 }
 
@@ -6295,7 +6295,7 @@ body::before {
 .page-section[data-page="home"] .main .item_info .method .select p {
   margin-left: 0;
   padding: 11px 17px;
-  border: 1px solid rgba(255, 0, 90, 0.14);
+  border: 1px solid rgba(245, 179, 66, 0.14);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.02);
   font-size: 14px;
@@ -6310,7 +6310,7 @@ body::before {
 .page-section[data-page="home"] .main .item_info .method .select p.active {
   color: #fff;
   border-color: rgba(255, 84, 132, 0.36);
-  background: linear-gradient(135deg, rgba(255, 0, 90, 0.22) 0%, rgba(255, 255, 255, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(245, 179, 66, 0.22) 0%, rgba(255, 255, 255, 0.03) 100%);
   box-shadow: inset 0 0 0 1px rgba(255, 84, 132, 0.12);
 }
 
@@ -6336,7 +6336,7 @@ body::before {
   display: grid;
   gap: 6px;
   padding: 16px 18px;
-  border: 1px solid rgba(255, 0, 90, 0.12);
+  border: 1px solid rgba(245, 179, 66, 0.12);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.018);
 }
@@ -6360,7 +6360,7 @@ body::before {
   display: grid;
   gap: 14px;
   padding: 18px 20px;
-  border: 1px solid rgba(255, 0, 90, 0.1);
+  border: 1px solid rgba(245, 179, 66, 0.1);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.018);
 }
@@ -6406,7 +6406,7 @@ body::before {
   margin-top: 18px;
   padding-top: 22px;
   padding-right: 0;
-  border-top: 1px solid rgba(255, 0, 90, 0.12);
+  border-top: 1px solid rgba(245, 179, 66, 0.12);
 }
 
 .page-section[data-page="home"] .main .item_info .item_action .price {
@@ -6432,13 +6432,13 @@ body::before {
   padding: 17px 30px;
   border: none;
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(255, 0, 90, 0.28) 0%, rgba(255, 0, 90, 0.12) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 0, 90, 0.22), 0 16px 36px rgba(255, 0, 90, 0.16);
+  background: linear-gradient(135deg, rgba(245, 179, 66, 0.28) 0%, rgba(245, 179, 66, 0.12) 100%);
+  box-shadow: inset 0 0 0 1px rgba(245, 179, 66, 0.22), 0 16px 36px rgba(245, 179, 66, 0.16);
 }
 
 .page-section[data-page="home"] .main .item_info .item_action button:hover {
   transform: translateY(-2px);
-  box-shadow: inset 0 0 0 1px rgba(255, 84, 132, 0.32), 0 20px 40px rgba(255, 0, 90, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 84, 132, 0.32), 0 20px 40px rgba(245, 179, 66, 0.2);
 }
 
 .page-section[data-page="home"] .catalog_notice {
@@ -9900,4 +9900,374 @@ select:focus,
 textarea:focus {
   border-color: rgba(255, 210, 92, 0.5) !important;
   box-shadow: 0 0 0 3px rgba(255, 210, 92, 0.18) !important;
+}
+
+/* Автор: Kuruma — финальная полировка после ревью */
+
+/* ========== /rules: убираем фиксированную высоту page-section ========== */
+body[data-page="rules"] .page-section.active-page {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+body[data-page="rules"] {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+}
+body[data-page="rules"] html {
+  height: auto !important;
+}
+body[data-page="rules"] .footer-container {
+  position: static !important;
+  margin-top: 32px !important;
+  background: rgba(15, 9, 18, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+}
+body[data-page="rules"] .content_margin {
+  margin-top: 110px !important;
+  padding-bottom: 24px !important;
+}
+
+/* ========== /contacts: выравниваем кнопки в карточках ========== */
+body[data-page="contacts"] .page-section.active-page {
+  height: auto !important;
+  min-height: calc(100vh - 58px - 132px) !important;
+  overflow: visible !important;
+}
+body[data-page="contacts"] {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+}
+body[data-page="contacts"] .footer-container {
+  position: static !important;
+  margin-top: 32px !important;
+  background: rgba(15, 9, 18, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+}
+body[data-page="contacts"] .contacts .contact_box .box-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+  align-items: stretch !important;
+}
+body[data-page="contacts"] .contacts .contact_box .box-row.single {
+  grid-template-columns: 1fr !important;
+  margin-top: 16px !important;
+}
+body[data-page="contacts"] .contacts .contact_box .box-item {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  min-height: 168px !important;
+  padding: 22px 24px !important;
+  background: rgba(0, 0, 0, 0.32) !important;
+  border: 1px solid rgba(255, 210, 92, 0.12) !important;
+  border-radius: 14px !important;
+}
+body[data-page="contacts"] .contacts .contact_box .box-item .subtitle {
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+body[data-page="contacts"] .contacts .contact_box .box-item a,
+body[data-page="contacts"] .contacts .contact_box .box-item .copy {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-start !important;
+  height: 40px !important;
+  padding: 0 22px !important;
+  background: linear-gradient(180deg, rgba(255, 210, 92, 0.18), rgba(255, 181, 71, 0.08)) !important;
+  border: 1px solid rgba(255, 210, 92, 0.42) !important;
+  border-radius: 999px !important;
+  color: #ffe09c !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+body[data-page="contacts"] .contacts .contact_box .box-item a:hover {
+  background: linear-gradient(180deg, rgba(255, 210, 92, 0.28), rgba(255, 181, 71, 0.16)) !important;
+  border-color: rgba(255, 210, 92, 0.65) !important;
+  box-shadow: none !important;
+}
+
+/* ========== Стабильная ширина шапки между вкладками ========== */
+body[data-page="home"] .header,
+body[data-page="rules"] .header,
+body[data-page="contacts"] .header {
+  max-width: min(1180px, calc(100% - 32px)) !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* ========== Модалки: финальный gold tone, без розового ========== */
+.item_modal .buy_item {
+  border: 1px solid rgba(255, 210, 92, 0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(20, 14, 12, 0.96), rgba(12, 9, 8, 0.98)) !important;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 210, 92, 0.05) !important;
+}
+.item_modal .buy_item:before,
+.item_modal .buy_item:after {
+  background: linear-gradient(0deg, rgba(245, 179, 66, 0.35) 0%, rgba(245, 179, 66, 0) 100%) !important;
+  filter: none !important;
+}
+.item_modal .name.modal_title {
+  color: #fff !important;
+}
+.item_modal .name.modal_title span {
+  color: #ffd25c !important;
+}
+.item_modal .input {
+  background: rgba(0, 0, 0, 0.32) !important;
+  border: 1px solid rgba(255, 210, 92, 0.22) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  font-size: 14px !important;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.item_modal .input::placeholder {
+  color: rgba(255, 255, 255, 0.32) !important;
+}
+.item_modal .input:hover {
+  border-color: rgba(255, 210, 92, 0.42) !important;
+  box-shadow: none !important;
+}
+.item_modal .input:focus {
+  border-color: rgba(255, 210, 92, 0.68) !important;
+  box-shadow: 0 0 0 3px rgba(255, 210, 92, 0.14) !important;
+  outline: none !important;
+}
+.item_modal .input.is-invalid {
+  border-color: rgba(232, 92, 78, 0.78) !important;
+  box-shadow: 0 0 0 3px rgba(232, 92, 78, 0.18) !important;
+  background: rgba(232, 92, 78, 0.08) !important;
+}
+.item_modal .input.is-invalid::placeholder {
+  color: rgba(232, 92, 78, 0.85) !important;
+}
+
+/* Кнопка «Перейти к оплате» */
+.item_modal .action button,
+.item_modal .modal_action button[type="submit"],
+.item_modal #modal_submit,
+.item_modal .modal_submit {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 48px !important;
+  padding: 0 28px !important;
+  background: linear-gradient(180deg, #f5b342 0%, #d68a1f 100%) !important;
+  border: 1px solid rgba(255, 210, 92, 0.65) !important;
+  border-radius: 12px !important;
+  color: #1a0f06 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 8px 22px rgba(245, 179, 66, 0.22) !important;
+  transition: filter .18s ease, transform .12s ease, box-shadow .18s ease !important;
+  cursor: pointer !important;
+}
+.item_modal .action button:hover,
+.item_modal .modal_action button[type="submit"]:hover {
+  filter: brightness(1.06) !important;
+  box-shadow: 0 10px 28px rgba(245, 179, 66, 0.34) !important;
+  transform: translateY(-1px) !important;
+}
+.item_modal .action button:active,
+.item_modal .modal_action button[type="submit"]:active {
+  transform: translateY(0) !important;
+}
+.item_modal .action button:disabled,
+.item_modal .modal_action button[type="submit"]:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* Цена */
+.item_modal .modal_price {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+}
+.item_modal .modal_price span {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #ffd25c !important;
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* ========== Этап «Оплата заказа»: чистый redesign ========== */
+.item_modal .payment_stage {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+.item_modal .payment_stage > .title {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+.item_modal .payment_stage > .desc,
+.item_modal .payment_stage .payment_notice {
+  display: none !important; /* админская инфа — скрыта от покупателя */
+}
+.item_modal .payment_stage_summary {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 6px !important;
+  padding: 14px 16px !important;
+  background: rgba(0, 0, 0, 0.32) !important;
+  border: 1px solid rgba(255, 210, 92, 0.18) !important;
+  border-radius: 12px !important;
+}
+.item_modal .payment_stage_summary p {
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+.item_modal .payment_stage_summary p span {
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+.item_modal .methods.payment_methods_list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+}
+.item_modal .methods.payment_methods_list li {
+  display: block !important;
+}
+.item_modal .methods.payment_methods_list .payment-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 48px !important;
+  padding: 0 18px !important;
+  background: linear-gradient(180deg, #f5b342 0%, #d68a1f 100%) !important;
+  border: 1px solid rgba(255, 210, 92, 0.65) !important;
+  border-radius: 12px !important;
+  color: #1a0f06 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: filter .18s ease, transform .12s ease, box-shadow .18s ease !important;
+}
+.item_modal .methods.payment_methods_list .payment-btn:hover {
+  filter: brightness(1.06) !important;
+  box-shadow: 0 10px 28px rgba(245, 179, 66, 0.30) !important;
+  background-color: transparent !important;
+}
+.item_modal .methods.payment_methods_list .payment-btn.is-disabled,
+.item_modal .methods.payment_methods_list .payment-btn[disabled] {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  filter: grayscale(0.4) !important;
+}
+.item_modal .methods.payment_methods_list .payment_provider_note {
+  display: none !important;
+}
+.item_modal .payment_stage_actions {
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
+  margin-top: 4px !important;
+}
+.item_modal .payment_stage_actions button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 40px !important;
+  padding: 0 18px !important;
+  background: transparent !important;
+  border: 1px solid rgba(255, 210, 92, 0.32) !important;
+  border-radius: 10px !important;
+  color: #ffe09c !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background .18s ease, border-color .18s ease;
+}
+.item_modal .payment_stage_actions button:hover {
+  background: rgba(255, 210, 92, 0.08) !important;
+  border-color: rgba(255, 210, 92, 0.55) !important;
+}
+.item_modal .payment_stage_actions button.secondary {
+  background: rgba(255, 210, 92, 0.06) !important;
+}
+.item_modal .payment_stage_manual {
+  padding: 14px 16px !important;
+  background: rgba(0, 0, 0, 0.32) !important;
+  border: 1px solid rgba(255, 210, 92, 0.18) !important;
+  border-radius: 12px !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+/* ========== Admin topbar buttons — чистый ghost ========== */
+body[data-page="admin"].admin-active .dash-actions .dash-btn,
+body[data-page="admin"].admin-active .dash-actions a.dash-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 10px !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font: 500 13px/1 var(--av-sans, "Inter", sans-serif) !important;
+  letter-spacing: 0.2px !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  transition: background .15s ease, border-color .15s ease, color .15s ease !important;
+}
+body[data-page="admin"].admin-active .dash-actions .dash-btn:hover,
+body[data-page="admin"].admin-active .dash-actions a.dash-btn:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #fff !important;
+}
+body[data-page="admin"].admin-active .dash-actions .dash-btn svg,
+body[data-page="admin"].admin-active .dash-actions a.dash-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  opacity: 0.78 !important;
 }
