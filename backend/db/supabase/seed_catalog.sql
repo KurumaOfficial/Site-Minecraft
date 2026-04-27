@@ -1,3 +1,4 @@
+-- Автор: Kuruma
 -- Part 1: Insert catalog items
 insert into store_catalog_items (external_id, slug, name, category, category_label, summary, image, currency, sort_order, is_active)
 values

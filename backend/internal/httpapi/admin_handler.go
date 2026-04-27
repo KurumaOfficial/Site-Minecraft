@@ -1,3 +1,4 @@
+// Автор: Kuruma
 package httpapi
 
 import (

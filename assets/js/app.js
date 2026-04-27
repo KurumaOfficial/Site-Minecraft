@@ -1,3 +1,4 @@
+/* Автор: Kuruma */
 ﻿(function() {
   const defaultProjectName = "ESTELAR.SU";
   const apiBase = (window.HOLO_CONFIG?.apiBase || "/api/v1").replace(/\/$/, "");

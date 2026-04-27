@@ -1,3 +1,4 @@
+/* Автор: Kuruma */
 ﻿(function() {
   const apiBase = (window.HOLO_CONFIG?.apiBase || "/api/v1").replace(/\/$/, "");
   const router = window.__ESTELAR_ROUTER__ || null;
@@ -818,14 +819,17 @@
       return;
     }
 
+    // Локальный байпасc активен раньше, чем Supabase OAuth, чтобы разработчик
+    // мог зайти в панель без живого Discord-аккаунта на localhost.
+    if (state.meta && state.meta.adminLocalBypass) {
+      state.session = { access_token: "local-bypass", user: { email: "local@admin.dev" } };
+      syncAuthButtons();
+      renderAdminIdentity();
+      await openAdminIfNeeded();
+      return;
+    }
+
     if (!state.supabase) {
-      if (state.meta && state.meta.adminLocalBypass) {
-        state.session = { access_token: "local-bypass", user: { email: "local@admin.dev" } };
-        syncAuthButtons();
-        renderAdminIdentity();
-        await openAdminIfNeeded();
-        return;
-      }
       openAuthModal("Supabase Auth еще не настроен. Проверьте ключи и URL проекта.", "error");
       return;
     }

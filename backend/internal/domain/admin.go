@@ -1,3 +1,4 @@
+// Автор: Kuruma
 package domain
 
 type AdminIdentity struct {
