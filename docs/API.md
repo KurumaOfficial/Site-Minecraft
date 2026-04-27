@@ -471,3 +471,101 @@ assert request.headers["X-ESTELAR-Signature"] == "sha256=" + expected
 * Webhook на плагин — **best effort**: если плагин ответил 5xx, заказ
   всё равно остаётся в `issued`; админ видит это в журнале и может
   переотправить вручную.
+
+---
+
+# LuckPerms: как принять webhook на сервере (живой пример)
+
+Самый частый сценарий — выдача привилегий через [LuckPerms](https://luckperms.net/). Ниже — минимальный Bukkit-плагин, который слушает webhook ESTELAR на `:25580`, проверяет HMAC-SHA256 и выполняет `lp user … parent addtemp …` от имени консоли. Этот же плагин у нас уже использован для практического теста.
+
+## Шаг 1 — скачать LuckPerms
+
+Положите [LuckPerms-Bukkit.jar](https://luckperms.net/download) в `plugins/` сервера Paper/Spigot.
+
+## Шаг 2 — создать группы
+
+После запуска сервера один раз выполните в консоли:
+
+```
+lp creategroup vip
+lp creategroup premium
+lp creategroup deluxe
+```
+
+(Вместо vip/premium/deluxe используйте `slug` ваших товаров из админки.)
+
+## Шаг 3 — мост ESTELAR → LuckPerms
+
+Простейший Bukkit-плагин на Java 17 (`EstelarBridge.jar`), исходник:
+
+```java
+public class EstelarBridge extends JavaPlugin {
+  // ...
+  void onWebhook(byte[] body, String sig) {
+    // 1) проверяем HMAC-SHA256
+    if (!verify(body, sig, getConfig().getString("secret"))) {
+      respond(401, "{\"ok\":false,\"error\":\"bad signature\"}"); return;
+    }
+    // 2) парсим JSON
+    String nickname = extract(body, "nickname"); // напр. "Kuruma"
+    String slug     = extract(body, "productSlug"); // напр. "vip"
+    String period   = extract(body, "periodLabel"); // "30 дней", "Навсегда"
+    String duration = mapDuration(period);          // 30d / 365d / 10000d
+    // 3) выполняем команду от имени консоли
+    Bukkit.getScheduler().runTask(this, () ->
+      Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+        "lp user " + nickname + " parent addtemp " + slug + " " + duration));
+  }
+}
+```
+
+`config.yml`:
+
+```yaml
+secret: "ваш-секрет-из-админки-вкладка-API"
+```
+
+## Шаг 4 — настроить ESTELAR
+
+В админ-панели → вкладка **API** → блок **Привилегии**:
+
+* `Webhook URL`: `http://ваш-сервер:25580/webhook`
+* `Webhook Secret`: тот же секрет, что в `config.yml` плагина
+
+Нажмите «Тестовый запрос» — в консоли сервера появится:
+
+```
+[EstelarBridge] Webhook IN event=integration.test cat=privilege ...
+```
+
+## Шаг 5 — проверить с реальным заказом
+
+1. Покупатель оформляет заказ на сайте: `nickname=Kuruma`, товар `VIP`.
+2. Админ переводит заказ в статус **Выдано**.
+3. Backend ESTELAR подписывает payload и отправляет POST на ваш `:25580`.
+4. Плагин выполняет:
+   ```
+   lp user Kuruma parent addtemp vip 10000d
+   ```
+5. LuckPerms отвечает в консоли:
+   ```
+   668446a3-2c61-3366-9824-e3b193f823e4 now inherits permissions from vip
+   for a duration of 27 years 4 months ... in context global.
+   ```
+
+Этот сценарий проверен на стенде PaperMC 1.20.1 + LuckPerms 5.5.42 +
+EstelarBridge.jar — лог-файл сервера привожу выше дословно.
+
+## Что важно для offline-серверов
+
+В `server.properties` пиратских серверов обычно `online-mode=false`. Чтобы
+LuckPerms не лез к Mojang за UUID и принимал команды по никнейму,
+включите:
+
+```yaml
+# plugins/LuckPerms/config.yml
+use-server-uuid-cache: true
+```
+
+Иначе будет `A user for Kuruma could not be found` — это означает, что
+LP не смог получить UUID игрока (которого нет в кеше).
